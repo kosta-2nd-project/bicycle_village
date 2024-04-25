@@ -138,7 +138,7 @@ public class UserController implements Controller {
 			}
 			
 			if(isRedirect) {
-	    		return new ModelAndView("home.jsp",true);
+	    		return new ModelAndView("pages/user/success.jsp",true);
 	    	}else {
 	    		req.setAttribute("errMsg", errMsg);
 	    		return new ModelAndView("errorMsg.jsp", false);
