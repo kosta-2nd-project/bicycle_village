@@ -11,9 +11,9 @@
 <script>
 	if(confirm("회원님은 현재 탈퇴 상태입니다. 다시 가입하시겠습니까?")){
 		//console.log("${userId}");
-		location.href="user/signUp2.jsp";
+		location.href="pages/user/signUp2.jsp";
 	}else{
-		location.href="index.jsp";
+		location.href="home.jsp";
 	}
 </script>
 
