@@ -2,6 +2,7 @@ package group2.bicycle_village;
 
 import java.io.*;
 
+import group2.bicycle_village.dao.BoardDAOImpl;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
@@ -15,7 +16,8 @@ public class HelloServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
-
+        BoardDAOImpl bookDao = new BoardDAOImpl();
+        bookDao.test();
         // Hello
         PrintWriter out = response.getWriter();
         out.println("<html><body>");

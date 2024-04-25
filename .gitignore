@@ -41,3 +41,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### DB properties ###
+/src/main/java/group2/bicycle_village/common/util/DBProperties.java
