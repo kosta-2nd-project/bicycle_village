@@ -27,7 +27,7 @@ public class AlarmController implements RestController {
         int result = 0;
         if(board != null) {
             try {
-                result = alarmService.insertFollow(id, new AlarmDTO("board insert", 0, "alarm.jsp"));
+                result = alarmService.insertFollow(id, new AlarmDTO("follow insert success", 0, "home.jsp"));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -38,7 +38,7 @@ public class AlarmController implements RestController {
     }
 
     /**
-     * 로그인한 유저가 찜한 게시물이 수종되었을 때 해당 유저에게 알림 추가
+     * 로그인한 유저가 찜한 게시물이 수정되었을 때 해당 유저에게 알림 추가
      */
 
     /**
