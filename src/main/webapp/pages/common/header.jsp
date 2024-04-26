@@ -40,7 +40,7 @@
 
             <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
               <div class="site-logo">
-                <a href="${path}/home.jsp" class="js-logo-clone">자전거 마을</a>
+                <a href="${path}/index.jsp" class="js-logo-clone">자전거 마을</a>
               </div>
             </div>
 
@@ -77,7 +77,7 @@
       <nav class="site-navigation text-right text-md-center" role="navigation">
         <div class="container">
           <ul class="site-menu js-clone-nav d-none d-md-block">
-            <li><a href="${path}/home.jsp">홈</a></li>
+            <li><a href="${path}/index.jsp">홈</a></li>
             <li><a href="#">자유 게시판</a></li>
             <li><a href="#">정보 게시판</a></li>
             <li><a href="#">거래 게시판</a></li>

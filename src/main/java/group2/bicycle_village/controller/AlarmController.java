@@ -27,7 +27,7 @@ public class AlarmController implements RestController {
         int result = 0;
         if(board != null) {
             try {
-                result = alarmService.insertFollow(id, new AlarmDTO("follow insert success", 0, "home.jsp"));
+                result = alarmService.insertFollow(id, new AlarmDTO("follow insert success", 0, "index.jsp"));
             } catch (Exception e) {
                 e.printStackTrace();
             }
