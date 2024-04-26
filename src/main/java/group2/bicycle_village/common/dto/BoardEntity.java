@@ -7,7 +7,7 @@ import java.util.Date;
 import static group2.bicycle_village.common.constant.CommonCode.*;
 
 public class BoardEntity {
-    private long boardSeq;
+    private Long boardSeq;
     private String boardName;
     private Date regDate;
     private BoardCategory category;
@@ -105,4 +105,100 @@ public class BoardEntity {
         }
     }
 
+	public long getBoardSeq() {
+		return boardSeq;
+	}
+
+	public void setBoardSeq(long boardSeq) {
+		this.boardSeq = boardSeq;
+	}
+
+	public String getBoardName() {
+		return boardName;
+	}
+
+	public void setBoardName(String boardName) {
+		this.boardName = boardName;
+	}
+
+	public Date getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
+	}
+
+	public BoardCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(BoardCategory category) {
+		this.category = category;
+	}
+
+	public BoardStatus getIsSeen() {
+		return isSeen;
+	}
+
+	public void setIsSeen(BoardStatus isSeen) {
+		this.isSeen = isSeen;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getAddr() {
+		return addr;
+	}
+
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+
+	public Date getEditDay() {
+		return editDay;
+	}
+
+	public void setEditDay(Date editDay) {
+		this.editDay = editDay;
+	}
+
+	public Integer getBoardCount() {
+		return boardCount;
+	}
+
+	public void setBoardCount(Integer boardCount) {
+		this.boardCount = boardCount;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+
+	public Long getProductSeq() {
+		return productSeq;
+	}
+
+	public void setProductSeq(Long productSeq) {
+		this.productSeq = productSeq;
+	}
+
+	public Long getUserSeq() {
+		return userSeq;
+	}
+
+	public void setUserSeq(Long userSeq) {
+		this.userSeq = userSeq;
+	}
+    
 }
