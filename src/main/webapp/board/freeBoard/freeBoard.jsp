@@ -83,21 +83,30 @@ body {
   margin-left: 10px;
 }
 
+.follow{
+  font-size: 16px;
+  display: inline-block;
+  padding: 5px 15px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
 </style>
 
 </head>
 <body>
-
 <div class="container">
   <div class="content">
  	<p class="category">커뮤니티 게시판 > 자유게시판</p>
-    <h1 class="title">제목입니다</h1>
+    <h1 class="title">${board.boardName}</h1>
     
-    <div class="nick_name">닉네임</div>
-    <div class="info">
-      <h3 class="date">날짜 |</h3>
-      <h3 class="comment">댓글수</h3>
+    <div class="nick_name">${board.userSeq}
+    <input type="button" id="follow" class="follow" value="팔로우">
     </div>
+    <h3 class="info">${board.regDate}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;댓글 <%-- ${} --%></h3>
     
     <div class="content">
    		 <!-- 내용이 올공간 -->

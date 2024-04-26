@@ -82,7 +82,7 @@
 				</td>
 				<td width="450" height="20"><b><span
 						style="font-size: 9pt;"> <input type="text" size="30"
-							name="board_name" id="board_name" value="경로 추가할 예정"></span></b></td>
+							name="board_name" id="board_name" value="${board_name}"></span></b></td>
 			</tr>
 			
 			<tr>
@@ -106,7 +106,7 @@
 				</td>
 				<td width="450" height="20"><b><span
 						style="font-size: 9pt;"> <textarea name="board_content"
-								cols="50" rows="10"></textarea></span></b></td>
+								cols="50" rows="10" value="${board_content}"></textarea></span></b></td>
 			</tr>
 
 		</table>
