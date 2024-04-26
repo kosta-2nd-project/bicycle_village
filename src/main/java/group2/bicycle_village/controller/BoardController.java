@@ -33,17 +33,18 @@ public class BoardController implements Controller{
 	 * */
 	public ModelAndView selectAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String pageNo = request.getParameter("pageNo");
-		if (pageNo == null || pageNo.equals("")) {
-			pageNo = "1";
-		}
+//		String pageNo = request.getParameter("pageNo");
+//		if (pageNo == null || pageNo.equals("")) {
+//			pageNo = "1";
+//		}
 
-		List<BoardDTO> list = boardService.selectAll(Integer.parseInt(pageNo));
-
+		//List<BoardDTO> list = boardService.selectAll(Integer.parseInt(pageNo));
+		List<BoardDTO> list = boardService.selectAll();
+		
 		request.setAttribute("list", list);// 뷰에서 ${list}
-		request.setAttribute("pageNo", pageNo); // 뷰에서 ${pageNo}
+		//request.setAttribute("pageNo", pageNo); // 뷰에서 ${pageNo}
 
-		return new ModelAndView("board/freeBoardList.jsp"); // forward방식으로 이동
+		return new ModelAndView("board/freeBoard/freeBoardList.jsp"); // forward방식으로 이동
 	}
 	
 	/**
@@ -70,8 +71,8 @@ public class BoardController implements Controller{
 		
 		boardService.insert(board);
 		
-		
-		return new ModelAndView("front?key=board&methodname=selectByBoardSeq", true);
+		return new ModelAndView("front?key=board&methodName=selectAll", true);
+		//return new ModelAndView("front?key=board&methodName=selectByBoardSeq&boardSeq=", true); // 나중에
 		
 	}
 	
@@ -91,7 +92,7 @@ public class BoardController implements Controller{
 		request.setAttribute("board", board);
 		request.setAttribute("pageNo", pageNo);
 		
-		return new ModelAndView("board/freeBoard.jsp"); //forward방식 
+		return new ModelAndView("board/freeBoard/freeBoard.jsp"); //forward방식 
 	}
 	
 	/**

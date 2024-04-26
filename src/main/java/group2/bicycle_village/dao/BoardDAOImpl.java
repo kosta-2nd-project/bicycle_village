@@ -182,11 +182,12 @@ private Properties proFile = new Properties();
 		PreparedStatement ps=null;
 		int result=0;
 		//String sql = proFile.getProperty("query.updateReadnum");
-		String sql = "update board set board_count=readnum+1 where board_seq=?";
+		String sql = "update board set board_count=(select board_count from board where board_seq=?)+1 where board_seq=?";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, board_seq);
+			ps.setInt(2, board_seq);
 			result = ps.executeUpdate();
 		}finally {
 			DbUtil.close(con, ps, null);

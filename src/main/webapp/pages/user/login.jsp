@@ -11,7 +11,7 @@
       <div class="container">
       
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="/index.jsp">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">로그인</strong></div>
+          <div class="col-md-12 mb-0"><a href="${path}/index.jsp">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">로그인</strong></div>
         </div>
       </div>
       </div>
@@ -74,13 +74,13 @@
    
   </div>
 
-  <script src="../js/jquery-3.3.1.min.js"></script>
-  <script src="../js/jquery-ui.js"></script>
-  <script src="../js/popper.min.js"></script>
-  <script src="../js/bootstrap.min.js"></script>
-  <script src="../js/owl.carousel.min.js"></script>
-  <script src="../js/jquery.magnific-popup.min.js"></script>
-  <script src="../js/aos.js"></script>
+  <script src="${path}/js/jquery-3.3.1.min.js"></script>
+  <script src="${path}/js/jquery-ui.js"></script>
+  <script src="${path}/js/popper.min.js"></script>
+  <script src="${path}/js/bootstrap.min.js"></script>
+  <script src="${path}/js/owl.carousel.min.js"></script>
+  <script src="${path}/js/jquery.magnific-popup.min.js"></script>
+  <script src="${path}/js/aos.js"></script>
 
   <script src="../js/main.js"></script>
     
