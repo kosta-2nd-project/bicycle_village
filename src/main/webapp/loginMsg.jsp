@@ -13,7 +13,7 @@
 		//console.log("${userId}");
 		location.href="pages/user/signUp2.jsp";
 	}else{
-		location.href="home.jsp";
+		location.href="index.jsp";
 	}
 </script>
 

@@ -17,6 +17,10 @@ import jakarta.servlet.http.HttpServletResponse;
  * 모든 사용자 요청을 처리할 진입점 Controller의 역할
  */
 @WebServlet(urlPatterns = "/front" , loadOnStartup = 1)
+@MultipartConfig( //어노테이션을 통해  서블릿이 파일 업로드 기능을 할 수 있도록 웹 컨테이너에 지시
+        maxFileSize = 1024 * 1024 * 5, //5M - 한 번에 업로드 할 수 있는 파일 크기 제한
+        maxRequestSize = 1024 * 1024 * 50 //50M -전체 요청의 크기 제한. 기본값은 무제한 
+)
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
