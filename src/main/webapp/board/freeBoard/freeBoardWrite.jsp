@@ -53,7 +53,7 @@
 			<tr>
 				<td width="1220" height="20" colspan="2" bgcolor="#00cc00">
 					<p align="center">
-						<font color="white" size="3"><b> 상품 등록 </b></font>
+						<font color="white" size="3"><b> 게시글 작성 </b></font>
 					</p>
 				</td>
 			</tr>
