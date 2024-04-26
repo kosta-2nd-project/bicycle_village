@@ -76,7 +76,7 @@ public class UserController implements Controller {
 		
 		if(isRedirect) {
 			//index.jsp이동 - redirect방식
-    		return new ModelAndView("home.jsp",true);
+    		return new ModelAndView("index.jsp",true);
     	}else {
     		request.setAttribute("errMsg", errMsg);
     		return new ModelAndView("errorMsg.jsp", false);
@@ -93,7 +93,7 @@ public class UserController implements Controller {
 		//모든 세션의정보를 삭제
 		request.getSession().invalidate();
 		
-		return new ModelAndView("home.jsp", true);
+		return new ModelAndView("index.jsp", true);
 	
 	}//logout End
 	
@@ -176,7 +176,7 @@ public class UserController implements Controller {
 			}
 			
 			if(isRedirect) {
-	    		return new ModelAndView("home.jsp",true);
+	    		return new ModelAndView("index.jsp",true);
 	    	}else {
 	    		req.setAttribute("errMsg", errMsg);
 	    		return new ModelAndView("errorMsg.jsp", false);
@@ -189,7 +189,7 @@ public class UserController implements Controller {
 		public ModelAndView changeStatus(HttpServletRequest req, HttpServletResponse res) throws Exception{
 			HttpSession session = req.getSession();
 			userService.changeStatus(new UserDTO((String)session.getAttribute("loginId"),(String)session.getAttribute("loginPw")));
-			return new ModelAndView("home.jsp",true);
+			return new ModelAndView("index.jsp",true);
 		}// changeStatus End
 		
 		/**
@@ -205,6 +205,6 @@ public class UserController implements Controller {
 			//모든 세션의정보를 삭제
 			session.invalidate();
 					
-			return new ModelAndView("home.jsp", true);
+			return new ModelAndView("index.jsp", true);
 		}// 회원탈퇴 End
 }
