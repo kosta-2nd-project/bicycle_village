@@ -16,7 +16,7 @@
                 url: "rest",
                 type: "post",
                 dataType: "json",
-                data: {key: "alarm", methodName: "insert"},
+                data: {key: "alarm", methodName: "insertFollow"},
                 success: function (result) {
                     if(result === 0) {
                         alert("alarm insert fail");
