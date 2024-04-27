@@ -23,11 +23,8 @@ public class AlarmController implements RestController {
     public void insert(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();
         String id = (String)session.getAttribute("loginId");
-//        String board = (String)session.getAttribute("board");
-
-        String board = "insert";
         int result = 0;
-        if(board != null) {
+        if(id != null) {
             try {
                 result = alarmService.insertFollow(new AlarmDTO("follow insert success", 0, "home.jsp"));
             } catch (Exception e) {
@@ -43,6 +40,12 @@ public class AlarmController implements RestController {
      * 로그인한 유저가 찜한 게시물이 수정되었을 때 해당 유저에게 알림 추가
      */
 
+    /**
+     * 로그인한 유저에게 알림 띄워주기
+     * @param request
+     * @param response
+     * @throws Exception
+     */
     public void selectAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();
         String id = (String)session.getAttribute("loginId");
@@ -53,6 +56,5 @@ public class AlarmController implements RestController {
 
         PrintWriter out = response.getWriter();
         out.print(json);
-        System.out.println("AlarmController.selectAll success!");
     }
 }

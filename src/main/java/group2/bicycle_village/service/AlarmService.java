@@ -10,11 +10,11 @@ import java.util.List;
 public interface AlarmService {
     int insertFollow(AlarmDTO alarm) throws SQLException;
 
-    int insertDips(String id, AlarmDTO alarm) throws SQLException;
+    int insertDips(AlarmDTO alarm) throws SQLException;
 
     List<AlarmDTO> selectAllAlarm(String id) throws SQLException;
 
-    int updateAlarm(String id, AlarmDTO alarm) throws SQLException;
+    int updateAlarm(AlarmDTO alarm) throws SQLException;
 
     List<String> linked(String linkURL) throws SQLException;
 }

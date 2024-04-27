@@ -13,12 +13,11 @@
                 dataType: "json",
                 data: {key: "alarm", methodName: "selectAll"},
                 success: function (result) {
-                    console.log(result);
                     if(result != null) {
                         let str = "";
                         $.each(result, function (index, list) {
                             console.log(list);
-                            str += `<tr><td>${list}</td></tr>`;
+                            str += `<tr><td>${list.alarmContent}</td></tr>`;
                         });
                         $("table tr:gt(0)").remove();
                         $("table tr:eq(0)").after(str);

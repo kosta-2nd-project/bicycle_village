@@ -46,16 +46,16 @@ public class AlarmDAOImpl implements AlarmDAO {
             while (rs.next()) {
                 //알림 내용 읽어오기
                 AlarmDTO alarm = new AlarmDTO(rs.getString("alarm_content"), 0);
+                alarmList.add(alarm);
             }
         } finally {
             DbUtil.close(con, ps, rs);
         }
-        System.out.println("AlarmDAOImpl.selectAllAlarm success!");
         return alarmList;
     }
 
     @Override
-    public int updateAlarm(String id, AlarmDTO alarm) throws SQLException {
+    public int updateAlarm(AlarmDTO alarm) throws SQLException {
         Connection con = null;
         PreparedStatement ps = null;
         int result = 0;
@@ -63,6 +63,7 @@ public class AlarmDAOImpl implements AlarmDAO {
         try {
             con = DbUtil.getConnection();
             ps = con.prepareStatement(sql);
+//            ps.setLong();
             result = ps.executeUpdate();
         } finally {
             DbUtil.close(con, ps, null);
@@ -73,6 +74,27 @@ public class AlarmDAOImpl implements AlarmDAO {
     @Override
     public List<String> linked(String linkURL) throws SQLException {
         return List.of();
+    }
+
+    @Override
+    public UserDTO userIdAndNickname(long userSeq) throws SQLException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select distinct m.nickname, m.user_id from board b join member m using(user_seq) where user_seq in (select user_seq from member where usesr_id = ?)";
+        UserDTO user = null;
+        try {
+            con = DbUtil.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setLong(1, userSeq);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                user = new UserDTO(rs.getString(2), null, null, rs.getString(1), null, null, null, null, 0);
+            }
+        } finally {
+            DbUtil.close(con, ps, rs);
+        }
+        return user;
     }
 
     @Override
@@ -103,37 +125,16 @@ public class AlarmDAOImpl implements AlarmDAO {
     }
 
     @Override
-    public UserDTO userIdAndNickname(long userSeq) throws SQLException {
+    public List<UserDTO> searchDips(long userSeq) throws SQLException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select distinct m.nickname, m.user_id from board b join member m using(user_seq) where user_seq in (select user_seq from member where usesr_id = ?)";
-        UserDTO user = null;
-        try {
-            con = DbUtil.getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setLong(1, userSeq);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                user = new UserDTO(rs.getString(2), null, null, rs.getString(1), null, null, null, null, 0);
-            }
-        } finally {
-            DbUtil.close(con, ps, rs);
-        }
-        return user;
-    }
-
-    @Override
-    public List<UserDTO> searchDips(String id) throws SQLException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        String sql = "select * from member where user_seq in (select follower from follow where follow in (select user_seq from member where user_id = ?))";
+        String sql = "select * from member where user_seq in (select user_seq from Dips where user_seq = ?)";
         List<UserDTO> userList = new ArrayList<>();
         try {
             con = DbUtil.getConnection();
             ps = con.prepareStatement(sql);
-            ps.setString(1, id);
+            ps.setLong(1, userSeq);
             rs = ps.executeQuery();
             while (rs.next()) {
                 UserDTO user = new UserDTO(rs.getInt("user_seq"), rs.getString("user_id"),
