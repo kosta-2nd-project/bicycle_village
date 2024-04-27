@@ -3,18 +3,31 @@ package group2.bicycle_village.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import group2.bicycle_village.common.dto.AlarmDTO;
 import group2.bicycle_village.common.dto.BoardDTO;
 import group2.bicycle_village.common.dto.BoardEntity;
+import group2.bicycle_village.common.dto.UserDTO;
+import group2.bicycle_village.dao.AlarmDAO;
+import group2.bicycle_village.dao.AlarmDAOImpl;
 import group2.bicycle_village.dao.BoardDAOImpl;
 import group2.bicycle_village.dao.BoardDao;
 
 public class BoardServiceImpl implements BoardService {
 	private BoardDao boardDAO = new BoardDAOImpl();
+	private AlarmDAO alarmDAO = new AlarmDAOImpl();
 
 	@Override
 	public void insert(BoardEntity board) throws SQLException {
 		int result = boardDAO.insert(board);
 		if(result==0) throw new SQLException("등록되지 않았습니다");
+		else {
+			UserDTO userDTO = alarmDAO.userIdAndNickname(board.getUserSeq());
+			List<UserDTO> follower = alarmDAO.searchFollower(board.getUserSeq());
+			int re = 0;
+			for (UserDTO user : follower) {
+				re += alarmDAO.insertAlarm(new AlarmDTO(user.getUser_seq(), userDTO.getNickName()+"("+userDTO.getUserId()+")님이 게시물을 작성했습니다.",0));
+			}
+		}
 	}
 
 	@Override
