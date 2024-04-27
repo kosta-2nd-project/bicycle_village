@@ -27,12 +27,12 @@ public interface AlarmDAO {
 
     /**
      * 유저가 알림을 확인했을 때 알림상태를 변경 (알림 확인 안했을 때 : 0, 알림 확인 했을 때 : 1)
-     * @param id
+     * @param
      * @param alarm
      * @return
      * @throws SQLException
      */
-    int updateAlarm(String id, AlarmDTO alarm) throws SQLException;
+    int updateAlarm(AlarmDTO alarm) throws SQLException;
 
     /**
      * 알림을 클릭하면 해당 알림에 저장된 URL로 페이지 이동
@@ -41,14 +41,6 @@ public interface AlarmDAO {
      * @throws SQLException
      */
     List<String> linked(String linkURL) throws SQLException;
-
-    /**
-     * 로그인한 유저를 팔로우하는 유저들을 찾기
-     * @param userSeq
-     * @return
-     * @throws SQLException
-     */
-    List<UserDTO> searchFollower(long userSeq) throws SQLException;
 
     /**
      * A: 알림 받을 사람
@@ -60,10 +52,18 @@ public interface AlarmDAO {
     UserDTO userIdAndNickname(long userSeq) throws SQLException;
 
     /**
-     * 로그인한 유저가 찜한 게시물 찾기
-     * @param id
+     * 로그인한 유저를 팔로우하는 유저들을 찾기
+     * @param userSeq
      * @return
      * @throws SQLException
      */
-    List<UserDTO> searchDips(String id) throws SQLException;
+    List<UserDTO> searchFollower(long userSeq) throws SQLException;
+
+    /**
+     * 로그인한 유저가 찜한 게시물 찾기
+     * @param userSeq
+     * @return
+     * @throws SQLException
+     */
+    List<UserDTO> searchDips(long userSeq) throws SQLException;
 }
