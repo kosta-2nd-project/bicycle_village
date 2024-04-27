@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script>
+        $(function(){
+            $.ajax({
+                url: "rest",
+                type: "post",
+                dataType: "json",
+                data: {key: "alarm", methodName: "selectAll"},
+                success: function (result) {
+                    console.log(result);
+                    if(result != null) {
+                        let str = "";
+                        $.each(result, function (index, list) {
+                            console.log(list);
+                            str += `<tr><td>${list}</td></tr>`;
+                        });
+                        $("table tr:gt(0)").remove();
+                        $("table tr:eq(0)").after(str);
+                    }
+                },
+                error: function (err) {
+                    console.log(err + " error");
+                }
+            })//ajax end
+        })//ready end
+    </script>
+</head>
+<body>
+<table>
+    <tr><th>알림 내용</th></tr>
+</table>
+</body>
+</html>

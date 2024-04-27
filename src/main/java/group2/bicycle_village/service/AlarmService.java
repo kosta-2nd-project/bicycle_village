@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface AlarmService {
-    int insertFollow(String id, AlarmDTO alarm) throws SQLException;
+    int insertFollow(AlarmDTO alarm) throws SQLException;
 
     int insertDips(String id, AlarmDTO alarm) throws SQLException;
 

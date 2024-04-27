@@ -56,7 +56,6 @@
 	      				<li><a href="${pageContext.request.contextPath}/front?key=user&methodName=logout" class="btn">Logout</a></li>
 	     				<li><a href="${path}/pages/user/myPage.jsp"><span class="icon icon-person"></span></a></li>
                   		<li><a href="#"><span class="icon icon-heart-o"></span><span class="count">2</span></a></li>
-                 
     			 </c:when>
     			 
     			 <c:otherwise>

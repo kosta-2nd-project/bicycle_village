@@ -70,6 +70,7 @@ public class BoardController implements Controller{
 				.productSeq(productSeq).build(); // 주소,내용,카테고리만 추가된 dto 생성하는데 카테고리 내용에 매칭되는 int 저장
 		
 		boardService.insert(board);
+
 		
 		return new ModelAndView("front?key=board&methodName=selectAll", true);
 		//return new ModelAndView("front?key=board&methodName=selectByBoardSeq&boardSeq=", true); // 나중에

@@ -9,27 +9,6 @@
 <html>
 <head>
     <title>Title</title>
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script>
-        $(function(){
-            $.ajax({
-                url: "rest",
-                type: "post",
-                dataType: "json",
-                data: {key: "alarm", methodName: "insert"},
-                success: function (result) {
-                    if(result === 0) {
-                        alert("alarm insert fail");
-                    } else {
-                        alert("alarm inset success");
-                    }
-                },
-                error: function (err) {
-                    console.log(err + " error");
-                }
-            })//ajax end
-        })//ready end
-    </script>
 </head>
 <body>
 
