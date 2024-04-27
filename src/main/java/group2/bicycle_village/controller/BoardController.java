@@ -61,7 +61,6 @@ public class BoardController implements Controller{
 		String isSeen = request.getParameter("is_seen");
 		String boardContent = request.getParameter("board_content");
 		String boardAddr = request.getParameter("board_addr");
-		
 		long productSeq = Integer.parseInt(request.getParameter("product_seq"));
 		
 		BoardEntity board = new BoardEntity.Builder().price(goodsPrice).userSeq(userSeq).boardCount(boardCount)
@@ -99,45 +98,34 @@ public class BoardController implements Controller{
 	 *  수정폼
 	 * */
 	public ModelAndView updateForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		int boardSeq  = Integer.parseInt(request.getParameter("boardSeq"));
-		String pageNo  = request.getParameter("pageNo");
-		
+		int boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
 		BoardDTO board = boardService.selectByBoardSeq(boardSeq, false);
-		request.setAttribute("board", board);
-		request.setAttribute("pageNo", pageNo);
 		
-		return new ModelAndView("board/update.jsp");//forward방식
+		request.setAttribute("board", board);
+		
+		return new ModelAndView("board/freeBoard/freeBoardUpdate.jsp");//forward방식
 	}
 	
 	/**
 	 * 수정완료
 	 * */
 	public ModelAndView update(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	   //수정할 정보 받기
-		String boardSeq = request.getParameter("board_seq");
-		String boardEdit = request.getParameter("board_edit");
-		String boardCount = request.getParameter("board_count");
-		String goodsPrice = request.getParameter("goods_price");
-		String productSeq = request.getParameter("product_seq");
-		String userSeq = request.getParameter("user_seq");
+		// 전송된 데이터 받기
+		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
 		String boardName = request.getParameter("board_name");
-		String regDate = request.getParameter("reg_date");
-		String category = request.getParameter("category");
-		String isSeen = request.getParameter("is_seen");
 		String boardContent = request.getParameter("board_content");
-		String boardAddr = request.getParameter("board_addr");
+		int goodsPrice = Integer.parseInt(request.getParameter("goods_price"));
 		
-		String pageNo = request.getParameter("pageNo");
-		
-		BoardDTO board = new BoardDTO(Integer.parseInt(boardSeq), Integer.parseInt(boardEdit), Integer.parseInt(boardCount)
-				, Integer.parseInt(goodsPrice), Integer.parseInt(productSeq), Integer.parseInt(userSeq)
-				, boardName, regDate, category, Integer.parseInt(isSeen), boardContent, boardAddr);
+		BoardEntity board = new BoardEntity.Builder().boardSeq(boardSeq).boardName(boardName).content(boardContent)
+				.price(goodsPrice).build(); // 주소,내용,카테고리만 추가된 dto 생성하는데 카테고리 내용에 매칭되는 int 저장
 		
 		boardService.update(board);
 		
 		//수정이 완료가 된후....
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("front?key=board&methodName=selectByBoardSeq&boardSeq="+boardSeq+"&flag=1&pageNo="+pageNo);
+		
+		//mv.setViewName("front?key=board&methodName=selectByBoardSeq&boardSeq="+boardSeq);
+		mv.setViewName("front?key=board&methodName=selectAll");
 	    mv.setRedirect(true);
 		return mv;
 	}
@@ -150,6 +138,6 @@ public class BoardController implements Controller{
 		int boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
 		boardService.delete(boardSeq);
 		
-		return new ModelAndView("front", true);
+		return new ModelAndView("front?key=board&methodName=selectAll", true);
 	}
 }

@@ -74,7 +74,7 @@ private Properties proFile = new Properties();
 			rs = ps.executeQuery();
 			
 			if(rs.next()) {
-				board = new BoardDTO(rs.getInt("board_seq"), rs.getInt("board_edit"), rs.getInt("board_count"),
+				board = new BoardDTO(rs.getInt("board_seq"), rs.getString("board_edit"), rs.getInt("board_count"),
 						rs.getInt("goods_price"), rs.getInt("product_seq"), rs.getInt("user_seq"), rs.getString("board_name"),
 						rs.getString("reg_date"), rs.getString("category"), rs.getInt("is_seen"), rs.getString("board_content"), rs.getString("board_addr"));
 				
@@ -100,7 +100,7 @@ private Properties proFile = new Properties();
 			
 			while(rs.next()) {
 				BoardDTO board = 
-						new BoardDTO(rs.getInt("board_seq"), rs.getInt("board_edit"), rs.getInt("board_count"),
+						new BoardDTO(rs.getInt("board_seq"), rs.getString("board_edit"), rs.getInt("board_count"),
 								rs.getInt("goods_price"), rs.getInt("product_seq"), rs.getInt("user_seq"), rs.getString("board_name"),
 								rs.getString("reg_date"), rs.getString("category"), rs.getInt("is_seen"), rs.getString("board_content"), rs.getString("board_addr"));
 				
@@ -143,7 +143,7 @@ private Properties proFile = new Properties();
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				BoardDTO board = 
-						new BoardDTO(rs.getInt("board_seq"), rs.getInt("board_edit"), rs.getInt("board_count"),
+						new BoardDTO(rs.getInt("board_seq"), rs.getString("board_edit"), rs.getInt("board_count"),
 								rs.getInt("goods_price"), rs.getInt("product_seq"), rs.getInt("user_seq"), rs.getString("board_name"),
 								rs.getString("reg_date"), rs.getString("category"), rs.getInt("is_seen"), rs.getString("board_content"), rs.getString("board_addr"));
 				
@@ -253,24 +253,22 @@ private Properties proFile = new Properties();
     }
 	
 	@Override
-    public int update(BoardDTO board) throws SQLException{
+    public int update(BoardEntity board) throws SQLException{
     	Connection con=null;
 		PreparedStatement ps=null;
 		int result=0;
 		//String sql= proFile.getProperty("query.update");
 		String sql= "update board set board_name=?,board_content=?"
-				+ ",board_edit=(select nvl(board_edit, 0) + 1 from board)"
-				+ ",goods_price=? where board_seq=?";
-		
+				+ ",board_edit=sysdate,goods_price=? where board_seq=?";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			
 			ps.setString(1, board.getBoardName());
-			ps.setString(2, board.getBoardContent());
+			ps.setString(2, board.getContent());
 			
-			ps.setInt(3, board.getGoodsPrice());
-			ps.setInt(4, board.getBoardSeq());
+			ps.setInt(3, board.getPrice());
+			ps.setLong(4, board.getBoardSeq());
 			
 			result = ps.executeUpdate();
 		}finally {

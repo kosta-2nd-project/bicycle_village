@@ -1,14 +1,14 @@
 package group2.bicycle_village.common.dto;
 
 public class BoardDTO {
-    private int boardSeq, isSeen, boardEdit, boardCount, goodsPrice, productSeq, userSeq;
-    private String boardName, regDate, category, boardContent, boardAddr;
+    private int boardSeq, isSeen, boardCount, goodsPrice, productSeq, userSeq;
+    private String boardName, regDate, category, boardContent, boardAddr, boardEdit;
 
     public BoardDTO(){
 
     }
 
-    public BoardDTO(int boardSeq, int boardEdit, int boardCount, int goodsPrice, int productSeq, int userSeq,
+    public BoardDTO(int boardSeq, String boardEdit, int boardCount, int goodsPrice, int productSeq, int userSeq,
                     String boardName, String regDate, String category, int isSeen, String boardContent, String boardAddr) {
         super();
         this.boardSeq = boardSeq;
@@ -33,11 +33,11 @@ public class BoardDTO {
         this.boardSeq = boardSeq;
     }
 
-    public int getBoardEdit() {
+    public String getBoardEdit() {
         return boardEdit;
     }
 
-    public void setBoardEdit(int boardEdit) {
+    public void setBoardEdit(String boardEdit) {
         this.boardEdit = boardEdit;
     }
 
