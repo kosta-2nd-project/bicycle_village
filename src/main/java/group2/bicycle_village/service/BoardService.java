@@ -8,11 +8,11 @@ import group2.bicycle_village.common.dto.BoardEntity;
 
 public interface BoardService {
 	
-	void insert(BoardEntity board) throws SQLException;
+	void insert(BoardEntity board, String url) throws SQLException;
 
 	void delete(int boardSeq) throws SQLException;
 
-	void update(BoardDTO board) throws SQLException;
+	void update(BoardDTO board, String url) throws SQLException;
 
 	List<BoardDTO> selectAll() throws SQLException;
 	

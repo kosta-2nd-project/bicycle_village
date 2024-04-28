@@ -28,19 +28,19 @@ public interface AlarmDAO {
     /**
      * 유저가 알림을 확인했을 때 알림상태를 변경 (알림 확인 안했을 때 : 0, 알림 확인 했을 때 : 1)
      * @param
-     * @param alarm
+     * @param alarmSeq
      * @return
      * @throws SQLException
      */
-    int updateAlarm(AlarmDTO alarm) throws SQLException;
+    int updateAlarm(String id, long alarmSeq) throws SQLException;
 
     /**
      * 알림을 클릭하면 해당 알림에 저장된 URL로 페이지 이동
-     * @param linkURL
+     * @param alarmSeq
      * @return
      * @throws SQLException
      */
-    List<String> linked(String linkURL) throws SQLException;
+    String linked(long alarmSeq) throws SQLException;
 
     /**
      * A: 알림 받을 사람

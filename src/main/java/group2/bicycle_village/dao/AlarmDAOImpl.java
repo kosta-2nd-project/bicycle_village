@@ -17,13 +17,14 @@ public class AlarmDAOImpl implements AlarmDAO {
         Connection con = null;
         PreparedStatement ps = null;
         int result = 0;
-        String sql = "insert into alarm values(alarm_seq.nextval, ?, ?, ?, null)";
+        String sql = "insert into alarm values(alarm_seq.nextval, ?, ?, ?, ?)";
         try {
             con = DbUtil.getConnection();
             ps = con.prepareStatement(sql);
             ps.setLong(1, alarm.getUserSeq());
             ps.setString(2, alarm.getAlarmContent());
             ps.setInt(3,alarm.getIsSeen());
+            ps.setString(4, alarm.getLinkURL());
             result = ps.executeUpdate();
         } finally {
             DbUtil.close(con, ps, null);
@@ -36,7 +37,7 @@ public class AlarmDAOImpl implements AlarmDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "SELECT alarm_content FROM alarm WHERE user_seq in (SELECT user_seq FROM member WHERE user_id = ?)";
+        String sql = "SELECT alarm_seq, alarm_content, link_url FROM alarm WHERE user_seq in (SELECT user_seq FROM member WHERE user_id = ?)";
         List<AlarmDTO> alarmList = new ArrayList<AlarmDTO>();
         try {
             con = DbUtil.getConnection();
@@ -46,6 +47,8 @@ public class AlarmDAOImpl implements AlarmDAO {
             while (rs.next()) {
                 //알림 내용 읽어오기
                 AlarmDTO alarm = new AlarmDTO(rs.getString("alarm_content"), 0);
+                alarm.setAlarmSeq(rs.getLong("alarm_seq"));
+                alarm.setLinkURL(rs.getString("link_url"));
                 alarmList.add(alarm);
             }
         } finally {
@@ -55,15 +58,16 @@ public class AlarmDAOImpl implements AlarmDAO {
     }
 
     @Override
-    public int updateAlarm(AlarmDTO alarm) throws SQLException {
+    public int updateAlarm(String id, long alarmSeq) throws SQLException {
         Connection con = null;
         PreparedStatement ps = null;
         int result = 0;
-        String sql = "";
+        String sql = "update alarm set is_seen = 1 where user_seq in (select user_seq from member where user_id = ?) and alarm_seq = ?";
         try {
             con = DbUtil.getConnection();
             ps = con.prepareStatement(sql);
-//            ps.setLong();
+            ps.setString(1, id);
+            ps.setLong(2, alarmSeq);
             result = ps.executeUpdate();
         } finally {
             DbUtil.close(con, ps, null);
@@ -72,8 +76,24 @@ public class AlarmDAOImpl implements AlarmDAO {
     }
 
     @Override
-    public List<String> linked(String linkURL) throws SQLException {
-        return List.of();
+    public String linked(long alarmSeq) throws SQLException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select link_url from alarm where alarm_seq = ?";
+        String url = null;
+        try {
+            con = DbUtil.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setLong(1, alarmSeq);
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                url = rs.getString(1);
+            }
+        } finally {
+            DbUtil.close(con, ps, rs);
+        }
+        return url;
     }
 
     @Override
@@ -81,7 +101,7 @@ public class AlarmDAOImpl implements AlarmDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select distinct m.nickname, m.user_id from board b join member m using(user_seq) where user_seq in (select user_seq from member where usesr_id = ?)";
+        String sql = "select distinct m.user_id, m.nickname from board b join member m using(user_seq) where user_seq = ?";
         UserDTO user = null;
         try {
             con = DbUtil.getConnection();
@@ -89,7 +109,7 @@ public class AlarmDAOImpl implements AlarmDAO {
             ps.setLong(1, userSeq);
             rs = ps.executeQuery();
             if (rs.next()) {
-                user = new UserDTO(rs.getString(2), null, null, rs.getString(1), null, null, null, null, 0);
+                user = new UserDTO(rs.getString(1), null, null, rs.getString(2), null, null, null, null, 0);
             }
         } finally {
             DbUtil.close(con, ps, rs);
@@ -125,16 +145,16 @@ public class AlarmDAOImpl implements AlarmDAO {
     }
 
     @Override
-    public List<UserDTO> searchDips(long userSeq) throws SQLException {
+    public List<UserDTO> searchDips(long boardSeq) throws SQLException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select * from member where user_seq in (select user_seq from Dips where user_seq = ?)";
+        String sql = "SELECT * FROM member WHERE user_seq IN (SELECT bookmark.user_seq FROM board JOIN bookmark USING(board_seq) WHERE board_seq = ?)";
         List<UserDTO> userList = new ArrayList<>();
         try {
             con = DbUtil.getConnection();
             ps = con.prepareStatement(sql);
-            ps.setLong(1, userSeq);
+            ps.setLong(1, boardSeq);
             rs = ps.executeQuery();
             while (rs.next()) {
                 UserDTO user = new UserDTO(rs.getInt("user_seq"), rs.getString("user_id"),

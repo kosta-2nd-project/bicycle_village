@@ -68,11 +68,12 @@ public class BoardController implements Controller{
 				.boardName(boardName).category(CommonCode.BoardCategory.valueOf(category))
 				.isSeen(CommonCode.BoardStatus.valueOf(isSeen)).addr(boardAddr).content(boardContent)
 				.productSeq(productSeq).build(); // 주소,내용,카테고리만 추가된 dto 생성하는데 카테고리 내용에 매칭되는 int 저장
-		
-		boardService.insert(board);
+
+		String url = "front?key=board&methodName=selectAll";
+		boardService.insert(board, url);
 
 		
-		return new ModelAndView("front?key=board&methodName=selectAll", true);
+		return new ModelAndView(url, true);
 		//return new ModelAndView("front?key=board&methodName=selectByBoardSeq&boardSeq=", true); // 나중에
 		
 	}
@@ -133,12 +134,13 @@ public class BoardController implements Controller{
 		BoardDTO board = new BoardDTO(Integer.parseInt(boardSeq), Integer.parseInt(boardEdit), Integer.parseInt(boardCount)
 				, Integer.parseInt(goodsPrice), Integer.parseInt(productSeq), Integer.parseInt(userSeq)
 				, boardName, regDate, category, Integer.parseInt(isSeen), boardContent, boardAddr);
-		
-		boardService.update(board);
+
+		String url = "front?key=board&methodName=selectByBoardSeq&boardSeq="+boardSeq+"&flag=1&pageNo="+pageNo;
+		boardService.update(board, url);
 		
 		//수정이 완료가 된후....
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("front?key=board&methodName=selectByBoardSeq&boardSeq="+boardSeq+"&flag=1&pageNo="+pageNo);
+		mv.setViewName(url);
 	    mv.setRedirect(true);
 		return mv;
 	}
