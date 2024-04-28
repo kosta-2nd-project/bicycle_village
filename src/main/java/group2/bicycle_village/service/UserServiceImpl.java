@@ -16,9 +16,6 @@ public class UserServiceImpl implements UserService {
 		
 		//dao호출
 		UserDTO dbDTO = userDAO.loginCheck(userDTO);
-		if(dbDTO == null) {
-			throw new AuthenticationException("정보를 다시 확인해주세요.");
-		}
 		
 		return dbDTO;
 	}

@@ -32,6 +32,7 @@ public class UserController implements Controller {
 		String pw =request.getParameter("pwd");
 		
 		int result = userService.IdCheck(userId);
+		UserDTO dbDTO = userService.loginCheck( new UserDTO(userId, pw));
 		
 		if(userId==null || userId.equals("") || pw==null || pw.equals("")) {
 			errMsg = "아이디와 비밀번호를 모두 입력해주세요.";
@@ -55,8 +56,11 @@ public class UserController implements Controller {
 			
 			return new ModelAndView("loginMsg.jsp",false);
 			
-		}else {
-			UserDTO dbDTO = userService.loginCheck( new UserDTO(userId, pw));
+		}else if(dbDTO == null) {
+			errMsg = "비밀번호를 다시 한번 확인해주세요.";
+		}
+		else {
+			
 			
 			//로그인성공하면 세션에 정보 저장
 			HttpSession session = request.getSession();
