@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -45,7 +46,7 @@
 <body>
 
 	<form name="writeForm" method="post"
-		action="${path}/front?key=board&methodName=insert"
+		action="${path}/front?key=board&methodName=update&boardSeq=${board.boardSeq}"
 		onSubmit='return checkValid()' enctype="multipart/form-data">
 
 		<table align="center" cellpadding="5" cellspacing="2" width="600" border="1">
@@ -82,7 +83,7 @@
 				</td>
 				<td width="450" height="20"><b><span
 						style="font-size: 9pt;"> <input type="text" size="30"
-							name="board_name" id="board_name" value="${board_name}"></span></b></td>
+							name="board_name" id="board_name" value="${boardName}"></span></b></td>
 			</tr>
 			
 			<tr>
@@ -106,7 +107,7 @@
 				</td>
 				<td width="450" height="20"><b><span
 						style="font-size: 9pt;"> <textarea name="board_content"
-								cols="50" rows="10" value="${board_content}"></textarea></span></b></td>
+								cols="50" rows="10" value="${content}"></textarea></span></b></td>
 			</tr>
 
 		</table>
@@ -118,7 +119,7 @@
 	<input type="hidden" name="goods_price" value="0">
 	<input type="hidden" name="product_seq" value="0">
 	<input type="hidden" name="is_seen" value="AVAILABLE">
-	<input type="hidden" name="board_addr" value="서울어딘가">
+	<input type="hidden" name="board_addr" value="">
 	<input type="hidden" name="user_seq" value="${user_seq}">
 	</form><br>
 	

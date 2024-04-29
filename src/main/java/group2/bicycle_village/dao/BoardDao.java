@@ -14,7 +14,7 @@ public interface BoardDao {
 
 	int delete(int boardSeq) throws SQLException;
 
-	int update(BoardDTO board) throws SQLException;
+	int update(BoardEntity board) throws SQLException;
 
 	BoardDTO selectByBoardSeq(int boardSeq) throws SQLException;
 
@@ -23,6 +23,5 @@ public interface BoardDao {
 	List<BoardDTO> getBoardList(int pageNo) throws SQLException;
 
 	int increamentByReadnum(int board_seq) throws SQLException;
-
 	
 }

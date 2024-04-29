@@ -12,13 +12,11 @@ public interface BoardService {
 
 	void delete(int boardSeq) throws SQLException;
 
-	void update(BoardDTO board) throws SQLException;
+	void update(BoardEntity board) throws SQLException;
 
 	List<BoardDTO> selectAll() throws SQLException;
 	
 	List<BoardDTO> selectAll(int pageNo) throws SQLException;
 	
 	BoardDTO selectByBoardSeq(int boardSeq, boolean flag) throws SQLException;
-
-
 }

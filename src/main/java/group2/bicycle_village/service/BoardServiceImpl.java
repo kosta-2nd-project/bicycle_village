@@ -37,7 +37,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void update(BoardDTO board) throws SQLException {
+	public void update(BoardEntity board) throws SQLException {
 		int result = boardDAO.update(board);
 		if(result==0) throw new SQLException("수정되지 않았습니다");
 	}
