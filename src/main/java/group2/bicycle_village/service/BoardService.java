@@ -21,4 +21,14 @@ public interface BoardService {
 	List<BoardDTO> selectAll(int pageNo) throws SQLException;
 	
 	BoardDTO selectByBoardSeq(int boardSeq, boolean flag) throws SQLException;
+
+	/**
+	 * insert된 board의 URL 주소 찾기
+	 */
+//	String linkURL(long boardSeq) throws SQLException;
+
+	/**
+	 * URL을 찾을 board의 seq 찾기
+	 */
+//	long searchBoardSeq(long userSeq) throws SQLException;
 }

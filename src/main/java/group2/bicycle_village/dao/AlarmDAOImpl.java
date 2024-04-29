@@ -1,6 +1,7 @@
 package group2.bicycle_village.dao;
 
 import group2.bicycle_village.common.dto.AlarmDTO;
+import group2.bicycle_village.common.dto.BoardDTO;
 import group2.bicycle_village.common.dto.UserDTO;
 import group2.bicycle_village.common.util.DbUtil;
 
@@ -151,6 +152,7 @@ public class AlarmDAOImpl implements AlarmDAO {
         ResultSet rs = null;
         String sql = "SELECT * FROM member WHERE user_seq IN (SELECT bookmark.user_seq FROM board JOIN bookmark USING(board_seq) WHERE board_seq = ?)";
         List<UserDTO> userList = new ArrayList<>();
+        System.out.println("AlarmDAOImpl searchDips start");
         try {
             con = DbUtil.getConnection();
             ps = con.prepareStatement(sql);
@@ -168,6 +170,28 @@ public class AlarmDAOImpl implements AlarmDAO {
         } finally {
             DbUtil.close(con, ps, rs);
         }
+        System.out.println("AlarmDAOImpl searchDips end");
         return userList;
     }
+
+//    @Override
+//    public long serachBoardSeq(long userSeq) throws SQLException {
+//        Connection con = null;
+//        PreparedStatement ps = null;
+//        ResultSet rs = null;
+//        String sql = "SELECT board_seq FROM board WHERE user_seq = ? AND reg_date = (SELECT MAX(reg_date) FROM board)";
+//        long boardSeq = 0;
+//        try {
+//            con = DbUtil.getConnection();
+//            ps = con.prepareStatement(sql);
+//            ps.setLong(1, userSeq);
+//            rs = ps.executeQuery();
+//            if (rs.next()) {
+//                boardSeq = rs.getLong(1);
+//            }
+//        } finally {
+//            DbUtil.close(con, ps, rs);
+//        }
+//        return boardSeq;
+//    }
 }

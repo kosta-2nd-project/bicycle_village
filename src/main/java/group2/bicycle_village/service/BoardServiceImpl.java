@@ -19,6 +19,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void insert(BoardEntity board, String url) throws SQLException {
 		int result = boardDAO.insert(board);
+//		long boardSeq = boardDAO.serachBoardSeq(board.getUserSeq());
 		if(result==0) throw new SQLException("등록되지 않았습니다");
 		else {
 			UserDTO userDTO = alarmDAO.userIdAndNickname(board.getUserSeq());
@@ -44,9 +45,10 @@ public class BoardServiceImpl implements BoardService {
 		if(result==0) throw new SQLException("수정되지 않았습니다");
 		else {
 			List<UserDTO> dips = alarmDAO.searchDips(board.getBoardSeq());
+			System.out.println("BoardServiceImpl update");
 			int re = 0;
 			for (UserDTO user : dips) {
-				re += alarmDAO.insertAlarm(new AlarmDTO(user.getUser_seq(), "게시물이 수정되었습니다.",0, url));
+				re += alarmDAO.insertAlarm(new AlarmDTO(user.getUser_seq(), "찜한 게시물이 수정되었습니다.",0, null));
 			}
 		}
 	}
@@ -68,13 +70,23 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public BoardDTO selectByBoardSeq(int boardSeq, boolean flag) throws SQLException {
-		if(flag) {
-			if(boardDAO.increamentByReadnum(boardSeq) == 0) throw new SQLException("조회수 증가 오류로 조회 할 수 없습니다.");
-		} // 조회수 증가
+//		if(flag) {
+//			if(boardDAO.increamentByReadnum(boardSeq) == 0) throw new SQLException("조회수 증가 오류로 조회 할 수 없습니다.");
+//		} // 조회수 증가
 		
 		BoardDTO board = boardDAO.selectByBoardSeq(boardSeq);
-		if(board==null) throw new SQLException("게시글을 조회할수 없습니다");
+//		if(board==null) throw new SQLException("게시글을 조회할수 없습니다");
 		return board;
 	}
-	
+
+//	@Override
+//	public String linkURL(long boardSeq) throws SQLException {
+//		String url = "front?key=board&methodName=selectByBoardSeq&boardSeq=" + boardSeq;
+//		return url;
+//	}
+//
+//	@Override
+//	public long searchBoardSeq(long userSeq) throws SQLException {
+//		return boardDAO.serachBoardSeq(userSeq);
+//	}
 }

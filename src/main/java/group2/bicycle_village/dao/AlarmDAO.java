@@ -66,4 +66,12 @@ public interface AlarmDAO {
      * @throws SQLException
      */
     List<UserDTO> searchDips(long userSeq) throws SQLException;
+
+    /**
+     * 로그인한 유저의 가장 최근 게시물 찾기
+     * @param userSeq
+     * @return
+     * @throws SQLException
+     */
+//    long serachBoardSeq(long userSeq) throws SQLException;
 }

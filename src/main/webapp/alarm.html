@@ -16,7 +16,7 @@
                     if(result != null) {
                         let str = "";
                         $.each(result, function (index, list) {
-                            str += `<tr><td><a href="#" class = "alarm" data-seq="${list.alarmSeq}">${list.alarmContent}</a></td></tr>`;
+                            str += `<tr><td><a href="#" class = "alarm" data-alarm-seq="${list.alarmSeq}">${list.alarmContent}</a></td></tr>`;
                         });
                         $("table tr:gt(0)").remove();
                         $("table tr:eq(0)").after(str);
@@ -32,7 +32,7 @@
                     url: "rest",
                     type: "post",
                     dataType: "json",
-                    data: {key: "alarm", methodName: "updateAlarm", alarmSeq: this.getAttribute("data-seq")},
+                    data: {key: "alarm", methodName: "updateAlarm", alarmSeq: this.getAttribute("data-alarm-seq")},
                     success: function (map) {
                         if(map.result === 0) {
                             alert("update fail");

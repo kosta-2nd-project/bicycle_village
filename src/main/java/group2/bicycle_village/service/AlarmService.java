@@ -17,4 +17,12 @@ public interface AlarmService {
     int updateAlarm(String id, long alarmSeq) throws SQLException;
 
     String linked(long alarm) throws SQLException;
+
+    /**
+     * insert된 board의 URL 주소 찾기
+     * @param boardSeq
+     * @return
+     * @throws SQLException
+     */
+//    String linkURL(long boardSeq) throws SQLException;
 }

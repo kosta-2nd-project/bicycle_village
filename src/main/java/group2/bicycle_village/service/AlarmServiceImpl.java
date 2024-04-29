@@ -50,7 +50,12 @@ public class AlarmServiceImpl implements AlarmService {
 
     @Override
     public String linked(long alarmSeq) throws SQLException {
-        String url = alarmDAO.linked(alarmSeq);
-        return url;
+        return alarmDAO.linked(alarmSeq);
     }
+
+//    @Override
+//    public String linkURL(long boardSeq) throws SQLException {
+//        String url = "front?key=board&methodName=selectByBoardSeq&boardSeq=" + boardSeq;
+//        return url;
+//    }
 }

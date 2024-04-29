@@ -213,7 +213,7 @@ private Properties proFile = new Properties();
 			ps.setString(4, board.getAddr());
 			ps.setInt(5, board.getBoardCount());
 			ps.setInt(6, board.getPrice());
-			
+
 //			if(board.getProductSeq()!=0) {
 //				ps.setLong(7, board.getProductSeq());
 //			} else {
@@ -305,4 +305,25 @@ private Properties proFile = new Properties();
 		}
 		return list;
 	}
+
+//	@Override
+//	public long serachBoardSeq(long userSeq) throws SQLException {
+//		Connection con = null;
+//		PreparedStatement ps = null;
+//		ResultSet rs = null;
+//		String sql = "SELECT board_seq FROM board WHERE user_seq = ? AND reg_date = (SELECT MAX(reg_date) FROM board)";
+//		long boardSeq = 0;
+//		try {
+//			con = DbUtil.getConnection();
+//			ps = con.prepareStatement(sql);
+//			ps.setInt(1, (int) userSeq);
+//			rs = ps.executeQuery();
+//			if (rs.next()) {
+//				boardSeq = rs.getLong(1);
+//			}
+//		} finally {
+//			DbUtil.close(con, ps, rs);
+//		}
+//		return boardSeq;
+//	}
 }
