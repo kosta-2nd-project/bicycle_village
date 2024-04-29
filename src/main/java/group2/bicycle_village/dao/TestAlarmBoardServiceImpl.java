@@ -25,7 +25,7 @@ public class TestAlarmBoardServiceImpl implements TestAlarmBoardService {
 
     @Override
 
-    public void update(BoardEntity board, String url) throws SQLException {
+    public void update(BoardEntity board/*, String url*/) throws SQLException {
 //        int result = boardDAO.update(board);
 //        if(result==0) throw new SQLException("수정되지 않았습니다");
 //        else {

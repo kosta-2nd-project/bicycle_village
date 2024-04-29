@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public interface TestAlarmBoardService {
     void insert(BoardEntity board, String url) throws SQLException;
-    void update(BoardEntity board, String url) throws SQLException;
+    void update(BoardEntity board/*, String url*/) throws SQLException;
     /**
      * insert된 board의 URL 주소 찾기
      */
