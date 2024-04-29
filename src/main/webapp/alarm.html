@@ -16,8 +16,7 @@
                     if(result != null) {
                         let str = "";
                         $.each(result, function (index, list) {
-                            console.log(list);
-                            str += `<tr><td>${list.alarmContent}</td></tr>`;
+                            str += `<tr><td><a href="#" class = "alarm" data-seq="${list.alarmSeq}">${list.alarmContent}</a></td></tr>`;
                         });
                         $("table tr:gt(0)").remove();
                         $("table tr:eq(0)").after(str);
@@ -27,6 +26,27 @@
                     console.log(err + " error");
                 }
             })//ajax end
+
+            $(document).on("click", ".alarm", function () {
+                $.ajax({
+                    url: "rest",
+                    type: "post",
+                    dataType: "json",
+                    data: {key: "alarm", methodName: "updateAlarm", alarmSeq: this.getAttribute("data-seq")},
+                    success: function (map) {
+                        if(map.result === 0) {
+                            alert("update fail");
+                        } else {
+                            // alert("update success");
+                            let url = map.url;
+                            location.href = "/" + url;
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err + "error");
+                    }
+                })//ajax end
+            })//click end
         })//ready end
     </script>
 </head>

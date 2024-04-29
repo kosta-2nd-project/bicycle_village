@@ -67,11 +67,12 @@ public class BoardController implements Controller{
 				.boardName(boardName).category(CommonCode.BoardCategory.valueOf(category))
 				.isSeen(CommonCode.BoardStatus.valueOf(isSeen)).addr(boardAddr).content(boardContent)
 				.productSeq(productSeq).build(); // 주소,내용,카테고리만 추가된 dto 생성하는데 카테고리 내용에 매칭되는 int 저장
-		
-		boardService.insert(board);
+
+		String url = "front?key=board&methodName=selectAll";
+		boardService.insert(board, url);
 
 		
-		return new ModelAndView("front?key=board&methodName=selectAll", true);
+		return new ModelAndView(url, true);
 		//return new ModelAndView("front?key=board&methodName=selectByBoardSeq&boardSeq=", true); // 나중에
 		
 	}
@@ -117,6 +118,7 @@ public class BoardController implements Controller{
 		String boardContent = request.getParameter("board_content");
 		int goodsPrice = Integer.parseInt(request.getParameter("goods_price"));
 		
+
 		BoardEntity board = new BoardEntity.Builder().boardSeq(boardSeq).boardName(boardName).content(boardContent)
 				.price(goodsPrice).build(); // 주소,내용,카테고리만 추가된 dto 생성하는데 카테고리 내용에 매칭되는 int 저장
 		
@@ -127,6 +129,7 @@ public class BoardController implements Controller{
 		
 		//mv.setViewName("front?key=board&methodName=selectByBoardSeq&boardSeq="+boardSeq);
 		mv.setViewName("front?key=board&methodName=selectAll");
+
 	    mv.setRedirect(true);
 		return mv;
 	}
