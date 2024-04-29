@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,19 +83,13 @@ body {
   margin-left: 10px;
 }
 
-.follow{
-  font-size: 16px;
-  display: inline-block;
-  padding: 5px 15px;
-  background-color: #007bff;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 5px;
-  margin-left: 10px;
-}
-
 </style>
+<script type="text/javascript">
+console.log("${user_seq}");
+console.log("${userId}");
+console.log("${nickname}");
 
+</script>
 </head>
 <body>
 <div class="container">
@@ -108,15 +102,27 @@ body {
     </div>
     <h3 class="info">${board.regDate}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;댓글 <%-- ${} --%></h3>
     
-    <div class="content">
-   		 <!-- 내용이 올공간 -->
+    <div class="content" style="height: auto; min-height: 100px; overflow: auto;">
+   		 ${board.boardContent}
   	</div>
-    <div class="buttons">
-      <a href="freeBoardList.jsp" class="btn">목록</a>
-      <a href="freeBoardUpdate.jsp" class="btn">수정</a>
-      <a href="freeBoardList.jsp" class="btn">삭제</a>
-    </div>
+
+	<div class="buttons">
+	
+				 <c:choose>
+					<c:when test="${user_seq == board.userSeq && not empty loginUser && UserStatus == 0}">
+						<a href="${path}/front?key=board&methodName=selectAll" class="btn">목록</a>
+						<a href="${path}/front?key=board&methodName=updateForm&boardSeq=${board.boardSeq}" class="btn">수정</a>
+						<a href="${path}/front?key=board&methodName=delete&boardSeq=${board.boardSeq}" class="btn">삭제</a>
+					</c:when>
+					<c:otherwise>
+						<a href="${path}/front?key=board&methodName=selectAll" class="btn">목록</a>
+					</c:otherwise>
+				</c:choose> 
+
+			</div>
+
   <div class="container">
 </div>
+
 
 </html>

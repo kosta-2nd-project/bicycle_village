@@ -106,11 +106,18 @@
 			</tr>
     </c:forEach>
 </table>
-<hr>
-<div align=right>
-<span style="font-size:9pt;">&lt;<a href="${path}/board/freeBoard/freeBoardWrite.jsp">글쓰기</a>&gt;</span>
-</div>
-<hr color="red">
+
+<c:if test="${not empty loginUser}">
+		<hr>
+		<div align=right>
+			<span style="font-size: 9pt;">&lt;<a
+				href="${path}/board/freeBoard/freeBoardWrite.jsp">글쓰기</a>&gt;
+			</span>
+		</div>
+		<hr>
+</c:if>
+
+
 
 <%--   <jsp:useBean class="group2.bicycle_village.common.dto.PageCnt" id="p"/> 
    

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -111,14 +112,14 @@
 
 		</table>
 	<div align=center><span style="font-size:9pt;"><input type=submit value="게시글 등록"
-							id="submit"></div>
+							id="submit"></span></div>
 							
 	<input type="hidden" name="category" value="FREE">
 	<input type="hidden" name="board_count" value="0">
 	<input type="hidden" name="goods_price" value="0">
 	<input type="hidden" name="product_seq" value="0">
 	<input type="hidden" name="is_seen" value="AVAILABLE">
-	<input type="hidden" name="board_addr" value="서울어딘가">
+	<input type="hidden" name="board_addr" value="">
 	<input type="hidden" name="user_seq" value="${user_seq}">
 	</form><br>
 	
