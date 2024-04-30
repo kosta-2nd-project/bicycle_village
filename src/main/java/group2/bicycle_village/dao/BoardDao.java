@@ -23,5 +23,11 @@ public interface BoardDao {
 	List<BoardDTO> getBoardList(int pageNo) throws SQLException;
 
 	int increamentByReadnum(int board_seq) throws SQLException;
+
+	List<BoardDTO> selectByCateory(int category) throws SQLException;
+
+	List<BoardDTO> getBoardListByCateory(int category, int pageNo) throws SQLException;
+
+	long searchBoardSeq(long userSeq) throws SQLException;
 	
 }

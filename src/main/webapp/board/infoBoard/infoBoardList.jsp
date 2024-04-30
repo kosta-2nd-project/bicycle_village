@@ -155,6 +155,7 @@
 
  
  
+ <!--  블럭당  -->
 <nav class="pagination-container">
 		<div class="pagination">
 		<c:set var="doneLoop" value="false"/>

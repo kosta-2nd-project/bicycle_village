@@ -101,7 +101,9 @@ public class AlarmDAOImpl implements AlarmDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select distinct m.user_id, m.nickname from board b join member m using(user_seq) where user_seq = ?";
+
+        String sql = "select distinct m.nickname, m.user_id from board b join member m using(user_seq) where user_seq in (select user_seq from member where user_id = ?)";
+
         UserDTO user = null;
         try {
             con = DbUtil.getConnection();

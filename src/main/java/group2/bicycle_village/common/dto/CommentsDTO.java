@@ -1,16 +1,17 @@
 package group2.bicycle_village.common.dto;
 
 public class CommentsDTO {
-   private int commentSeq, parentComment, boardSeq, userSeq, isSeen;
+   private Long commentSeq, boardSeq, userSeq, parentCommentSeq;
+   private int isSeen;
    private String regDate, commentContent, corDate;
    
    public CommentsDTO() {}
    
-   public CommentsDTO(int commentSeq, int parentComment, int boardSeq, int userSeq, 
+   public CommentsDTO(Long commentSeq, Long parentCommentSeq, Long boardSeq, Long userSeq, 
 		   String regDate, int isSeen, String commentContent, String corDate) {
 	super();
 	this.commentSeq = commentSeq;
-	this.parentComment = parentComment;
+	this.parentCommentSeq = parentCommentSeq;
 	this.boardSeq = boardSeq;
 	this.userSeq = userSeq;
 	this.isSeen = isSeen;
@@ -18,37 +19,37 @@ public class CommentsDTO {
 	this.commentContent = commentContent;
 	this.corDate = corDate;
    }
-	
-	public int getCommentSeq() {
+
+	public Long getCommentSeq() {
 		return commentSeq;
 	}
 	
-	public void setCommentSeq(int commentSeq) {
+	public void setCommentSeq(Long commentSeq) {
 		this.commentSeq = commentSeq;
 	}
 	
-	public int getParentComment() {
-		return parentComment;
-	}
-	
-	public void setParentComment(int parentComment) {
-		this.parentComment = parentComment;
-	}
-	
-	public int getBoardSeq() {
+	public Long getBoardSeq() {
 		return boardSeq;
 	}
 	
-	public void setBoardSeq(int boardSeq) {
+	public void setBoardSeq(Long boardSeq) {
 		this.boardSeq = boardSeq;
 	}
 	
-	public int getUserSeq() {
+	public Long getUserSeq() {
 		return userSeq;
 	}
 	
-	public void setUserSeq(int userSeq) {
+	public void setUserSeq(Long userSeq) {
 		this.userSeq = userSeq;
+	}
+	
+	public Long getParentCommentSeq() {
+		return parentCommentSeq;
+	}
+	
+	public void setParentCommentSeq(Long parentCommentSeq) {
+		this.parentCommentSeq = parentCommentSeq;
 	}
 	
 	public int getIsSeen() {
@@ -82,6 +83,8 @@ public class CommentsDTO {
 	public void setCorDate(String corDate) {
 		this.corDate = corDate;
 	}
+	
+	   
    
 }
 
