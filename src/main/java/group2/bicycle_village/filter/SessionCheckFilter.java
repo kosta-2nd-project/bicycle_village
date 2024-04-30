@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class SessionCheckFilter
  */
-@WebFilter("/front")
+@WebFilter("/front/*")
 public class SessionCheckFilter implements Filter {
 
     public SessionCheckFilter() {
@@ -24,12 +24,13 @@ public class SessionCheckFilter implements Filter {
 		System.out.println("SessionCheck....");
 		//사전처리 -> 인증여부를 체크한다.
 		String key = request.getParameter("key");
-		if(key==null) {
+		String methodName = request.getParameter("methodName");
+		if(key == null || methodName.equals("selectByFreeBoardSeq") || methodName.equals("selectByTradeBoardSeq") || key.equals("review")) {
 			//인증된 사용자만 해라...
 			HttpServletRequest req = (HttpServletRequest)request;
 			HttpSession session = req.getSession();
 			if(session.getAttribute("loginUser") ==null) { //인증 안됨
-				req.setAttribute("errorMsg", "로그인하고 이용해주세요.^^");
+				req.setAttribute("errorMsg", "로그인하고 이용해주세요!");
 				req.getRequestDispatcher("error/error.jsp").forward(request, response);
 				//Servlet을 들리지 않고 FailView로 바로 가버린다.
 				return ;//함수를 빠져나가라

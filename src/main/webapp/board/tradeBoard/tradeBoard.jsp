@@ -148,10 +148,55 @@ body {
 	margin-right: 70px;
 }
 </style>
-<script type="text/javascript">
+<script src="${path}/js/jquery-3.3.1.min.js"></script>
+<script>
 	console.log("${user_seq}");
 	console.log("${userId}");
 	console.log("${nickname}");
+	
+	$(function(){
+		//버튼 누르면 찜 추가
+		$(document).on("click","#dip",function(){
+			$.ajax({
+				url:"${path}/rest",
+				type:"post",
+				dataType:"json",
+				data:{key:"bookmark",methodName:"addBookmark",boardSeq:"${board.boardSeq}"},
+				success:function(result){
+					console.log("result:"+result);
+					if(result===1){
+						alert("이미 찜하기한 게시글입니다.");
+					}else{
+						alert("찜 목록에 추가됨");
+					}
+				},
+				error:function(err){
+					alert(err+"에러 발생");
+				}
+			});
+		});//찜 추가 End
+		
+		//팔로우 추가
+		$(document).on("click","#follow",function(){
+			$.ajax({
+				url:"${path}/rest",
+				type:"post",
+				dataType:"json",
+				data:{key:"follow",methodName:"addFollow",nickname:"${nickname}"},
+				success:function(result){
+					console.log("result:"+result);
+					if(result===1){
+						alert("이미 팔로우 중입니다.");
+					}else{
+						alert("팔로우 목록에 추가됨")
+					}
+				},
+				error:function(err){
+					alert(err+"에러 발생");
+				}
+			})
+		});
+	});//function End
 </script>
 </head>
 <body>
@@ -179,6 +224,7 @@ body {
 
 			<div class="chattingAndDip"
 				style="padding-bottom: 30px; font-size: 20px;">
+				<!-- <input type="button" id="dip"> -->
 				<button id="dip" class="dip"></button>
 				<input type="button" id="chatting" class="chatting" value="채팅하기">
 			</div>

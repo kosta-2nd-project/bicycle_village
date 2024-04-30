@@ -1,21 +1,21 @@
 package group2.bicycle_village.common.dto;
 
-public class followEntity {
+public class FollowEntity {
 
 	private long followSeq;
 	private long follow;
 	private long follower;
 	
-	private followEntity(Builder builder) {
+	private FollowEntity(Builder builder) {
 		this.followSeq = builder.followSeq;
 		this.follow = builder.follow;
 		this.follower = builder.follower;
 	}
 	
 	public static class Builder{
-		public long followSeq;
-		public long follow;
-		public long follower;
+		private long followSeq;
+		private long follow;
+		private long follower;
 		
 		public Builder followSeq(long followSeq) {
 			this.followSeq = followSeq;
@@ -30,8 +30,8 @@ public class followEntity {
 			return this;
 		}
 		
-		public followEntity build() {
-			return new followEntity(this);
+		public FollowEntity build() {
+			return new FollowEntity(this);
 		}
 	}
 

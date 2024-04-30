@@ -30,10 +30,9 @@
               <div class="col-md-6 mb-3 mb-md-0">
                 <button class="btn btn-primary btn-sm btn-block" onclick="location.href='${path}/pages/user/info.jsp'">회원정보 수정하기</button>
                 <button class="btn btn-outline-primary btn-sm btn-block" onclick="location.href='${path}/pages/bookmarkList.jsp'">찜 목록</button>
-                <button class="btn btn-outline-primary btn-sm btn-block">팔로우 목록</button>
                 <button class="btn btn-outline-primary btn-sm btn-block" onclick="location.href='${path}/pages/WriteBoardList.jsp'">작성 게시글 목록</button>
                 <button class="btn btn-primary btn-sm btn-block">채팅 목록</button>
-                <button class="btn btn-primary btn-sm btn-block">작성 리뷰 목록</button>
+                <button class="btn btn-primary btn-sm btn-block" onclick="location.href='${path}/front?key=review&methodName=listPage&reviewer=${user_seq}'">작성 리뷰 목록</button>
                 <button class="btn btn-outline-primary btn-sm btn-block" onclick="location.href='${path}/pages/user/unregist.jsp'">회원 탈퇴</button>
               </div>
             </div>
@@ -59,15 +58,15 @@
 
   </div>
 
-  <script src="../js/jquery-3.3.1.min.js"></script>
-  <script src="../js/jquery-ui.js"></script>
-  <script src="../js/popper.min.js"></script>
-  <script src="../js/bootstrap.min.js"></script>
-  <script src="../js/owl.carousel.min.js"></script>
-  <script src="../js/jquery.magnific-popup.min.js"></script>
-  <script src="../js/aos.js"></script>
+  <script src="${path}/js/jquery-3.3.1.min.js"></script>
+  <script src="${path}/js/jquery-ui.js"></script>
+  <script src="${path}/js/popper.min.js"></script>
+  <script src="${path}/js/bootstrap.min.js"></script>
+  <script src="${path}/js/owl.carousel.min.js"></script>
+  <script src="${path}/js/jquery.magnific-popup.min.js"></script>
+  <script src="${path}/js/aos.js"></script>
 
-  <script src="../js/main.js"></script>
+  <script src="${path}/js/main.js"></script>
     
   </body>
   <jsp:include page="../common/footer.jsp"/>
