@@ -5,6 +5,7 @@
 <html lang="en">
 
 <head>
+
 <title>Title</title>
 <script src="${path}/js/jquery-3.3.1.min.js"></script>
 <script>
@@ -14,11 +15,12 @@ $(function(){
 		url:"${path}/rest",
 		type:"post",
 		dataType:"json",
-		data:{key:"bookmark", methodName:"selectAll"},
+		data:{key:"post", methodName:"selectAll"},
 		success:function(result){
 			let str="";
 			$.each(result,function(index,item){
 				console.log(item);
+				console.log(`\${item.imageName}`);
 				str+=`<tr>`;
 				if(`\${item.imageName}` !== 'undefined'){
 					str+=`<td><img width="100%" height="100%"  src="<%= request.getContextPath() + "/file-servlet"+ "?fname=${item.boardSeq}/${item.imageName}" %>"></td>`;
@@ -26,10 +28,18 @@ $(function(){
 					str+=`<td>이미지 없음</td>`;
 				}
 				str+=`<td><a href='/front?key=board&methodName=selectByBoardSeq&boardSeq=\${item.boardSeq}'>\${item.boardName}</a></td>`;
-				str+=`<td>\${item.nickname}</td>`;
+				if(`\${item.category}`=="1"){
+					str+=`<td>자유게시판</td>`;
+				}else if(`\${item.category}`=="2"){
+					str+=`<td>정보게시판</td>`;
+				}else if(`\${item.category}`=="3"){
+					str+=`<td>거래게시판</td>`;
+				}else{
+					str+=`<td>신고게시판</td>`;
+				}
 				str+=`<td>\${item.regDate}</td>`;
-				str+=`<td>\${item.goodsPrice}</td>`;
-				str+=`<td>\${item.boardAddr}</td>`;
+				str+=`<td>\${item.boardCount}</td>`;
+				str+=`<td>\${item.commentCount}</td>`;
 				str+=`<td><input type ='button' class="btn btn-primary btn-sm" value='X' name=\${item.boardSeq}></td>`;
 				str+=`</tr>`;
 			});
@@ -48,19 +58,15 @@ $(function(){
 			url:"${path}/rest",
 			type:"post",
 			dataType:"text",
-			data:{key:"bookmark",methodName:"delBookmark",seq:$(this).attr("name")},
+			data:{key:"post",methodName:"delPost",seq:$(this).attr("name")},
 			success:function(result){
-				if(result==0){
-					alert("삭제되지 않았습니다.");
-				}else{
-					selectAll();
-				}
+				selectAll();
 			},
-			error: function(err){
-				alert(err+"에러 발생");
+			error:function(err){
+				alert("error:"+err);
 			}
 		});
-	});
+	}); //삭제 End
 	
 	selectAll(); //전체 조회
 });
@@ -75,7 +81,7 @@ $(function(){
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="${path}/index.jsp">Home</a> <span class="mx-2 mb-0">/</span> <a href="${path}/pages/user/myPage.jsp">마이페이지</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">찜 목록</strong> </div>
+          <div class="col-md-12 mb-0"><a href="${path}/index.jsp">Home</a> <span class="mx-2 mb-0">/</span> <a href="${path}/pages/user/myPage.jsp">마이페이지</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">작성 게시글 목록</strong> </div>
         </div>
       </div>
     </div>
@@ -93,10 +99,10 @@ $(function(){
                   <tr>
                     <th class="product-thumbnail">대표 사진</th>
                     <th class="product-name">게시글 제목</th>
-                    <th class="product-price">작성자</th>
+                    <th class="product-price">카테고리</th>
                     <th class="product-quantity">작성일</th>
-                    <th class="product-total">가격</th>
-                    <th class="product-location">거래위치</th>
+                    <th class="product-total">조회수</th>
+                    <th class="product-location">댓글수</th>
                     <th class="product-remove">삭제</th>
                   </tr>
                

@@ -55,7 +55,15 @@ public class BookmarkDAOImpl implements BookmarkDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		String sql = "select b.board_seq, b.board_name, m.nickname, b.reg_date, b.goods_price, b.board_addr from board b join member m using(user_seq) where b.board_seq in (select board_seq from bookmark where user_seq=?)";
+		String sql = "SELECT b.board_seq, b.board_name, m.nickname, b.reg_date, b.goods_price, b.board_addr, f.image_name, f.save_number\r\n"
+				+ "FROM member m JOIN board b on b.user_seq = m.user_seq\r\n"
+				+ "LEFT JOIN boardfile f on b.board_seq = f.board_seq\r\n"
+				+ "WHERE b.board_seq \r\n"
+				+ "IN(\r\n"
+				+ "SELECT board_seq\r\n"
+				+ "FROM bookmark \r\n"
+				+ "WHERE user_seq = ?)\r\n"
+				+ "AND (f.save_number = 0 or f.save_number is null);";
 		List<BookmarkListDTO> list = new ArrayList<BookmarkListDTO>();
 		try {
 			con = DbUtil.getConnection();
@@ -63,7 +71,8 @@ public class BookmarkDAOImpl implements BookmarkDAO {
 			ps.setInt(1, userSeq);
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				BookmarkListDTO bookmark = new BookmarkListDTO(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getDate(4),rs.getString(5),rs.getString(6));
+				BookmarkListDTO bookmark = new BookmarkListDTO(rs.getInt(1), rs.getString(2),rs.getString(3),
+						rs.getDate(4),rs.getString(5),rs.getString(6), rs.getString(7), rs.getInt(8));
 				list.add(bookmark);
 			}
 		}finally {
