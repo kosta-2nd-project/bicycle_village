@@ -9,8 +9,11 @@ public class BookmarkListDTO {
 	private Date regDate;
 	private String goodsPrice;
 	private String boardAddr;
+	private String imageName;
+	private int saveNumber;
 	
-	public BookmarkListDTO(int boardSeq, String boardName, String nickname, Date regDate, String goodsPrice, String boardAddr) {
+	public BookmarkListDTO(int boardSeq, String boardName, String nickname, Date regDate, 
+			String goodsPrice, String boardAddr, String imageName, int saveNumber) {
 		super();
 		this.boardSeq = boardSeq;
 		this.boardName = boardName;
@@ -18,6 +21,8 @@ public class BookmarkListDTO {
 		this.regDate = regDate;
 		this.goodsPrice = goodsPrice;
 		this.boardAddr = boardAddr;
+		this.imageName = imageName;
+		this.saveNumber = saveNumber;
 	}
 	
 	

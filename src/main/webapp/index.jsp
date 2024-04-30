@@ -3,6 +3,46 @@
 <jsp:include page="pages/common/header.jsp"/>
 <!DOCTYPE html>
 <html lang="en">
+
+<head>
+<script src="${path}/js/jquery-3.3.1.min.js"></script>
+<script>
+$(function(){
+	function selectBest(){
+		$.ajax({
+			url:"${path}/rest",
+			type:"post",
+			dataType:"json",
+			data:{key:"indexpost",methodName:"selectBest"},
+			success:function(result){
+				let str="";
+				$.each(result,function(index,item){
+					str+=`<div class="item">`;
+	                str+=`<div class="block-4 text-center">`;
+	                str+=`<figure class="block-4-image">`;
+	                str+=`<img src="images/cloth_1.jpg" alt="Image placeholder" class="img-fluid">`;
+	                str+=`</figure>`;
+	                str+=`<div class="block-4-text p-4">`;
+	                str+=`<h3><a href="#">\${item.boardName}</a></h3>`;
+	               	str+=`<p class="mb-0"></p>`;
+	                str+=`<p class="text-primary font-weight-bold">\${item.goodsPrice}</p>`;
+	                str+=`</div>`;
+	                str+=`</div>`;
+	              	str+=`</div>`;
+				});
+				console.log(str);
+				$(".nonloop-block-3").html(str);
+			},
+			error:function(err){
+				
+			}
+		});
+	}//selectBest End
+	
+	selectBest();
+})
+</script>
+</head>
   
   <body>
   
@@ -102,72 +142,15 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-7 site-section-heading text-center pt-4">
-            <h2>Featured Products</h2>
+            <h2>최신 게시글</h2>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
             <div class="nonloop-block-3 owl-carousel">
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/cloth_1.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Tank Top</a></h3>
-                    <p class="mb-0">Finding perfect t-shirt</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Corater</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/cloth_2.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Polo Shirt</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/cloth_3.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">T-Shirt Mockup</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Corater</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
+            
+             
+              
             </div>
           </div>
         </div>
