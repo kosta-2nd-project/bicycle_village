@@ -116,7 +116,7 @@ console.log("${nickname}");
 			</h3>
 
 			<div class="nick_name" style="padding-bottom: 30px; font-size: 20px;">
-				${board.userDTO.nickName} &nbsp;&nbsp;
+				${board.userSeq} &nbsp;&nbsp;
 				<input type="button" id="follow" class="follow" value="팔로우">
 			</div>
 
@@ -166,9 +166,9 @@ console.log("${nickname}");
 	<div class="container">
 	</div>
 
-	
-	
+
 	<jsp:include page="../../pages/common/footer.jsp"/>
+
 
 </body>
 </html>

@@ -5,8 +5,10 @@ public class BoardDTO {
     private String boardName, regDate, category, boardContent, boardAddr, boardEdit;
     
     private UserDTO userDTO;
-    
-    public BoardDTO() {}
+
+    public BoardDTO(){
+
+    }
 
     public BoardDTO(int boardSeq, String boardEdit, int boardCount, int goodsPrice, int productSeq, int userSeq,
                     String boardName, String regDate, String category, int isSeen, String boardContent, String boardAddr) {
@@ -121,13 +123,5 @@ public class BoardDTO {
         this.boardAddr = boardAddr;
     }
 
-	public UserDTO getUserDTO() {
-		return userDTO;
-	}
 
-	public void setUserDTO(UserDTO userDTO) {
-		this.userDTO = userDTO;
-	}
-
-   
 }
