@@ -6,6 +6,7 @@ import group2.bicycle_village.common.dto.BoardEntity;
 import group2.bicycle_village.common.dto.CommentEntity;
 import group2.bicycle_village.common.dto.CommentsDTO;
 import group2.bicycle_village.common.dto.PageCnt;
+import group2.bicycle_village.common.dto.UserDTO;
 import group2.bicycle_village.common.util.DbUtil;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ private Properties proFile = new Properties();
 	}
 	
 	@Override
-	public BoardDTO selectByBoardSeq(int boardSeq) throws SQLException {
+	public BoardDTO selectByBoardSeq(long boardSeq) throws SQLException {
 		Connection con=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
@@ -70,7 +71,7 @@ private Properties proFile = new Properties();
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, boardSeq);
+			ps.setLong(1, boardSeq);
 			
 			rs = ps.executeQuery();
 			
@@ -78,14 +79,44 @@ private Properties proFile = new Properties();
 				board = new BoardDTO(rs.getInt("board_seq"), rs.getString("board_edit"), rs.getInt("board_count"),
 						rs.getInt("goods_price"), rs.getInt("product_seq"), rs.getInt("user_seq"), rs.getString("board_name"),
 						rs.getString("reg_date"), rs.getString("category"), rs.getInt("is_seen"), rs.getString("board_content"), rs.getString("board_addr"));
-				
+                
+                //user_seq에해당하는 user의정보 조회해서 저장
+                board.setUserDTO(getUserByUserSeq(rs.getInt("user_seq")));
 			}
 		}finally {
 			DbUtil.close(con, ps, rs);
 		}
 		return board;
 	}
-	
+
+    /**
+     * userSeq에 해당하는 정보 조회하기 
+     * */
+    private UserDTO getUserByUserSeq(long userSeq) throws SQLException {
+        //BoardEntity entity = new BoardEntity.Builder().addr("").category(CommonCode.BoardCategory.getStatus(0)).build();
+        Connection con=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        UserDTO dbDTO =null;
+        
+        String sql= "select nickname from member where user_seq=?";
+        try {
+            con = DbUtil.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setLong(1, userSeq);
+            
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                dbDTO = new UserDTO();
+                dbDTO.setNickName(rs.getString(1));
+            }
+            
+        }finally {
+            DbUtil.close(con, ps, rs);
+        }
+        return dbDTO;
+    }
+    
 	@Override
 	public List<BoardDTO> selectAll() throws SQLException {
 		Connection con=null;
@@ -105,6 +136,9 @@ private Properties proFile = new Properties();
 						new BoardDTO(rs.getInt("board_seq"), rs.getString("board_edit"), rs.getInt("board_count"),
 								rs.getInt("goods_price"), rs.getInt("product_seq"), rs.getInt("user_seq"), rs.getString("board_name"),
 								rs.getString("reg_date"), rs.getString("category"), rs.getInt("is_seen"), rs.getString("board_content"), rs.getString("board_addr"));
+				
+                //user_seq에해당하는 user의정보 조회해서 저장
+                board.setUserDTO(getUserByUserSeq(rs.getInt("user_seq")));
 				
 			   list.add(board);
 			}
@@ -134,6 +168,9 @@ private Properties proFile = new Properties();
 						new BoardDTO(rs.getInt("board_seq"), rs.getString("board_edit"), rs.getInt("board_count"),
 								rs.getInt("goods_price"), rs.getInt("product_seq"), rs.getInt("user_seq"), rs.getString("board_name"),
 								rs.getString("reg_date"), rs.getString("category"), rs.getInt("is_seen"), rs.getString("board_content"), rs.getString("board_addr"));
+
+                //user_seq에해당하는 user의정보 조회해서 저장
+                board.setUserDTO(getUserByUserSeq(rs.getInt("user_seq")));
 				
 			   list.add(board);
 			}
@@ -178,7 +215,10 @@ private Properties proFile = new Properties();
 						new BoardDTO(rs.getInt("board_seq"), rs.getString("board_edit"), rs.getInt("board_count"),
 								rs.getInt("goods_price"), rs.getInt("product_seq"), rs.getInt("user_seq"), rs.getString("board_name"),
 								rs.getString("reg_date"), rs.getString("category"), rs.getInt("is_seen"), rs.getString("board_content"), rs.getString("board_addr"));
-				
+
+                //user_seq에해당하는 user의정보 조회해서 저장
+                board.setUserDTO(getUserByUserSeq(rs.getInt("user_seq")));
+                
 			   list.add(board);
 			}
 		}finally {
@@ -221,7 +261,10 @@ private Properties proFile = new Properties();
 						new BoardDTO(rs.getInt("board_seq"), rs.getString("board_edit"), rs.getInt("board_count"),
 								rs.getInt("goods_price"), rs.getInt("product_seq"), rs.getInt("user_seq"), rs.getString("board_name"),
 								rs.getString("reg_date"), rs.getString("category"), rs.getInt("is_seen"), rs.getString("board_content"), rs.getString("board_addr"));
-				
+
+                //user_seq에해당하는 user의정보 조회해서 저장
+                board.setUserDTO(getUserByUserSeq(rs.getInt("user_seq")));
+                
 			   list.add(board);
 			}
 		}finally {
@@ -252,7 +295,7 @@ private Properties proFile = new Properties();
 	}
 	
 	@Override
-	public int increamentByReadnum(int board_seq) throws SQLException {
+	public int increamentByReadnum(long board_seq) throws SQLException {
 		Connection con=null;
 		PreparedStatement ps=null;
 		int result=0;
@@ -261,8 +304,8 @@ private Properties proFile = new Properties();
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, board_seq);
-			ps.setInt(2, board_seq);
+			ps.setLong(1, board_seq);
+			ps.setLong(2, board_seq);
 			result = ps.executeUpdate();
 		}finally {
 			DbUtil.close(con, ps, null);
@@ -306,7 +349,7 @@ private Properties proFile = new Properties();
     }
     
 	@Override
-    public int delete(int boardSeq) throws SQLException{
+    public int delete(long boardSeq) throws SQLException{
     	Connection con=null;
 		PreparedStatement ps=null;
 		int result=0;
@@ -317,7 +360,7 @@ private Properties proFile = new Properties();
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			
-			ps.setInt(1, boardSeq);
+			ps.setLong(1, boardSeq);
 			
 			result = ps.executeUpdate();
 		}finally {
@@ -374,43 +417,75 @@ private Properties proFile = new Properties();
 		return boardSeq;
 	}
 	
-//================댓글=======================================
-	
+//================댓글======================================= 
+    /**
+     * 댓글정보 가져오기 
+     * */
+    @Override
+    public List<CommentsDTO> getComment(long boardSeq) throws SQLException{
+        Connection con = null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        List<CommentsDTO> list = new ArrayList<CommentsDTO>();
+        String sql = "select * from comments where board_seq=? and is_seen=1 and parent_comment is null";
+        try {
+            con = DbUtil.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setLong(1, boardSeq);
+            rs = ps.executeQuery();
+            
+            while(rs.next()) {
+                CommentsDTO comment = new CommentsDTO(rs.getLong("comment_seq"), rs.getLong("parent_comment"), 
+                        rs.getLong("board_seq"), rs.getLong("user_seq"), rs.getString("reg_date"),  rs.getInt("is_seen"), 
+                        rs.getString("comment_content"), rs.getString("cor_date"));
+                
+                list.add(comment);
+            }
+            
+        }finally {
+            DbUtil.close(null, ps, rs);
+        }
+        return list;
+    }
+    
+
 	/**
-	 * 댓글정보 가져오기 
+	 * 대댓글정보 가져오기
 	 * */
-	private List<CommentsDTO> getComment(Connection con , int commentSeq)throws SQLException{
-		PreparedStatement ps=null;
-		ResultSet rs=null;
-		List<CommentsDTO> list = new ArrayList<CommentsDTO>();
-		//String sql=proFile.getProperty("query.replyByParentNum");
-		String sql = "select * from comments where comment_seq=? and is_seen=1";
-		try {
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, commentSeq);
-			rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				CommentsDTO comment = new CommentsDTO(rs.getLong("comment_seq"), rs.getLong("parent_comment"), 
-						rs.getLong("board_seq"), rs.getLong("user_seq"), rs.getString("reg_date"),  rs.getInt("is_seen"), 
-						rs.getString("comment_content"), rs.getString("cor_date"));
-				
-				list.add(comment);
-			}
-			
-		}finally {
-			DbUtil.close(null, ps, rs);
-		}
-		return list;
-	}
+    @Override
+    public List<CommentsDTO> getReComment(CommentsDTO comment)throws SQLException{
+        Connection con = null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        List<CommentsDTO> list = new ArrayList<CommentsDTO>();
+        String sql = "select * from comments where board_seq=? and is_seen=1 and parent_comment=?";
+        try {
+            con = DbUtil.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setLong(1, comment.getBoardSeq());
+            ps.setLong(2, comment.getParentCommentSeq());
+            rs = ps.executeQuery();
+            
+            while(rs.next()) {
+                list.add(comment);
+            }
+            
+        }finally {
+            DbUtil.close(null, ps, rs);
+        }
+        return list;
+    }
 	
 	/**
 	 * 댓글정보 입력
 	 * */
-	private int insertComment(Connection con , CommentEntity comment)throws SQLException{
-		PreparedStatement ps=null;
-		ResultSet rs=null;
-		int result = 0;
+    @Override
+    public int insertComment(CommentEntity comment)throws SQLException{
+        Connection con = null;
+
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        int result = 0;
 		//String sql=proFile.getProperty("query.replyByParentNum");
 		String sql = "insert into comments values(comment_seq.nextval,?,?,?,sysdate,1,?,null)";
 		
@@ -435,7 +510,11 @@ private Properties proFile = new Properties();
 	/**
 	 * 댓글 삭제 (is_seen 상태 변경)
 	 * */
-	private int deleteComment(Connection con , int commentSeq)throws SQLException{
+
+    @Override
+    public int deleteComment(long commentSeq) throws SQLException{
+        Connection con = null;
+
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		int result = 0;
@@ -444,10 +523,32 @@ private Properties proFile = new Properties();
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			
-			ps.setInt(1, commentSeq);
-			
-			result = ps.executeUpdate();
-		}finally {
+            
+            result = ps.executeUpdate();
+        }finally {
+            DbUtil.close(con, ps, null);
+        }
+        return result;
+    }
+
+    /**
+     * 댓글 수정
+     * */
+    @Override
+    public int updateComment(CommentEntity comment)throws SQLException{
+        Connection con = null;
+        PreparedStatement ps=null;
+        int result = 0;
+        String sql = "update comments comment_content=? where comment_seq=?";
+        try {
+            con = DbUtil.getConnection();
+            ps = con.prepareStatement(sql);
+            
+            ps.setLong(1, comment.getCommentSeq());
+            ps.setString(1, comment.getCommentContent());
+            
+            result = ps.executeUpdate();
+        }finally {
 			DbUtil.close(con, ps, null);
 		}
 		return result;
