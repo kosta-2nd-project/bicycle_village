@@ -63,7 +63,7 @@ public class BookmarkDAOImpl implements BookmarkDAO {
 				+ "SELECT board_seq\r\n"
 				+ "FROM bookmark \r\n"
 				+ "WHERE user_seq = ?)\r\n"
-				+ "AND (f.save_number = 0 or f.save_number is null);";
+				+ "AND (f.save_number = 0 or f.save_number is null)";
 		List<BookmarkListDTO> list = new ArrayList<BookmarkListDTO>();
 		try {
 			con = DbUtil.getConnection();
@@ -79,6 +79,30 @@ public class BookmarkDAOImpl implements BookmarkDAO {
 			DbUtil.close(con, ps, rs);
 		}
 		return list;
+	}
+
+	@Override
+	public BookmarkEntity check(BookmarkEntity bookmark) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "SELECT bookmark_seq, user_seq, board_seq\r\n"
+				+ "FROM bookmark\r\n"
+				+ "where user_seq = ? and board_seq = ?";
+		BookmarkEntity bookmarkEntity = null;
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, (int)bookmark.getUserSeq());
+			ps.setInt(2, (int)bookmark.getBoardSeq());
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				bookmarkEntity = new BookmarkEntity.Builder().bookmarkSeq((long)rs.getInt(1)).userSeq((long)rs.getInt(2)).boardSeq((long)rs.getInt(3)).build();		
+			}
+		}finally {
+			DbUtil.close(con, ps, rs);
+		}
+		return bookmarkEntity;
 	}
 
 }

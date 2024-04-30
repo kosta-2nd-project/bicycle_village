@@ -18,20 +18,22 @@ public class IndexPostDAOImpl implements IndexPostDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		String sql="SELECT board_seq, board_name, reg_date, category, board_content, board_addr, board_count, goods_price, user_seq\r\n"
-				+ "FROM(SELECT *\r\n"
-				+ "FROM board\r\n"
-				+ "ORDER BY reg_date DESC)\r\n"
-				+ "WHERE rownum<=5";
+		String sql="SELECT board_seq, board_name, goods_price, image_name, save_number, reg_date\r\n"
+				+ "FROM (\r\n"
+				+ "SELECT board_seq, board_name, goods_price, image_name, save_number, reg_date\r\n"
+				+ "FROM board LEFT JOIN boardfile using(board_seq)\r\n"
+				+ "WHERE category = 3 and (save_number is null or save_number = 0)\r\n"
+				+ "ORDER BY reg_date DESC )\r\n"
+				+ "WHERE rownum <= 5";
 		List<BoardDTO> list = new ArrayList<BoardDTO>();
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				BoardDTO board = new BoardDTO(rs.getInt(1), null, rs.getInt("board_count"), rs.getInt("goods_price"),
-						0, rs.getInt("user_seq"), rs.getString("board_name"), rs.getString("reg_date"),
-						rs.getString("category"), 0, rs.getString("board_content"), null);
+				BoardDTO board = new BoardDTO(rs.getInt(1), null, 0, rs.getInt("goods_price"),
+						0, 0, rs.getString("board_name"), rs.getString("reg_date"),
+						null, 0, null, null);
 				list.add(board);
 			}
 		}finally {

@@ -21,4 +21,9 @@ public interface BookmarkDAO {
 	 * 전체 조회
 	 */
 	List<BookmarkListDTO> selectAll(int userSeq) throws SQLException;
+	
+	/**
+	 * 찜 여부 확인
+	 */
+	BookmarkEntity check(BookmarkEntity bookmark) throws SQLException;
 }

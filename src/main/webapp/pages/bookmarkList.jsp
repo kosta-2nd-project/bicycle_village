@@ -25,7 +25,7 @@ $(function(){
 				}else{
 					str+=`<td>이미지 없음</td>`;
 				}
-				str+=`<td><a href='/front?key=board&methodName=selectByBoardSeq&boardSeq=\${item.boardSeq}'>\${item.boardName}</a></td>`;
+				str+=`<td><a href='/front?key=board&methodName=selectByTradeBoardSeq&boardSeq=\${item.boardSeq}'>\${item.boardName}</a></td>`;
 				str+=`<td>\${item.nickname}</td>`;
 				str+=`<td>\${item.regDate}</td>`;
 				str+=`<td>\${item.goodsPrice}</td>`;

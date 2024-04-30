@@ -34,4 +34,14 @@ public class BookmarkServiceImpl implements BookmarkService {
 		return bookmarkDao.selectAll(userSeq);
 	}
 
+	@Override
+	public int BookmarkCheck(BookmarkEntity bookmark) throws SQLException, AuthenticationException {
+		BookmarkEntity bookmarkCheck = bookmarkDao.check(bookmark);
+		if(bookmarkCheck != null) { //이미 찜이 되어있음
+			return 1;
+		}else {
+			return 0;
+		}
+	}
+
 }
