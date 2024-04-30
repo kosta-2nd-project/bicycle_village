@@ -28,13 +28,13 @@
           <h2 class="h3 mb-3 text-black">${loginName}님 반갑습니다!</h2>
             <div class="row mb-5">
               <div class="col-md-6 mb-3 mb-md-0">
-                <button class="btn btn-primary btn-sm btn-block" onclick="location.href='info.jsp'">회원정보 수정하기</button>
-                <button class="btn btn-outline-primary btn-sm btn-block">찜 목록</button>
+                <button class="btn btn-primary btn-sm btn-block" onclick="location.href='${path}/pages/user/info.jsp'">회원정보 수정하기</button>
+                <button class="btn btn-outline-primary btn-sm btn-block" onclick="location.href='${path}/pages/bookmarkList.jsp'">찜 목록</button>
                 <button class="btn btn-outline-primary btn-sm btn-block">팔로우 목록</button>
                 <button class="btn btn-outline-primary btn-sm btn-block">작성 게시글 목록</button>
                 <button class="btn btn-primary btn-sm btn-block">채팅 목록</button>
                 <button class="btn btn-primary btn-sm btn-block">작성 리뷰 목록</button>
-                <button class="btn btn-outline-primary btn-sm btn-block" onclick="location.href='unregist.jsp'">회원 탈퇴</button>
+                <button class="btn btn-outline-primary btn-sm btn-block" onclick="location.href='${path}/pages/user/unregist.jsp'">회원 탈퇴</button>
               </div>
             </div>
 

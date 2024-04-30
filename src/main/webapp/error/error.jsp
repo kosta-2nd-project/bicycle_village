@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
  
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>   
-
+<jsp:include page="${path}/pages/common/header.jsp"/>
 <script src="/controller/resources/js/jquery.form.min.js"></script>
 
 <div class="container">
@@ -40,3 +40,4 @@
 	</div>
 
 </div>
+<jsp:include page="${path}/pages/common/footer.jsp"/>
