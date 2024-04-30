@@ -188,6 +188,8 @@ public class BoardController implements Controller{
 		//return new ModelAndView("front?key=board&methodName=selectByBoardSeq&boardSeq=", true); // 나중에
 		
 	}
+	
+	
 
 	//==============================파일 등록/삭제===============================================
 	
@@ -437,5 +439,18 @@ public class BoardController implements Controller{
 		return new ModelAndView("front?key=board&methodName=selectAllTradeBoard", true);
 	}
 	
+	//==============================댓글=====================================================
+	
+	/**
+	 *  자유게시판 전체검색
+	 * */
+	public ModelAndView selectComment(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		List<BoardDTO> list = boardService.selectByCateory(1);
+		
+		request.setAttribute("commentList", commentList);// 뷰에서 ${list}
+
+		return new ModelAndView("board/freeBoard/freeBoardList.jsp"); // forward방식으로 이동
+	}
 	
 }

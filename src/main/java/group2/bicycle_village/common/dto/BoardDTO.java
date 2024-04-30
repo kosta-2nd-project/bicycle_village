@@ -3,10 +3,9 @@ package group2.bicycle_village.common.dto;
 public class BoardDTO {
     private int boardSeq, isSeen, boardCount, goodsPrice, productSeq, userSeq;
     private String boardName, regDate, category, boardContent, boardAddr, boardEdit;
-
-    public BoardDTO(){
-
-    }
+    
+    private UserDTO userDTO;
+    
 
     public BoardDTO(int boardSeq, String boardEdit, int boardCount, int goodsPrice, int productSeq, int userSeq,
                     String boardName, String regDate, String category, int isSeen, String boardContent, String boardAddr) {
@@ -121,5 +120,13 @@ public class BoardDTO {
         this.boardAddr = boardAddr;
     }
 
+	public UserDTO getUserDTO() {
+		return userDTO;
+	}
 
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
+
+   
 }
