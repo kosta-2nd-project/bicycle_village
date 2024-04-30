@@ -13,6 +13,7 @@ import group2.bicycle_village.common.constant.CommonCode;
 import group2.bicycle_village.common.dto.BoardDTO;
 import group2.bicycle_village.common.dto.BoardEntity;
 import group2.bicycle_village.common.dto.BoardFileDTO;
+import group2.bicycle_village.common.dto.CommentsDTO;
 import group2.bicycle_village.service.BoardFileService;
 import group2.bicycle_village.service.BoardFileServiceImpl;
 import group2.bicycle_village.service.BoardService;
@@ -254,8 +255,8 @@ public class BoardController implements Controller{
 
 	public ModelAndView selectByFreeBoardSeq(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		 int boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
-		 boolean state = request.getParameter("flag")==null ? true : false;
+		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		boolean state = request.getParameter("flag")==null ? true : false;
 		 
 		String pageNo =  request.getParameter("pageNo");
 		 
@@ -312,8 +313,8 @@ public class BoardController implements Controller{
 
 	public ModelAndView selectByTradeBoardSeq(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		 int boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
-		 boolean state = request.getParameter("flag")==null ? true : false;
+		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		boolean state = request.getParameter("flag")==null ? true : false;
 		 
 		String pageNo =  request.getParameter("pageNo");
 		 
@@ -332,7 +333,7 @@ public class BoardController implements Controller{
 	 *  자유게시판 수정폼
 	 * */
 	public ModelAndView freeboardUpdateForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		int boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
 		BoardDTO board = boardService.selectByBoardSeq(boardSeq, false);
 		
 		request.setAttribute("board", board);
@@ -344,7 +345,7 @@ public class BoardController implements Controller{
 	 *  거래게시판 수정폼
 	 * */
 	public ModelAndView tradeboardUpdateForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		int boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
 		BoardDTO board = boardService.selectByBoardSeq(boardSeq, false);
 		
 		request.setAttribute("board", board);
@@ -427,7 +428,7 @@ public class BoardController implements Controller{
 	 * 
 	 * */
 	public ModelAndView deleteFreeBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		int boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
 		boardService.delete(boardSeq);
 		
 		return new ModelAndView("front?key=board&methodName=selectAllFreeBoard", true);
@@ -438,7 +439,7 @@ public class BoardController implements Controller{
 	 * 
 	 * */
 	public ModelAndView deleteTradeBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		int boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
 		boardService.delete(boardSeq);
 		
 		return new ModelAndView("front?key=board&methodName=selectAllTradeBoard", true);
@@ -449,9 +450,11 @@ public class BoardController implements Controller{
 	/**
 	 *  자유게시판 전체검색
 	 * */
-	public ModelAndView selectComment(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		List<BoardDTO> list = boardService.selectByCateory(1);
+	public ModelAndView selectAllComments(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		long userSeq = Integer.parseInt(request.getParameter("user_seq"));
+		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		
+		List<CommentsDTO> commentList = boardService.getComment(boardSeq);
 		
 		request.setAttribute("commentList", commentList);// 뷰에서 ${list}
 

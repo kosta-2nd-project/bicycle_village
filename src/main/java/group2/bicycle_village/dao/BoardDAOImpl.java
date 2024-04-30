@@ -61,7 +61,7 @@ private Properties proFile = new Properties();
 	}
 	
 	@Override
-	public BoardDTO selectByBoardSeq(int boardSeq) throws SQLException {
+	public BoardDTO selectByBoardSeq(long boardSeq) throws SQLException {
 		Connection con=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
@@ -71,7 +71,7 @@ private Properties proFile = new Properties();
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, boardSeq);
+			ps.setLong(1, boardSeq);
 			
 			rs = ps.executeQuery();
 			
@@ -294,7 +294,7 @@ private Properties proFile = new Properties();
 	}
 	
 	@Override
-	public int increamentByReadnum(int board_seq) throws SQLException {
+	public int increamentByReadnum(long board_seq) throws SQLException {
 		Connection con=null;
 		PreparedStatement ps=null;
 		int result=0;
@@ -303,8 +303,8 @@ private Properties proFile = new Properties();
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, board_seq);
-			ps.setInt(2, board_seq);
+			ps.setLong(1, board_seq);
+			ps.setLong(2, board_seq);
 			result = ps.executeUpdate();
 		}finally {
 			DbUtil.close(con, ps, null);
@@ -348,7 +348,7 @@ private Properties proFile = new Properties();
     }
     
 	@Override
-    public int delete(int boardSeq) throws SQLException{
+    public int delete(long boardSeq) throws SQLException{
     	Connection con=null;
 		PreparedStatement ps=null;
 		int result=0;
@@ -359,7 +359,7 @@ private Properties proFile = new Properties();
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			
-			ps.setInt(1, boardSeq);
+			ps.setLong(1, boardSeq);
 			
 			result = ps.executeUpdate();
 		}finally {
@@ -421,7 +421,8 @@ private Properties proFile = new Properties();
 	/**
 	 * 댓글정보 가져오기 
 	 * */
-	private List<CommentsDTO> getComment(Long boardSeq)throws SQLException{
+	@Override
+	public List<CommentsDTO> getComment(long boardSeq) throws SQLException{
 		Connection con = null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
@@ -450,7 +451,8 @@ private Properties proFile = new Properties();
 	/**
 	 * 대댓글정보 가져오기 
 	 * */
-	private List<CommentsDTO> getReComment(Long commentSeq)throws SQLException{
+	@Override
+	public List<CommentsDTO> getReComment(Long commentSeq)throws SQLException{
 		Connection con = null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
@@ -479,7 +481,8 @@ private Properties proFile = new Properties();
 	/**
 	 * 댓글정보 입력
 	 * */
-	private int insertComment(CommentEntity comment)throws SQLException{
+	@Override
+	public int insertComment(CommentEntity comment)throws SQLException{
 		Connection con = null;
 		PreparedStatement ps=null;
 		int result = 0;
@@ -507,7 +510,8 @@ private Properties proFile = new Properties();
 	/**
 	 * 댓글 삭제 (is_seen 상태 변경)
 	 * */
-	private int deleteComment(int commentSeq)throws SQLException{
+	@Override
+	public int deleteComment(long commentSeq) throws SQLException{
 		Connection con = null;
 		PreparedStatement ps=null;
 		int result = 0;
@@ -516,7 +520,7 @@ private Properties proFile = new Properties();
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			
-			ps.setInt(1, commentSeq);
+			ps.setLong(1, commentSeq);
 			
 			result = ps.executeUpdate();
 		}finally {
@@ -528,7 +532,8 @@ private Properties proFile = new Properties();
 	/**
 	 * 댓글 수정
 	 * */
-	private int updateComment(CommentEntity comment)throws SQLException{
+	@Override
+	public int updateComment(CommentEntity comment)throws SQLException{
 		Connection con = null;
 		PreparedStatement ps=null;
 		int result = 0;
