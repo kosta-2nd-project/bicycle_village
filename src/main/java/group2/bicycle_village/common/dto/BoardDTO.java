@@ -6,6 +6,7 @@ public class BoardDTO {
     
     private UserDTO userDTO;
     
+    public BoardDTO() {}
 
     public BoardDTO(int boardSeq, String boardEdit, int boardCount, int goodsPrice, int productSeq, int userSeq,
                     String boardName, String regDate, String category, int isSeen, String boardContent, String boardAddr) {
@@ -23,8 +24,8 @@ public class BoardDTO {
         this.boardContent = boardContent;
         this.boardAddr = boardAddr;
     }
-
-    public int getBoardSeq() {
+    
+	public int getBoardSeq() {
         return boardSeq;
     }
 
