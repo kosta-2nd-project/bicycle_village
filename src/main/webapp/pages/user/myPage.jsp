@@ -31,7 +31,7 @@
                 <button class="btn btn-primary btn-sm btn-block" onclick="location.href='${path}/pages/user/info.jsp'">회원정보 수정하기</button>
                 <button class="btn btn-outline-primary btn-sm btn-block" onclick="location.href='${path}/pages/bookmarkList.jsp'">찜 목록</button>
                 <button class="btn btn-outline-primary btn-sm btn-block">팔로우 목록</button>
-                <button class="btn btn-outline-primary btn-sm btn-block">작성 게시글 목록</button>
+                <button class="btn btn-outline-primary btn-sm btn-block" onclick="location.href='${path}/pages/WriteBoardList.jsp'">작성 게시글 목록</button>
                 <button class="btn btn-primary btn-sm btn-block">채팅 목록</button>
                 <button class="btn btn-primary btn-sm btn-block">작성 리뷰 목록</button>
                 <button class="btn btn-outline-primary btn-sm btn-block" onclick="location.href='${path}/pages/user/unregist.jsp'">회원 탈퇴</button>

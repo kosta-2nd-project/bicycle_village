@@ -57,7 +57,7 @@ public class BoardServiceImpl implements BoardService {
 			List<UserDTO> dips = alarmDAO.searchDips(board.getBoardSeq());
 			int re = 0;
 			for (UserDTO user : dips) {
-				re += alarmDAO.insertAlarm(new AlarmDTO(user.getUser_seq(), "게시물이 수정되었습니다.",0, url));
+				re += alarmDAO.insertAlarm(new AlarmDTO(user.getUser_seq(), "게시물이 수정되었습니다.",0, null));
 			}
 		}
 	}
