@@ -60,7 +60,7 @@ private Properties proFile = new Properties();
 	}
 	
 	@Override
-	public BoardDTO selectByBoardSeq(long boardSeq) throws SQLException {
+	public BoardDTO selectByBoardSeq(int boardSeq) throws SQLException {
 		Connection con=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
@@ -70,7 +70,7 @@ private Properties proFile = new Properties();
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setLong(1, boardSeq);
+			ps.setInt(1, boardSeq);
 			
 			rs = ps.executeQuery();
 			
@@ -252,7 +252,7 @@ private Properties proFile = new Properties();
 	}
 	
 	@Override
-	public int increamentByReadnum(long board_seq) throws SQLException {
+	public int increamentByReadnum(int board_seq) throws SQLException {
 		Connection con=null;
 		PreparedStatement ps=null;
 		int result=0;
@@ -261,8 +261,8 @@ private Properties proFile = new Properties();
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setLong(1, board_seq);
-			ps.setLong(2, board_seq);
+			ps.setInt(1, board_seq);
+			ps.setInt(2, board_seq);
 			result = ps.executeUpdate();
 		}finally {
 			DbUtil.close(con, ps, null);
@@ -306,7 +306,7 @@ private Properties proFile = new Properties();
     }
     
 	@Override
-    public int delete(long boardSeq) throws SQLException{
+    public int delete(int boardSeq) throws SQLException{
     	Connection con=null;
 		PreparedStatement ps=null;
 		int result=0;
@@ -317,7 +317,7 @@ private Properties proFile = new Properties();
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			
-			ps.setLong(1, boardSeq);
+			ps.setInt(1, boardSeq);
 			
 			result = ps.executeUpdate();
 		}finally {
@@ -379,40 +379,7 @@ private Properties proFile = new Properties();
 	/**
 	 * 댓글정보 가져오기 
 	 * */
-	@Override
-	public List<CommentsDTO> getComment(long boardSeq) throws SQLException{
-		Connection con = null;
-		PreparedStatement ps=null;
-		ResultSet rs=null;
-		List<CommentsDTO> list = new ArrayList<CommentsDTO>();
-		String sql = "select * from comments where board_seq=? and is_seen=1 and parent_comment is null";
-		try {
-			con = DbUtil.getConnection();
-			ps = con.prepareStatement(sql);
-			ps.setLong(1, boardSeq);
-			rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				CommentsDTO comment = new CommentsDTO(rs.getLong("comment_seq"), rs.getLong("parent_comment"), 
-						rs.getLong("board_seq"), rs.getLong("user_seq"), rs.getString("reg_date"),  rs.getInt("is_seen"), 
-						rs.getString("comment_content"), rs.getString("cor_date"));
-				
-				list.add(comment);
-			}
-			
-		}finally {
-			DbUtil.close(null, ps, rs);
-		}
-		return list;
-	}
-	
-	/**
-	 * 대댓글정보 가져오기 
-	 * */
-	@Override
-	public List<CommentsDTO> getReComment(Long commentSeq)throws SQLException{
-		Connection con = null;
-
+	private List<CommentsDTO> getComment(Connection con , int commentSeq)throws SQLException{
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		List<CommentsDTO> list = new ArrayList<CommentsDTO>();
@@ -440,10 +407,7 @@ private Properties proFile = new Properties();
 	/**
 	 * 댓글정보 입력
 	 * */
-	@Override
-	public int insertComment(CommentEntity comment)throws SQLException{
-		Connection con = null;
-
+	private int insertComment(Connection con , CommentEntity comment)throws SQLException{
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		int result = 0;
@@ -471,11 +435,7 @@ private Properties proFile = new Properties();
 	/**
 	 * 댓글 삭제 (is_seen 상태 변경)
 	 * */
-
-	@Override
-	public int deleteComment(long commentSeq) throws SQLException{
-		Connection con = null;
-
+	private int deleteComment(Connection con , int commentSeq)throws SQLException{
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		int result = 0;
@@ -484,30 +444,7 @@ private Properties proFile = new Properties();
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			
-			ps.setLong(1, commentSeq);
-			
-			result = ps.executeUpdate();
-		}finally {
-			DbUtil.close(con, ps, null);
-		}
-		return result;
-	}
-
-	/**
-	 * 댓글 수정
-	 * */
-	@Override
-	public int updateComment(CommentEntity comment)throws SQLException{
-		Connection con = null;
-		PreparedStatement ps=null;
-		int result = 0;
-		String sql = "update comments comment_content=? where comment_seq=?";
-		try {
-			con = DbUtil.getConnection();
-			ps = con.prepareStatement(sql);
-			
-			ps.setLong(1, comment.getCommentSeq());
-			ps.setString(1, comment.getCommentContent());
+			ps.setInt(1, commentSeq);
 			
 			result = ps.executeUpdate();
 		}finally {
