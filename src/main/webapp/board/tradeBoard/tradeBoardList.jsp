@@ -29,7 +29,7 @@
 <div class="bg-light py-3" style="color: black;">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 mb-0" style="font-size: 15px; font-weight: bold;">거래게시판</div>
+            <div class="col-md-12 mb-0" style="font-size: 15px; font-weight: bold;">자유게시판</div>
         </div>
     </div>
 </div>
@@ -113,7 +113,7 @@
 	        <td style="text-align: center; width: 10%;">
 	            <div style="display: table; height: 100%; width: 100%;">
 	                <div style="display: table-cell; vertical-align: middle;">
-	                    <p style="color: black; margin: 0; padding: 5px;">${boardDTO.userDTO.nickName}</p>
+	                    <p style="color: black; margin: 0; padding: 5px;">${boardDTO.userSeq}</p>
 	                </div>
 	            </div>
 	        </td>

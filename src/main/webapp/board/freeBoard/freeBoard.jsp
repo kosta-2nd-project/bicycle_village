@@ -116,7 +116,7 @@ console.log("${nickname}");
 			</h3>
 
 			<div class="nick_name" style="padding-bottom: 30px; font-size: 20px;">
-				${board.userDTO.nickName} &nbsp;&nbsp;
+				${board.userSeq} &nbsp;&nbsp;
 				<input type="button" id="follow" class="follow" value="팔로우">
 			</div>
 
@@ -152,17 +152,7 @@ console.log("${nickname}");
 	<div class="container">
 	</div>
 
-	<hr>
-	<h4>댓글</h4>
-	<c:forEach items="${commentList}" var="comment">
-		<div>
-			${comment.userSeq} &nbsp;&nbsp;&nbsp; ${comment.commentContent}
-		</div>
-		
-		
-	</c:forEach>
-	
-	<jsp:include page="../../pages/common/footer.jsp"/>
+<jsp:include page="../../pages/common/footer.jsp"/>
 
 </body>
 </html>

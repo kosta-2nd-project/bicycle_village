@@ -151,7 +151,7 @@ body {
 <script type="text/javascript">
 	console.log("${user_seq}");
 	console.log("${userId}");
-	
+	console.log("${nickname}");
 </script>
 </head>
 <body>
@@ -173,7 +173,7 @@ body {
 			</h3>
 
 			<div class="nick_name" style="padding-bottom: 30px; font-size: 20px;">
-				${board.userDTO.nickName} &nbsp;&nbsp;
+				${board.userSeq} &nbsp;&nbsp;
 				<input type="button" id="follow" class="follow" value="팔로우">
 			</div>
 
