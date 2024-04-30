@@ -15,12 +15,12 @@ public interface FollowDAO {
 	/**
 	 * 팔로우 삭제 기능
 	 */
-	int delFollow(FollowEntity follow) throws SQLException;
+	int delFollow(String followId) throws SQLException;
 
-	/**
-	 * 팔로우 목록 조회
-	 */
-	List<FollowEntity> selectAllFollow(String id) throws SQLException;
+//	/**
+//	 * 팔로우 목록 조회
+//	 */
+//	List<FollowEntity> selectAllFollow(String id) throws SQLException;
 
 	/**
 	 * 팔로우하고 있는 유저의 nickname, id 찾기

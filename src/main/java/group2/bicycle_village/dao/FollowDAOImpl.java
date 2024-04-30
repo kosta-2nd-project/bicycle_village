@@ -33,15 +33,16 @@ public class FollowDAOImpl implements FollowDAO {
 	}
 
 	@Override
-	public int delFollow(FollowEntity follow) throws SQLException {
+	public int delFollow(String followId) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
-		String sql = "delete follow where follow_seq=?";
+		String sql = "delete follow where follow=(SELECT user_seq FROM member WHERE user_id = ?)";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, (int)follow.getFollowSeq());
+			ps.setString(1, followId);
+			System.out.println("DAO followId: " + followId);
 			result = ps.executeUpdate();
 		}finally {
 			DbUtil.close(con, ps, null);
@@ -49,26 +50,26 @@ public class FollowDAOImpl implements FollowDAO {
 		return result;
 	}
 
-	@Override
-	public List<FollowEntity> selectAllFollow(String id) throws SQLException {
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		String sql="select * from follow where follower = (select user_seq from member where user_id = ?)";
-		List<FollowEntity> list = new ArrayList<FollowEntity>();
-		try {
-			con = DbUtil.getConnection();
-			ps = con.prepareStatement(sql);
-			ps.setString(1, id);
-			rs = ps.executeQuery();
-			while(rs.next()) {
-				list.add(new FollowEntity.Builder().followSeq(rs.getInt(1)).follow(rs.getInt(2)).follower(rs.getInt(3)).build());
-			}
-		} finally {
-			DbUtil.close(con, ps, rs);
-		}
-		return list;
-	}
+//	@Override
+//	public List<FollowEntity> selectAllFollow(String id) throws SQLException {
+//		Connection con = null;
+//		PreparedStatement ps = null;
+//		ResultSet rs = null;
+//		String sql="select * from follow where follower = (select user_seq from member where user_id = ?)";
+//		List<FollowEntity> list = new ArrayList<FollowEntity>();
+//		try {
+//			con = DbUtil.getConnection();
+//			ps = con.prepareStatement(sql);
+//			ps.setString(1, id);
+//			rs = ps.executeQuery();
+//			while(rs.next()) {
+//				list.add(new FollowEntity.Builder().followSeq(rs.getInt(1)).follow(rs.getInt(2)).follower(rs.getInt(3)).build());
+//			}
+//		} finally {
+//			DbUtil.close(con, ps, rs);
+//		}
+//		return list;
+//	}
 
 	@Override
 	public List<UserDTO> searchNicknameUserId(String id) throws SQLException {

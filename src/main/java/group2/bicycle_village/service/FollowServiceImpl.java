@@ -27,11 +27,13 @@ public class FollowServiceImpl implements FollowService {
 	}
 
 	@Override
-	public void delFollow(FollowEntity follow) throws SQLException, AuthenticationException {
-		int result = followDao.delFollow(follow);
+	public int delFollow(String followId) throws SQLException, AuthenticationException {
+		int result = followDao.delFollow(followId);
+		System.out.println("Service followId: " + followId);
 		if(result==0) {
 			throw new AuthenticationException("팔로우 삭제 실패");
 		}
+		return result;
 	}
 
 	@Override

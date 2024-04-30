@@ -17,7 +17,7 @@ public interface FollowService {
 	/**
 	 * 팔로우 삭제
 	 */
-	void delFollow(FollowEntity follow) throws SQLException, AuthenticationException;
+	int delFollow(String followId) throws SQLException, AuthenticationException;
 
 	/**
 	 * 팔로우 목록 보기

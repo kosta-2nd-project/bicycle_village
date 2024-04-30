@@ -54,14 +54,14 @@
 	
 	     				<li><a>${loginName}님 로그인 중</a>
 	      				<li><a href="${pageContext.request.contextPath}/front?key=user&methodName=logout" class="btn">Logout</a></li>
-	     				<li><a href="/pages/user/myPage.jsp"><span class="icon icon-person"></span></a></li>
-                  		<li><a href="../../alarm.html"><span class="icon icon-heart-o"></span><span class="count">2</span></a></li>
+	     				<li><a href="${path}/pages/user/myPage.jsp"><span class="icon icon-person"></span></a></li>
+                  		<li><a href="${path}/alarmTest.jsp"><span class="icon icon-heart-o"></span><span class="count"></span></a></li>
                  
     			 </c:when>
     			 
     			 <c:otherwise>
-                  <li><a href="/pages/user/login.jsp"><span class="icon icon-person"></span></a></li>
-                  <li><a href="#"><span class="icon icon-heart-o"></span></a></li>
+                  <li><a href="${path}/pages/user/login.jsp"><span class="icon icon-person"></span></a></li>
+                  <li><a href="${path}/pages/user/login.jsp"><span class="icon icon-heart-o"></span></a></li>
                   </c:otherwise>
                   
                   </c:choose>  

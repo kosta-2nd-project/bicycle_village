@@ -38,7 +38,7 @@ public class AlarmDAOImpl implements AlarmDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "SELECT alarm_seq, alarm_content, link_url FROM alarm WHERE user_seq in (SELECT user_seq FROM member WHERE user_id = ?)";
+        String sql = "SELECT alarm_seq, alarm_content, link_url FROM alarm WHERE user_seq in (SELECT user_seq FROM member WHERE user_id = ?) ORDER BY alarm_seq DESC";
         List<AlarmDTO> alarmList = new ArrayList<AlarmDTO>();
         try {
             con = DbUtil.getConnection();

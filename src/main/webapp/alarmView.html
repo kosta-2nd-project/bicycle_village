@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>alarm & follow</title>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
+    <!--<link rel="stylesheet" href="/resources/demos/style.css">-->
     <style>
         p a:link, a:visited {
             text-decoration: none;
@@ -27,7 +27,7 @@
                     if(result != null) {
                         let str = "";
                         $.each(result, function (index, list) {
-                            str += `<p><a href="" class = "alarm" data-alarm-seq="${list.alarmSeq}">${list.alarmContent}</a></p>`;
+                            str += `<p><a href="#" class = "alarm" data-alarm-seq="${list.alarmSeq}">${list.alarmContent}</a></p>`;
                         });
                         $("#tabs-1").html(str);
                     }
@@ -45,11 +45,13 @@
                     dataType: "json",
                     data: {key: "alarm", methodName: "updateAlarm", alarmSeq: this.getAttribute("data-alarm-seq")},
                     success: function (map) {
+                        console.log("result success!")
                         if(map.result === 0) {
                             alert("update fail");
                         } else {
-                            // alert("update success");
+                            alert("update success");
                             let url = map.url;
+                            console.log(url);
                             location.href = "/" + url;
                         }
                     },
@@ -69,7 +71,7 @@
                     if(result != null) {
                         let str = "";
                         $.each(result, function (index, list) {
-                            str += `<p><a href="" class="follow">${list.nickName}(${list.userId})님</a><span></span></p>`;
+                            str += `<p><a href="#" class="follow">${list.nickName}(${list.userId})님</a></p>`;
                         });
                         $("#tabs-2").html(str);
                     }
@@ -80,11 +82,17 @@
             })//ajax end
 
             //팔로우 클릭 할 때
-            // $(document).on("click", ".follow", function () {
-            //     let text =`<input type='button' class="btn" name="btn">팔로우 취소`;
-            //     let close = $("span").closest("a");
-            //     $()
-            // })
+            $(document).on("click", ".follow", function () {
+                let text =`<span class="del">input type='button' class="btn" name="btn" value="팔로우 취소"></span>`;
+                $(this).append(text);
+                $(this).remove();
+            })//click end
+
+            //팔로우 취소 버튼 클릭할 때
+            $(document).on("click", ".btn" , function () {
+                console.log("delete");
+                $(this).remove();
+            })
         } )//ready end
     </script>
 </head>
