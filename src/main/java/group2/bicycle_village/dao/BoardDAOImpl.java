@@ -81,7 +81,7 @@ private Properties proFile = new Properties();
 						rs.getString("reg_date"), rs.getString("category"), rs.getInt("is_seen"), rs.getString("board_content"), rs.getString("board_addr"));
                 
                 //user_seq에해당하는 user의정보 조회해서 저장
-                board.setUserDTO(getUserByUserSeq(rs.getInt("user_seq")));
+                board.setUserDTO( getUserByUserSeq(con, rs.getLong("user_seq") ));
 			}
 		}finally {
 			DbUtil.close(con, ps, rs);
@@ -92,27 +92,27 @@ private Properties proFile = new Properties();
     /**
      * userSeq에 해당하는 정보 조회하기 
      * */
-    private UserDTO getUserByUserSeq(long userSeq) throws SQLException {
+    private UserDTO getUserByUserSeq(Connection con , long userSeq) throws SQLException {
         //BoardEntity entity = new BoardEntity.Builder().addr("").category(CommonCode.BoardCategory.getStatus(0)).build();
-        Connection con=null;
+       
         PreparedStatement ps=null;
         ResultSet rs=null;
         UserDTO dbDTO =null;
         
-        String sql= "select nickname from member where user_seq=?";
+        String sql= "select user_id from member where user_seq=?";
         try {
-            con = DbUtil.getConnection();
+          
             ps = con.prepareStatement(sql);
             ps.setLong(1, userSeq);
             
             rs = ps.executeQuery();
             if(rs.next()) {
                 dbDTO = new UserDTO();
-                dbDTO.setNickName(rs.getString(1));
+                dbDTO.setUserId((rs.getString(1)));
             }
             
         }finally {
-            DbUtil.close(con, ps, rs);
+            DbUtil.close(null, ps, rs);
         }
         return dbDTO;
     }
@@ -138,7 +138,7 @@ private Properties proFile = new Properties();
 								rs.getString("reg_date"), rs.getString("category"), rs.getInt("is_seen"), rs.getString("board_content"), rs.getString("board_addr"));
 				
                 //user_seq에해당하는 user의정보 조회해서 저장
-                board.setUserDTO(getUserByUserSeq(rs.getInt("user_seq")));
+                board.setUserDTO( getUserByUserSeq(con, rs.getLong("user_seq")));
 				
 			   list.add(board);
 			}
@@ -170,7 +170,7 @@ private Properties proFile = new Properties();
 								rs.getString("reg_date"), rs.getString("category"), rs.getInt("is_seen"), rs.getString("board_content"), rs.getString("board_addr"));
 
                 //user_seq에해당하는 user의정보 조회해서 저장
-                board.setUserDTO(getUserByUserSeq(rs.getInt("user_seq")));
+                board.setUserDTO(getUserByUserSeq(con, rs.getLong("user_seq")));
 				
 			   list.add(board);
 			}
@@ -217,7 +217,7 @@ private Properties proFile = new Properties();
 								rs.getString("reg_date"), rs.getString("category"), rs.getInt("is_seen"), rs.getString("board_content"), rs.getString("board_addr"));
 
                 //user_seq에해당하는 user의정보 조회해서 저장
-                board.setUserDTO(getUserByUserSeq(rs.getInt("user_seq")));
+				board.setUserDTO(getUserByUserSeq(con, rs.getLong("user_seq")));
                 
 			   list.add(board);
 			}
@@ -263,7 +263,7 @@ private Properties proFile = new Properties();
 								rs.getString("reg_date"), rs.getString("category"), rs.getInt("is_seen"), rs.getString("board_content"), rs.getString("board_addr"));
 
                 //user_seq에해당하는 user의정보 조회해서 저장
-                board.setUserDTO(getUserByUserSeq(rs.getInt("user_seq")));
+				board.setUserDTO(getUserByUserSeq(con, rs.getLong("user_seq")));
                 
 			   list.add(board);
 			}
@@ -427,7 +427,7 @@ private Properties proFile = new Properties();
         PreparedStatement ps=null;
         ResultSet rs=null;
         List<CommentsDTO> list = new ArrayList<CommentsDTO>();
-        String sql = "select * from comments where board_seq=? and is_seen=1 and parent_comment is null";
+        String sql = "select * from comments where board_seq=? and is_seen=1 and parent_comment is null order by reg_date";
         try {
             con = DbUtil.getConnection();
             ps = con.prepareStatement(sql);
@@ -439,6 +439,8 @@ private Properties proFile = new Properties();
                         rs.getLong("board_seq"), rs.getLong("user_seq"), rs.getString("reg_date"),  rs.getInt("is_seen"), 
                         rs.getString("comment_content"), rs.getString("cor_date"));
                 
+            	comment.setUserDTO( getUserByUserSeq(con, rs.getLong("user_seq") ));
+            	
                 list.add(comment);
             }
             
@@ -486,19 +488,32 @@ private Properties proFile = new Properties();
         PreparedStatement ps=null;
         ResultSet rs=null;
         int result = 0;
+        
+        /**
+         * COMMENT_SEQ
+			PARENT_COMMENT
+			BOARD_SEQ
+			USER_SEQ
+			REG_DATE
+			IS_SEEN
+			COMMENT_CONTENT
+			COR_DATE
+         * */
 		//String sql=proFile.getProperty("query.replyByParentNum");
-		String sql = "insert into comments values(comment_seq.nextval,?,?,?,sysdate,1,?,null)";
+		String sql = "insert into comments values(comment_seq.nextval,null,?,?,sysdate,1,?,null)";//
 		
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			
-			ps.setLong(1, comment.getParentCommentSeq());
-			ps.setLong(2, comment.getBoardSeq());
-			ps.setLong(3, comment.getUserSeq());
-			ps.setInt(4, comment.getIsSeen());
-			ps.setString(5, comment.getCommentContent());
-			ps.setString(6, comment.getCorDate());
+			//ps.setLong(1, comment.getParentCommentSeq());
+			ps.setLong(1, comment.getBoardSeq());
+			ps.setLong(2, comment.getUserSeq());
+			
+			
+			
+			ps.setString(3, comment.getCommentContent());
+	
 			
 			result = ps.executeUpdate();
 		}finally {
