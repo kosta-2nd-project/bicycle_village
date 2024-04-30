@@ -5,6 +5,8 @@ public class CommentsDTO {
    private int isSeen;
    private String regDate, commentContent, corDate;
    
+   UserDTO userDTO;
+   
    public CommentsDTO() {}
    
    public CommentsDTO(Long commentSeq, Long parentCommentSeq, Long boardSeq, Long userSeq, 
@@ -83,8 +85,16 @@ public class CommentsDTO {
 	public void setCorDate(String corDate) {
 		this.corDate = corDate;
 	}
+
+	public UserDTO getUserDTO() {
+		return userDTO;
+	}
+
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
 	
-	   
+	
    
 }
 

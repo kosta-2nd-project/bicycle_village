@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="../../pages/common/header.jsp"/>
+
+<jsp:include page="/pages/common/header.jsp"/>
 
 <!DOCTYPE html>
 <html>
@@ -98,11 +99,21 @@ body {
 
 </style>
 <script type="text/javascript">
-console.log("${user_seq}");
-console.log("${userId}");
-console.log("${nickname}");
+
+	function checkValid(){
+		var f = window.document.commentForm;
+		
+		if ( f.commentContent.value == "" ) {
+	        alert( "댓글을 입력해 주세요." );
+	        f.commentContent.focus();
+	        return false;
+	    }
+		
+		return true;
+	}
 
 </script>
+
 </head>
 <body>
 	<div class="container">
@@ -116,7 +127,7 @@ console.log("${nickname}");
 			</h3>
 
 			<div class="nick_name" style="padding-bottom: 30px; font-size: 20px;">
-				${board.userSeq} &nbsp;&nbsp;
+				${board.userDTO.userId} &nbsp;&nbsp;
 				<input type="button" id="follow" class="follow" value="팔로우">
 			</div>
 
@@ -134,25 +145,54 @@ console.log("${nickname}");
 				<c:choose>
 					<c:when
 						test="${user_seq == board.userSeq && not empty loginUser && UserStatus == 0}">
-						<a href="${path}/front?key=board&methodName=selectAllFreeBoard" class="btn">목록</a>
+						<a href="${path}/front?key=board&methodName=selectByFreeBoardSeq&boardSeq=${board.boardSeq}" class="btn">목록</a>
 						<a href="${path}/front?key=board&methodName=freeboardUpdateForm&boardSeq=${board.boardSeq}"
 							class="btn">수정</a>
 						<a href="${path}/front?key=board&methodName=deleteFreeBoard&boardSeq=${board.boardSeq}"
 							class="btn">삭제</a>
 					</c:when>
 					<c:otherwise>
-						<a href="${path}/front?key=board&methodName=selectAllFreeBoard" class="btn">목록</a>
+						<a href="${path}/front?key=board&methodName=selectByFreeBoardSeq&boardSeq=${board.boardSeq}" class="btn">목록</a>
 					</c:otherwise>
 				</c:choose>
-
 			</div>
+			
+			<hr>
+			<h4 style="color: black; font-weight: bold;">댓글</h4>
+			<c:forEach items="${commentList}" var="comment">
+				<div><b style="color: black; font-weight: bold; font-size: 17px">
+					${comment.userDTO.userId}&nbsp;&nbsp;&nbsp;</b>
+					<b style="color: black; font-size: 17px">
+					${comment.commentContent}</b></div>
+
+
+			</c:forEach>
+
+			<hr>
+			<c:if test="${not empty loginUser}">
+				<p><b style="color: black;">댓글입력</b></p>
+				<form name="commentForm" method="post"
+					action="${path}/front?key=board&methodName=insertComment&boardSeq=${board.boardSeq}"
+					onSubmit='return checkValid()' >
+					<input type="hidden" name="category" value="FREE">
+                      <input type="hidden" name="parent_comment" value="0">
+                      <input type="hidden" name="userSeq" value="${user_seq}">
+					<textarea name="commentContent" cols="145" rows="3"></textarea>
+					<input type="submit" value="댓글 입력" id="commentSubmit" class="btn"
+						style="float: right;"> <br>
+					<br>
+				</form>
+			</c:if>
+			
 		</div>
 	</div>
 
 	<div class="container">
 	</div>
 
-<jsp:include page="../../pages/common/footer.jsp"/>
+
+	<jsp:include page="../../pages/common/footer.jsp"/>
+
 
 </body>
 </html>

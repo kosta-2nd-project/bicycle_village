@@ -148,6 +148,7 @@ body {
 	margin-right: 70px;
 }
 </style>
+
 <script src="${path}/js/jquery-3.3.1.min.js"></script>
 <script>
 	console.log("${user_seq}");
@@ -197,10 +198,14 @@ body {
 			})
 		});
 	});//function End
+
 </script>
 </head>
+
 <body>
+	
 	<div class="container">
+		<div class="content">
 		<div class="main_left_img">
 			이미지
 		</div>
@@ -254,10 +259,38 @@ body {
 						<a href="${path}/front?key=board&methodName=selectAllTradeBoard" class="btn">목록</a>
 					</c:otherwise>
 				</c:choose>
+			</div>
+			
+			<hr>
+			<h4 style="color: black; font-weight: bold;">댓글</h4>
+			<c:forEach items="${commentList}" var="comment">
+				<div><b style="color: black; font-weight: bold; font-size: 17px">
+					${comment.userDTO.userId}&nbsp;&nbsp;&nbsp;</b>
+					<b style="color: black; font-size: 17px">
+					${comment.commentContent}</b></div>
 
+
+			</c:forEach>
+
+			<hr>
+			<c:if test="${not empty loginUser}">
+				<p><b style="color: black;">댓글입력</b></p>
+				<form name="commentForm" method="post"
+					action="${path}/front?key=board&methodName=insertComment&boardSeq=${board.boardSeq}"
+					onSubmit='return checkValid()' >
+					<input type="hidden" name="category" value="TRADE">
+                      <input type="hidden" name="parent_comment" value="0">
+                      <input type="hidden" name="userSeq" value="${user_seq}">
+					<textarea name="commentContent" cols="145" rows="3"></textarea>
+					<input type="submit" value="댓글 입력" id="commentSubmit" class="btn"
+						style="float: right;"> <br>
+					<br>
+				</form>
+			</c:if>
 			
 		</div>
 	</div>
+	
 	</div>
 
 <jsp:include page="../../pages/common/footer.jsp"/>
