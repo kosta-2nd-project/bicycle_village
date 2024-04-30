@@ -191,8 +191,6 @@ public class BoardController implements Controller{
 		//return new ModelAndView("front?key=board&methodName=selectByBoardSeq&boardSeq=", true); // 나중에
 		
 	}
-	
-	
 
 	//==============================파일 등록/삭제===============================================
 	
@@ -445,6 +443,7 @@ public class BoardController implements Controller{
 		return new ModelAndView("front?key=board&methodName=selectAllTradeBoard", true);
 	}
 	
+
 	//==============================댓글=====================================================
 	
 	/**
