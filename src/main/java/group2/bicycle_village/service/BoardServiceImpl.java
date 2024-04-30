@@ -126,8 +126,10 @@ public class BoardServiceImpl implements BoardService {
      *  댓글 삭제
      * */
     @Override
-    public int deleteComment(long boardSeq) throws SQLException {
-        int result = boardDAO.deleteComment(boardSeq);
+    public int deleteComment(long commentSeq) throws SQLException {
+		
+
+        int result = boardDAO.deleteComment(commentSeq);
         if(result==0) throw new SQLException("등록되지 않았습니다");
         return result;
     }

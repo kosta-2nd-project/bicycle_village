@@ -172,7 +172,6 @@ public class BoardController implements Controller{
 			if(filePart.getName().equals("files")) {
 				String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
 				// 업로드된 파일 저장
-				//System.out.println("!!!!!!!=========!!!!!!"+fileName);
 				try (InputStream input = filePart.getInputStream()) {
 					Files.copy(input, new File(uploadPath + File.separator + fileName).toPath());
 				
@@ -375,7 +374,7 @@ public class BoardController implements Controller{
 		boardService.update(board);
 		
 		Collection<Part> fileParts = request.getParts(); // 여러 파일 가져오기
-		String uploadPath = "/save/" + userSeq; // 업로드할 디렉토리 경로 설정
+		String uploadPath = "/save/" + boardSeq; // 업로드할 디렉토리 경로 설정
 		File directory = new File(uploadPath);
 		if (!directory.exists()) {
 			directory.mkdirs(); // 디렉토리 생성
@@ -480,6 +479,42 @@ public class BoardController implements Controller{
 				new CommentEntity.Builder().parentCommentSeq(parentSeq).boardSeq(boardSeq).userSeq(userSeq).commentContent(commentContent).build();
 		
 		boardService.insertComment(comment);
+		
+		if(category.equals("FREE"))
+			return new ModelAndView("front?key=board&methodName=selectByFreeBoardSeq&boardSeq="+boardSeq); // 자유게시판으로 이동
+		else if(category.equals("TRADE"))
+			return new ModelAndView("front?key=board&methodName=selectByTradeBoardSeq&boardSeq="+boardSeq); // 거래게시판으로 이동
+		else 
+			return new ModelAndView("front?key=board&methodName=selectAll");
+	}
+	
+	public ModelAndView deleteComment(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		long commentSeq = Long.parseLong(request.getParameter("commentSeq"));
+		
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+		String category = request.getParameter("category");
+		
+		boardService.deleteComment(commentSeq);
+		
+		if(category.equals("FREE"))
+			return new ModelAndView("front?key=board&methodName=selectByFreeBoardSeq&boardSeq="+boardSeq); // 자유게시판으로 이동
+		else if(category.equals("TRADE"))
+			return new ModelAndView("front?key=board&methodName=selectByTradeBoardSeq&boardSeq="+boardSeq); // 거래게시판으로 이동
+		else 
+			return null;
+	}
+	
+	public ModelAndView updateComment(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		long commentSeq = Long.parseLong(request.getParameter("commentSeq"));
+		String commentContent = request.getParameter("commentUpdatedContent");
+		
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+		String category = request.getParameter("category");
+		
+		CommentEntity comment =
+				new CommentEntity.Builder().commentSeq(commentSeq).commentContent(commentContent).build();
+		
+		boardService.updateComment(comment);
 		
 		if(category.equals("FREE"))
 			return new ModelAndView("front?key=board&methodName=selectByFreeBoardSeq&boardSeq="+boardSeq); // 자유게시판으로 이동
