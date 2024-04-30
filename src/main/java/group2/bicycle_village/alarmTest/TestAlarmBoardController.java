@@ -1,9 +1,4 @@
-package group2.bicycle_village.controller;
-
-import group2.bicycle_village.common.constant.CommonCode;
-import group2.bicycle_village.common.dto.BoardEntity;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+package group2.bicycle_village.alarmTest;
 
 public class TestAlarmBoardController {
     /**

@@ -24,5 +24,9 @@ public interface AlarmService {
      * @return
      * @throws SQLException
      */
-//    String linkURL(long boardSeq) throws SQLException;
+    String linkURL(long boardSeq) throws SQLException;
+
+    long searchBoardSeq(long userSeq) throws SQLException;
+
+    int setLinkURL(String url) throws SQLException;
 }

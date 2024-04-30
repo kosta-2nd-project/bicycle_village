@@ -1,4 +1,4 @@
-package group2.bicycle_village.dao;
+package group2.bicycle_village.alarmTest;
 
 import group2.bicycle_village.common.dto.BoardEntity;
 import group2.bicycle_village.common.util.DbUtil;

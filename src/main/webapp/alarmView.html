@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
     <style>
-        a {
-
+        p a:link, a:visited {
+            text-decoration: none;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -17,7 +17,8 @@
         $( function() {
             $( "#tabs" ).tabs();
 
-            $.ajax({ // 알림 리스트 띄우기
+            //알림 리스트 띄우기
+            $.ajax({
                 url: "rest",
                 type: "post",
                 dataType: "json",
@@ -26,9 +27,9 @@
                     if(result != null) {
                         let str = "";
                         $.each(result, function (index, list) {
-                            str += `<a href="#" class = "alarm" data-alarm-seq="${list.alarmSeq}">${list.alarmContent}</a><br>`;
+                            str += `<p><a href="" class = "alarm" data-alarm-seq="${list.alarmSeq}">${list.alarmContent}</a></p>`;
                         });
-                        $("#tabs-1 > p").html(str);
+                        $("#tabs-1").html(str);
                     }
                 },
                 error: function (err) {
@@ -36,6 +37,7 @@
                 }
             })//ajax end
 
+            //알림 클릭할 때
             $(document).on("click", ".alarm", function () {
                 $.ajax({
                     url: "rest",
@@ -57,7 +59,8 @@
                 })//ajax end
             })//click end
 
-            $.ajax({ // 팔로우 리스트 띄우기
+            //팔로우 리스트 띄우기
+            $.ajax({
                 url: "rest",
                 type: "post",
                 dataType: "json",
@@ -66,15 +69,22 @@
                     if(result != null) {
                         let str = "";
                         $.each(result, function (index, list) {
-                            str += `${list.nickName}(${list.userId})님<br>`;
+                            str += `<p><a href="" class="follow">${list.nickName}(${list.userId})님</a><span></span></p>`;
                         });
-                        $("#tabs-2 > p").html(str);
+                        $("#tabs-2").html(str);
                     }
                 },
                 error: function (err) {
                     console.log(err + " error");
                 }
             })//ajax end
+
+            //팔로우 클릭 할 때
+            // $(document).on("click", ".follow", function () {
+            //     let text =`<input type='button' class="btn" name="btn">팔로우 취소`;
+            //     let close = $("span").closest("a");
+            //     $()
+            // })
         } )//ready end
     </script>
 </head>
@@ -84,8 +94,8 @@
         <li><a href="#tabs-1">알림</a></li>
         <li><a href="#tabs-2">팔로우</a></li>
     </ul>
-    <div id="tabs-1"><p></p></div>
-    <div id="tabs-2"><p></p></div>
+    <div id="tabs-1"></div>
+    <div id="tabs-2"></div>
 </div>
 </body>
 </html>

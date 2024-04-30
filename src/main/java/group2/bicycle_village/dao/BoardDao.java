@@ -23,12 +23,4 @@ public interface BoardDao {
 	List<BoardDTO> getBoardList(int pageNo) throws SQLException;
 
 	int increamentByReadnum(int board_seq) throws SQLException;
-
-	/**
-	 * 로그인한 유저의 가장 최근 게시물 찾기
-	 * @param userSeq
-	 * @return
-	 * @throws SQLException
-	 */
-//    long serachBoardSeq(long userSeq) throws SQLException;
 }

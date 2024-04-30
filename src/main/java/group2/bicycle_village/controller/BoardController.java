@@ -71,10 +71,11 @@ public class BoardController implements Controller{
 				.isSeen(CommonCode.BoardStatus.valueOf(isSeen)).addr(boardAddr).content(boardContent)
 				.productSeq(productSeq).build(); // 주소,내용,카테고리만 추가된 dto 생성하는데 카테고리 내용에 매칭되는 int 저장
 
-//		long boardSeq = boardService.searchBoardSeq(userSeq);
-//		System.out.println(boardSeq);
-//		String url = boardService.linkURL(boardSeq);
-//		boardService.insert(board, url);
+
+		boardService.insert(board);
+		long boardSeq = alarmService.searchBoardSeq(userSeq);
+		String url = alarmService.linkURL(boardSeq);
+		alarmService.setLinkURL(url);
 
 		
 		return new ModelAndView("front?key=board&methodName=selectAll", true);
@@ -127,8 +128,8 @@ public class BoardController implements Controller{
 		BoardEntity board = new BoardEntity.Builder().boardSeq(boardSeq).boardName(boardName).content(boardContent)
 				.price(goodsPrice).build(); // 주소,내용,카테고리만 추가된 dto 생성하는데 카테고리 내용에 매칭되는 int 저장
 
-//		String url = boardService.linkURL(boardSeq);
-		boardService.update(board);
+		String url = alarmService.linkURL(boardSeq);
+		boardService.update(board, url);
 		
 		//수정이 완료가 된후....
 		ModelAndView mv = new ModelAndView();

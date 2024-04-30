@@ -174,24 +174,43 @@ public class AlarmDAOImpl implements AlarmDAO {
         return userList;
     }
 
-//    @Override
-//    public long serachBoardSeq(long userSeq) throws SQLException {
-//        Connection con = null;
-//        PreparedStatement ps = null;
-//        ResultSet rs = null;
-//        String sql = "SELECT board_seq FROM board WHERE user_seq = ? AND reg_date = (SELECT MAX(reg_date) FROM board)";
-//        long boardSeq = 0;
-//        try {
-//            con = DbUtil.getConnection();
-//            ps = con.prepareStatement(sql);
-//            ps.setLong(1, userSeq);
-//            rs = ps.executeQuery();
-//            if (rs.next()) {
-//                boardSeq = rs.getLong(1);
-//            }
-//        } finally {
-//            DbUtil.close(con, ps, rs);
-//        }
-//        return boardSeq;
-//    }
+    @Override
+    public long searchBoardSeq(long userSeq) throws SQLException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT board_seq FROM board " +
+                "WHERE reg_date = (SELECT MAX(reg_date) FROM board " +
+                "WHERE user_seq = ?)";
+        long boardSeq = 0;
+        try {
+            con = DbUtil.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, (int) userSeq);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                boardSeq = rs.getLong(1);
+            }
+        } finally {
+            DbUtil.close(con, ps, rs);
+        }
+        return boardSeq;
+    }
+
+    @Override
+    public int setLinkURL(String url) throws SQLException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        int result = 0;
+        String sql = "UPDATE alarm SET link_url=? WHERE link_url IS NULL";
+        try {
+            con = DbUtil.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, url);
+            result = ps.executeUpdate();
+        } finally {
+            DbUtil.close(con,ps,null);
+        }
+        return result;
+    }
 }

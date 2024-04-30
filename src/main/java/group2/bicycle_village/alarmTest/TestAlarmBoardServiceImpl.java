@@ -1,11 +1,8 @@
-package group2.bicycle_village.dao;
+package group2.bicycle_village.alarmTest;
 
-import group2.bicycle_village.common.dto.AlarmDTO;
 import group2.bicycle_village.common.dto.BoardEntity;
-import group2.bicycle_village.common.dto.UserDTO;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class TestAlarmBoardServiceImpl implements TestAlarmBoardService {
     @Override
