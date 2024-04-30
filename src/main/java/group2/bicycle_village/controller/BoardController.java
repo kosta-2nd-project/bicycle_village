@@ -304,7 +304,7 @@ public class BoardController implements Controller{
 //			}
 //		}
 		
-		//selectAllComments(request,response);
+		selectAllComments(request,response);
 		
 		return new ModelAndView("board/freeBoard/freeBoard.jsp"); //forward방식 
 	}
@@ -324,6 +324,8 @@ public class BoardController implements Controller{
 		BoardDTO board = boardService.selectByBoardSeq(boardSeq, state);
 		request.setAttribute("board", board);
 		request.setAttribute("pageNo", pageNo);
+		
+		selectAllComments(request,response);
 		
 		return new ModelAndView("board/tradeBoard/tradeBoard.jsp"); //forward방식 
 	}
@@ -454,47 +456,37 @@ public class BoardController implements Controller{
 	/**
 	 * 댓글 전체검색
 	 * */
-//	public ModelAndView selectAllComments(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		long userSeq = Long.parseLong(request.getParameter("user_seq"));
-//		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
-//		String category = request.getParameter("category");
-//		
-//		List<CommentsDTO> commentList = boardService.getComment(boardSeq);
-//		
-//		request.setAttribute("commentList", commentList);// 뷰에서 ${list}
-//		
-//		if(category.equals("FREE")) return new ModelAndView("front?key=board&methodName=selectByFreeeBoardSeq&boardSeq="+boardSeq); // 자유게시판으로 이동
-//		else if(category.equals("TRADE")) return new ModelAndView("front?key=board&methodName=selectByTradeBoardSeq&boardSeq="+boardSeq); // 거래게시판으로 이동
-//		else return new ModelAndView("front?key=board&methodName=selectByTradeBoardSeq&boardSeq="+boardSeq);
-//	}
+	public void selectAllComments(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+		
+		List<CommentsDTO> commentList = boardService.getComment(boardSeq);
+		
+		request.setAttribute("commentList", commentList);// 뷰에서 ${list}
+	}
 	
-//	public void selectAllComments(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
-//		
-//		List<CommentsDTO> commentList = boardService.getComment(boardSeq);
-//		
-//		request.setAttribute("commentList", commentList);// 뷰에서 ${list}
-//	}
-//	
-//	/**
-//	 * 댓글 입력
-//	 * */
-//	public ModelAndView insertComment(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		
-//		Long parentSeq = Long.parseLong(request.getParameter("commentSeq"));
-//		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
-//		long userSeq = Long.parseLong(request.getParameter("userSeq"));
-//		String commentContent = request.getParameter("commentContent");
-//		
-//		String category = request.getParameter("category");
-//		
-//		CommentEntity comment = new CommentEntity.Builder().parentCommentSeq(parentSeq).boardSeq(boardSeq).userSeq(userSeq).commentContent(commentContent).build();
-//		
-//		boardService.insertComment(comment);
-//		
-//		if(category.equals("FREE")) return new ModelAndView("front?key=board&methodName=selectByFreeeBoardSeq&boardSeq="+boardSeq); // 자유게시판으로 이동
-//		else if(category.equals("TRADE")) return new ModelAndView("front?key=board&methodName=selectByTradeBoardSeq&boardSeq="+boardSeq); // 거래게시판으로 이동
-//		else return null;
-//	}
+	/**
+	 * 댓글 입력
+	 * */
+	public ModelAndView insertComment(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		Long parentSeq = Long.parseLong(request.getParameter("parent_comment"));//0
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+		long userSeq = Long.parseLong(request.getParameter("userSeq"));
+		String commentContent = request.getParameter("commentContent");
+		
+		String category = request.getParameter("category");
+		
+		CommentEntity comment =
+				new CommentEntity.Builder().parentCommentSeq(parentSeq).boardSeq(boardSeq).userSeq(userSeq).commentContent(commentContent).build();
+		
+		boardService.insertComment(comment);
+		
+		if(category.equals("FREE"))
+			return new ModelAndView("front?key=board&methodName=selectByFreeBoardSeq&boardSeq="+boardSeq); // 자유게시판으로 이동
+		else if(category.equals("TRADE"))
+			return new ModelAndView("front?key=board&methodName=selectByTradeBoardSeq&boardSeq="+boardSeq); // 거래게시판으로 이동
+		else 
+			return new ModelAndView("front?key=board&methodName=selectAll");
+	}
 
 }

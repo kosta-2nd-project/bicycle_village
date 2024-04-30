@@ -427,7 +427,7 @@ private Properties proFile = new Properties();
         PreparedStatement ps=null;
         ResultSet rs=null;
         List<CommentsDTO> list = new ArrayList<CommentsDTO>();
-        String sql = "select * from comments where board_seq=? and is_seen=1 and parent_comment is null";
+        String sql = "select * from comments where board_seq=? and is_seen=1 and parent_comment is null order by reg_date";
         try {
             con = DbUtil.getConnection();
             ps = con.prepareStatement(sql);
@@ -439,6 +439,8 @@ private Properties proFile = new Properties();
                         rs.getLong("board_seq"), rs.getLong("user_seq"), rs.getString("reg_date"),  rs.getInt("is_seen"), 
                         rs.getString("comment_content"), rs.getString("cor_date"));
                 
+            	comment.setUserDTO( getUserByUserSeq(con, rs.getLong("user_seq") ));
+            	
                 list.add(comment);
             }
             
@@ -487,7 +489,16 @@ private Properties proFile = new Properties();
         ResultSet rs=null;
         int result = 0;
         
-        
+        /**
+         * COMMENT_SEQ
+			PARENT_COMMENT
+			BOARD_SEQ
+			USER_SEQ
+			REG_DATE
+			IS_SEEN
+			COMMENT_CONTENT
+			COR_DATE
+         * */
 		//String sql=proFile.getProperty("query.replyByParentNum");
 		String sql = "insert into comments values(comment_seq.nextval,null,?,?,sysdate,1,?,null)";//
 		
