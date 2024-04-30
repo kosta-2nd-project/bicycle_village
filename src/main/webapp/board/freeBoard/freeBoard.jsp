@@ -144,23 +144,29 @@ console.log("${nickname}");
 						<a href="${path}/front?key=board&methodName=selectAllFreeBoard" class="btn">목록</a>
 					</c:otherwise>
 				</c:choose>
-
 			</div>
+<%-- 			
+			<hr>
+			<h4>댓글</h4>
+			<c:forEach items="${commentList}" var="comment">
+				<div>${comment.userSeq}&nbsp;&nbsp;&nbsp;
+					${comment.commentContent}</div>
+
+
+			</c:forEach>
+
+			<hr>
+			
+			<p><b>댓글입력</b></p>
+			<p><textarea name="content_input" cols="96%" rows="3" style="overflow: auto;"></textarea></p>
+ --%>
 		</div>
 	</div>
 
 	<div class="container">
 	</div>
 
-	<hr>
-	<h4>댓글</h4>
-	<c:forEach items="${commentList}" var="comment">
-		<div>
-			${comment.userSeq} &nbsp;&nbsp;&nbsp; ${comment.commentContent}
-		</div>
-		
-		
-	</c:forEach>
+	
 	
 	<jsp:include page="../../pages/common/footer.jsp"/>
 

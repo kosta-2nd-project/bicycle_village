@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.Objects;
 
 import group2.bicycle_village.common.constant.CommonCode;
+import group2.bicycle_village.common.constant.CommonCode.BoardCategory;
 import group2.bicycle_village.common.dto.BoardDTO;
 import group2.bicycle_village.common.dto.BoardEntity;
 import group2.bicycle_village.common.dto.BoardFileDTO;
+import group2.bicycle_village.common.dto.CommentEntity;
 import group2.bicycle_village.common.dto.CommentsDTO;
 import group2.bicycle_village.service.BoardFileService;
 import group2.bicycle_village.service.BoardFileServiceImpl;
@@ -57,13 +59,13 @@ public class BoardController implements Controller{
 		int boardCount = Integer.parseInt(request.getParameter("board_count"));
 		int goodsPrice = Integer.parseInt(request.getParameter("goods_price"));
 		//HttpSession session = request.getSession(); //controller에서 현재 로그인한 세션값 얻어오기
-		long userSeq = Integer.parseInt(request.getParameter("user_seq"));
+		long userSeq = Long.parseLong(request.getParameter("user_seq"));
 		String boardName = request.getParameter("board_name");
 		String category = request.getParameter("category");
 		String isSeen = request.getParameter("is_seen");
 		String boardContent = request.getParameter("board_content");
 		String boardAddr = request.getParameter("board_addr");
-		long productSeq = Integer.parseInt(request.getParameter("product_seq"));
+		long productSeq = Long.parseLong(request.getParameter("product_seq"));
 		
 		BoardEntity board = new BoardEntity.Builder().price(goodsPrice).userSeq(userSeq).boardCount(boardCount)
 				.boardName(boardName).category(CommonCode.BoardCategory.valueOf(category))
@@ -136,13 +138,13 @@ public class BoardController implements Controller{
 		int boardCount = Integer.parseInt(request.getParameter("board_count"));
 		int goodsPrice = Integer.parseInt(request.getParameter("goods_price"));
 		//HttpSession session = request.getSession(); //controller에서 현재 로그인한 세션값 얻어오기
-		long userSeq = Integer.parseInt(request.getParameter("user_seq"));
+		long userSeq = Long.parseLong(request.getParameter("user_seq"));
 		String boardName = request.getParameter("board_name");
 		String category = request.getParameter("category");
 		String isSeen = request.getParameter("is_seen");
 		String boardContent = request.getParameter("board_content");
 		String boardAddr = request.getParameter("board_addr");
-		long productSeq = Integer.parseInt(request.getParameter("product_seq"));
+		long productSeq = Long.parseLong(request.getParameter("product_seq"));
 		
 		BoardEntity board = new BoardEntity.Builder().price(goodsPrice).userSeq(userSeq).boardCount(boardCount)
 				.boardName(boardName).category(CommonCode.BoardCategory.valueOf(category))
@@ -255,7 +257,7 @@ public class BoardController implements Controller{
 
 	public ModelAndView selectByFreeBoardSeq(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 		boolean state = request.getParameter("flag")==null ? true : false;
 		 
 		String pageNo =  request.getParameter("pageNo");
@@ -304,6 +306,8 @@ public class BoardController implements Controller{
 //			}
 //		}
 		
+		//selectAllComments(request,response);
+		
 		return new ModelAndView("board/freeBoard/freeBoard.jsp"); //forward방식 
 	}
 	
@@ -313,7 +317,7 @@ public class BoardController implements Controller{
 
 	public ModelAndView selectByTradeBoardSeq(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 		boolean state = request.getParameter("flag")==null ? true : false;
 		 
 		String pageNo =  request.getParameter("pageNo");
@@ -333,7 +337,7 @@ public class BoardController implements Controller{
 	 *  자유게시판 수정폼
 	 * */
 	public ModelAndView freeboardUpdateForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 		BoardDTO board = boardService.selectByBoardSeq(boardSeq, false);
 		
 		request.setAttribute("board", board);
@@ -345,7 +349,7 @@ public class BoardController implements Controller{
 	 *  거래게시판 수정폼
 	 * */
 	public ModelAndView tradeboardUpdateForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 		BoardDTO board = boardService.selectByBoardSeq(boardSeq, false);
 		
 		request.setAttribute("board", board);
@@ -358,11 +362,11 @@ public class BoardController implements Controller{
 	 * */
 	public ModelAndView updateFreeBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// 전송된 데이터 받기
-		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 		String boardName = request.getParameter("board_name");
 		String boardContent = request.getParameter("board_content");
 		int goodsPrice = Integer.parseInt(request.getParameter("goods_price"));
-		long userSeq = Integer.parseInt(request.getParameter("user_seq"));
+		long userSeq = Long.parseLong(request.getParameter("user_seq"));
 		
 
 		BoardEntity board = new BoardEntity.Builder().boardSeq(boardSeq).boardName(boardName).content(boardContent)
@@ -401,7 +405,7 @@ public class BoardController implements Controller{
 	 * */
 	public ModelAndView updateTradeBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// 전송된 데이터 받기
-		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 		String boardName = request.getParameter("board_name");
 		String boardContent = request.getParameter("board_content");
 		int goodsPrice = Integer.parseInt(request.getParameter("goods_price"));
@@ -428,7 +432,7 @@ public class BoardController implements Controller{
 	 * 
 	 * */
 	public ModelAndView deleteFreeBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 		boardService.delete(boardSeq);
 		
 		return new ModelAndView("front?key=board&methodName=selectAllFreeBoard", true);
@@ -439,7 +443,7 @@ public class BoardController implements Controller{
 	 * 
 	 * */
 	public ModelAndView deleteTradeBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 		boardService.delete(boardSeq);
 		
 		return new ModelAndView("front?key=board&methodName=selectAllTradeBoard", true);
@@ -448,17 +452,48 @@ public class BoardController implements Controller{
 	//==============================댓글=====================================================
 	
 	/**
-	 *  자유게시판 전체검색
+	 * 댓글 전체검색
 	 * */
-	public ModelAndView selectAllComments(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		long userSeq = Integer.parseInt(request.getParameter("user_seq"));
-		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
-		
-		List<CommentsDTO> commentList = boardService.getComment(boardSeq);
-		
-		request.setAttribute("commentList", commentList);// 뷰에서 ${list}
-
-		return new ModelAndView("board/freeBoard/freeBoardList.jsp"); // forward방식으로 이동
-	}
+//	public ModelAndView selectAllComments(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		long userSeq = Long.parseLong(request.getParameter("user_seq"));
+//		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+//		String category = request.getParameter("category");
+//		
+//		List<CommentsDTO> commentList = boardService.getComment(boardSeq);
+//		
+//		request.setAttribute("commentList", commentList);// 뷰에서 ${list}
+//		
+//		if(category.equals("FREE")) return new ModelAndView("front?key=board&methodName=selectByFreeeBoardSeq&boardSeq="+boardSeq); // 자유게시판으로 이동
+//		else if(category.equals("TRADE")) return new ModelAndView("front?key=board&methodName=selectByTradeBoardSeq&boardSeq="+boardSeq); // 거래게시판으로 이동
+//		else return new ModelAndView("front?key=board&methodName=selectByTradeBoardSeq&boardSeq="+boardSeq);
+//	}
+//	public void selectAllComments(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+//		
+//		List<CommentsDTO> commentList = boardService.getComment(boardSeq);
+//		
+//		request.setAttribute("commentList", commentList);// 뷰에서 ${list}
+//	}
+//	
+//	/**
+//	 * 댓글 입력
+//	 * */
+//	public ModelAndView insertComment(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		
+//		Long parentSeq = Long.parseLong(request.getParameter("commentSeq"));
+//		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+//		long userSeq = Long.parseLong(request.getParameter("userSeq"));
+//		String commentContent = request.getParameter("commentContent");
+//		
+//		String category = request.getParameter("category");
+//		
+//		CommentEntity comment = new CommentEntity.Builder().parentCommentSeq(parentSeq).boardSeq(boardSeq).userSeq(userSeq).commentContent(commentContent).build();
+//		
+//		boardService.insertComment(comment);
+//		
+//		if(category.equals("FREE")) return new ModelAndView("front?key=board&methodName=selectByFreeeBoardSeq&boardSeq="+boardSeq); // 자유게시판으로 이동
+//		else if(category.equals("TRADE")) return new ModelAndView("front?key=board&methodName=selectByTradeBoardSeq&boardSeq="+boardSeq); // 거래게시판으로 이동
+//		else return null;
+//	}
 	
 }
