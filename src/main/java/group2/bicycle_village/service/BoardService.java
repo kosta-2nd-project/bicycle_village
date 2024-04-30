@@ -31,9 +31,17 @@ public interface BoardService {
 	List<BoardDTO> getBoardListByCateory(int category, int pageNo) throws SQLException;
 
 	long searchBoardSeq(long userSeq) throws SQLException;
-	
+
+
+	/**
+	 *  댓글 조회
+	 * */
 	List<CommentsDTO> getComment(long boardSeq) throws SQLException;
 
+
+	/**
+	 *  댓글 작성
+	 * */
 	int insertComment(CommentEntity comment) throws SQLException;
 
 

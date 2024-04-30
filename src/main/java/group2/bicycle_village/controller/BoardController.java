@@ -254,10 +254,10 @@ public class BoardController implements Controller{
 	 * */
 
 	public ModelAndView selectByFreeBoardSeq(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 		boolean state = request.getParameter("flag")==null ? true : false;
-		 
+		
 		String pageNo =  request.getParameter("pageNo");
 		 
 		 //두번째 인수 boolean 조회수 증가여부를판단할 인수(true이면, false이면 증가안함)
@@ -431,6 +431,7 @@ public class BoardController implements Controller{
 	 * */
 	public ModelAndView deleteFreeBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+
 		boardService.delete(boardSeq);
 		
 		return new ModelAndView("front?key=board&methodName=selectAllFreeBoard", true);
@@ -466,6 +467,7 @@ public class BoardController implements Controller{
 //		else if(category.equals("TRADE")) return new ModelAndView("front?key=board&methodName=selectByTradeBoardSeq&boardSeq="+boardSeq); // 거래게시판으로 이동
 //		else return new ModelAndView("front?key=board&methodName=selectByTradeBoardSeq&boardSeq="+boardSeq);
 //	}
+	
 //	public void selectAllComments(HttpServletRequest request, HttpServletResponse response) throws Exception {
 //		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 //		
@@ -494,5 +496,5 @@ public class BoardController implements Controller{
 //		else if(category.equals("TRADE")) return new ModelAndView("front?key=board&methodName=selectByTradeBoardSeq&boardSeq="+boardSeq); // 거래게시판으로 이동
 //		else return null;
 //	}
-	
+
 }

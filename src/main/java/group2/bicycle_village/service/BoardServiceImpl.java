@@ -102,44 +102,45 @@ public class BoardServiceImpl implements BoardService {
 		return board;
 	}
 	
-	
-	/**
-	 *  댓글 조회
-	 * */
-	@Override
-	public List<CommentsDTO> getComment(long boardSeq) throws SQLException {
-		List<CommentsDTO> list = boardDAO.getComment(boardSeq);
-		return list;
-	}
-	
-	/**
-	 *  댓글 작성
-	 * */
-	@Override
-	public int insertComment(CommentEntity comment) throws SQLException {
-		int result = boardDAO.insertComment(comment);
-		if(result==0) throw new SQLException("등록되지 않았습니다");
-		return result;
-	}
-	
-	/**
-	 *  댓글 삭제
-	 * */
-	@Override
-	public int deleteComment(long boardSeq) throws SQLException {
-		int result = boardDAO.deleteComment(boardSeq);
-		if(result==0) throw new SQLException("등록되지 않았습니다");
-		return result;
-	}
-	
-	/**
-	 *  댓글 수정
-	 * */
-	@Override
-	public int updateComment(CommentEntity comment) throws SQLException {
-		int result = boardDAO.updateComment(comment);
-		if(result==0) throw new SQLException("등록되지 않았습니다");
-		return result;
-	}
+    
+    /**
+     *  댓글 조회
+     * */
+    @Override
+    public List<CommentsDTO> getComment(long boardSeq) throws SQLException {
+        List<CommentsDTO> list = boardDAO.getComment(boardSeq);
+        return list;
+    }
+    
+    /**
+     *  댓글 작성
+     * */
+    @Override
+    public int insertComment(CommentEntity comment) throws SQLException {
+        int result = boardDAO.insertComment(comment);
+        if(result==0) throw new SQLException("등록되지 않았습니다");
+        return result;
+    }
+    
+    /**
+     *  댓글 삭제
+     * */
+    @Override
+    public int deleteComment(long boardSeq) throws SQLException {
+        int result = boardDAO.deleteComment(boardSeq);
+        if(result==0) throw new SQLException("등록되지 않았습니다");
+        return result;
+    }
+    
+    /**
+     *  댓글 수정
+     * */
+    @Override
+    public int updateComment(CommentEntity comment) throws SQLException {
+        int result = boardDAO.updateComment(comment);
+        if(result==0) throw new SQLException("등록되지 않았습니다");
+        return result;
+    }
+    
 	
 }

@@ -123,5 +123,14 @@ public class BoardDTO {
         this.boardAddr = boardAddr;
     }
 
+	public UserDTO getUserDTO() {
+		return userDTO;
+	}
+
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
+    
+    
 
 }

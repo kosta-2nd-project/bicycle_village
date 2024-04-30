@@ -1,5 +1,6 @@
 package group2.bicycle_village.dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -31,13 +32,11 @@ public interface BoardDao {
 	List<BoardDTO> getBoardListByCateory(int category, int pageNo) throws SQLException;
 
 	long searchBoardSeq(long userSeq) throws SQLException;
-	
-	List<CommentsDTO> getComment(long boardSeq) throws SQLException;
 
 	/**
-	 * 대댓글정보 가져오기 
+	 * 댓글정보 가져오기 
 	 * */
-	List<CommentsDTO> getReComment(Long commentSeq) throws SQLException;
+	List<CommentsDTO> getComment(long boardSeq) throws SQLException;
 
 	/**
 	 * 댓글정보 입력
@@ -50,10 +49,13 @@ public interface BoardDao {
 	int deleteComment(long commentSeq) throws SQLException;
 
 	/**
+	 * 대댓글정보 가져오기
+	 * */
+	List<CommentsDTO> getReComment(CommentsDTO comment) throws SQLException;
+
+	/**
 	 * 댓글 수정
 	 * */
 	int updateComment(CommentEntity comment) throws SQLException;
-	
-	
 	
 }
