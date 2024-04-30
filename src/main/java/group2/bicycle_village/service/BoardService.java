@@ -8,11 +8,15 @@ import group2.bicycle_village.common.dto.BoardEntity;
 
 public interface BoardService {
 	
+
 	int insert(BoardEntity board) throws SQLException;
+
 
 	void delete(int boardSeq) throws SQLException;
 
+
 	void update(BoardEntity board) throws SQLException;
+
 
 	List<BoardDTO> selectAll() throws SQLException;
 	

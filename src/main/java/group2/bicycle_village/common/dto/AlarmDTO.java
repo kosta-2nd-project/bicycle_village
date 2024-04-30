@@ -21,13 +21,13 @@ public class AlarmDTO {
         this.linkURL = linkURL;
     }
 
-    public AlarmDTO(long userSeq, String alarmContent, int isSeen) {
-        this(alarmContent, isSeen);
+    public AlarmDTO(long userSeq, String alarmContent, int isSeen, String linkURL) {
+        this(alarmContent, isSeen, linkURL);
         this.userSeq = userSeq;
     }
 
     public AlarmDTO(long alarmSeq, long userSeq, String alarmContent, int isSeen, String linkURL) {
-        this(userSeq, alarmContent, isSeen);
+        this(userSeq, alarmContent, isSeen, linkURL);
         this.alarmSeq = alarmSeq;
         this.linkURL = linkURL;
     }

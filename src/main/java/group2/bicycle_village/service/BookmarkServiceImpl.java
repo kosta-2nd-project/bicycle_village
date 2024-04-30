@@ -1,8 +1,10 @@
 package group2.bicycle_village.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import group2.bicycle_village.common.dto.BookmarkEntity;
+import group2.bicycle_village.common.dto.BookmarkListDTO;
 import group2.bicycle_village.dao.BookmarkDAO;
 import group2.bicycle_village.dao.BookmarkDAOImpl;
 import group2.bicycle_village.exception.AuthenticationException;
@@ -25,6 +27,11 @@ public class BookmarkServiceImpl implements BookmarkService {
 		if(result==0) {
 			throw new AuthenticationException("찜 삭제 실패");
 		}
+	}
+
+	@Override
+	public List<BookmarkListDTO> selectAll(int userSeq) throws SQLException, AuthenticationException {
+		return bookmarkDao.selectAll(userSeq);
 	}
 
 }
