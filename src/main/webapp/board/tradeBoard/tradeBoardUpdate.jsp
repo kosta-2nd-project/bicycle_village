@@ -41,12 +41,21 @@ body {
 <body>
 
 <div class="board">
-    <form name="writeForm" method="post" action="${path}/front?key=board&methodName=updateFreeBoard&boardSeq=${board.boardSeq}" onSubmit='return checkValid()' enctype="multipart/form-data">
-        <p><b>거래게시판 > 자유게시판</b></p>
+    <form name="writeForm" method="post" action="${path}/front?key=board&methodName=updateTradeBoard&boardSeq=${board.boardSeq}" onSubmit='return checkValid()' enctype="multipart/form-data">
+       
+		<p><b>거래게시판 >&nbsp; <span style="font-size: 9pt;"> <select name="category">
+			<option value="1">자전거</option>
+			<option value="2">바퀴</option>
+			<option value="3">안장</option>
+		</select></span></b></p>
 
-        <p>제목 &nbsp; &nbsp; &nbsp;
+		<p>제목 &nbsp; &nbsp; &nbsp;
         <input type="text" size="60" name="board_name" id="board_name" value="${board.boardName}"></p>
         
+        <p>가격 &nbsp; &nbsp; &nbsp;
+		<input type="text" size="60" name="goods_price" id="goods_price" value="${board.goodsPrice}"></p>
+        
+        <%--게시글 작성--%>  
         <p><input type="file" name="files" multiple></p>
 
         <hr>
@@ -56,15 +65,15 @@ body {
         <p align="center">
             <input type="submit" value="게시글 수정" id="submit">
         </p>
-        
-        <input type="hidden" name="category" value="FREE">
-        <input type="hidden" name="board_count" value="0">
-        <input type="hidden" name="goods_price" value="0">
-        <input type="hidden" name="product_seq" value="0">
-        <input type="hidden" name="is_seen" value="AVAILABLE">
-        <input type="hidden" name="board_addr" value="">
-        <input type="hidden" name="user_seq" value="${user_seq}">
-    </form>
+							
+		<input type="hidden" name="category" value="FREE">
+		<input type="hidden" name="board_count" value="0">
+		<input type="hidden" name="goods_price" value="0">
+		<input type="hidden" name="product_seq" value="0">
+		<input type="hidden" name="is_seen" value="AVAILABLE">
+		<input type="hidden" name="board_addr" value="">
+		<input type="hidden" name="user_seq" value="${user_seq}">
+	</form>
 </div>
 
 <jsp:include page="../../pages/common/footer.jsp"/>

@@ -120,14 +120,9 @@ console.log("${nickname}");
 				<input type="button" id="follow" class="follow" value="팔로우">
 			</div>
 
-			<div class="content" style="height: auto; min-height: 100px; overflow: auto;">
-			
-				<%--다운로드 확인--%><div>    
-				<a href="${path}/front?fname=cmd 명령어.txt">cmd 명령어.txt</a>    
-				<a href="${path}/front?fname=file.txt">file.txt</a></div>
-				${board.boardContent}
-				
-			</div>
+			<div class="content"
+				style="height: auto; min-height: 100px; overflow: auto;">
+				${board.boardContent}</div>
 
 			<div class="buttons">
 

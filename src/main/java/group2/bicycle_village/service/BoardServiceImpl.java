@@ -17,17 +17,27 @@ public class BoardServiceImpl implements BoardService {
 	private AlarmDAO alarmDAO = new AlarmDAOImpl();
 
 	@Override
-	public void insert(BoardEntity board) throws SQLException {
+	public int insert(BoardEntity board) throws SQLException { // 인서트 성공하면 board_seq 값 반환
 		int result = boardDAO.insert(board);
 		if(result==0) throw new SQLException("등록되지 않았습니다");
-		else {
+		/*else {
 			UserDTO userDTO = alarmDAO.userIdAndNickname(board.getUserSeq());
 			List<UserDTO> follower = alarmDAO.searchFollower(board.getUserSeq());
 			int re = 0;
 			for (UserDTO user : follower) {
 				re += alarmDAO.insertAlarm(new AlarmDTO(user.getUser_seq(), userDTO.getNickName()+"("+userDTO.getUserId()+")님이 게시물을 작성했습니다.",0));
 			}
-		}
+		}*/
+		
+		return result;
+	}
+	
+	@Override
+	public long searchBoardSeq(long userSeq) throws SQLException {
+		long result = boardDAO.searchBoardSeq(userSeq);
+		if(result==0) throw new SQLException("등록되지 않았습니다");
+		
+		return result;
 	}
 
 	@Override
@@ -45,6 +55,18 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardDTO> selectAll() throws SQLException {
 		List<BoardDTO> list = boardDAO.selectAll();
+		return list;
+	}
+	
+	@Override
+	public List<BoardDTO> selectByCateory(int category) throws SQLException {
+		List<BoardDTO> list = boardDAO.selectByCateory(category);
+		return list;
+	}
+	
+	@Override
+	public List<BoardDTO> getBoardListByCateory(int category, int pageNo) throws SQLException {
+		List<BoardDTO> list = boardDAO.getBoardListByCateory(category, pageNo);
 		return list;
 	}
 

@@ -3,6 +3,7 @@ package group2.bicycle_village.dao;
 import group2.bicycle_village.common.constant.CommonCode;
 import group2.bicycle_village.common.dto.BoardDTO;
 import group2.bicycle_village.common.dto.BoardEntity;
+import group2.bicycle_village.common.dto.CommentEntity;
 import group2.bicycle_village.common.dto.CommentsDTO;
 import group2.bicycle_village.common.dto.PageCnt;
 import group2.bicycle_village.common.util.DbUtil;
@@ -96,8 +97,82 @@ private Properties proFile = new Properties();
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
+			
 			rs = ps.executeQuery();
 			
+			while(rs.next()) {
+				BoardDTO board = 
+						new BoardDTO(rs.getInt("board_seq"), rs.getString("board_edit"), rs.getInt("board_count"),
+								rs.getInt("goods_price"), rs.getInt("product_seq"), rs.getInt("user_seq"), rs.getString("board_name"),
+								rs.getString("reg_date"), rs.getString("category"), rs.getInt("is_seen"), rs.getString("board_content"), rs.getString("board_addr"));
+				
+			   list.add(board);
+			}
+		}finally {
+			DbUtil.close(con, ps, rs);
+		}
+		return list;
+	}
+	
+	@Override
+	public List<BoardDTO> selectByCateory(int category) throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		List<BoardDTO> list = new ArrayList<BoardDTO>();
+		
+		String sql= "select * from board where is_seen!=0 and category=? order by reg_date desc";
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, category);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				BoardDTO board = 
+						new BoardDTO(rs.getInt("board_seq"), rs.getString("board_edit"), rs.getInt("board_count"),
+								rs.getInt("goods_price"), rs.getInt("product_seq"), rs.getInt("user_seq"), rs.getString("board_name"),
+								rs.getString("reg_date"), rs.getString("category"), rs.getInt("is_seen"), rs.getString("board_content"), rs.getString("board_addr"));
+				
+			   list.add(board);
+			}
+		}finally {
+			DbUtil.close(con, ps, rs);
+		}
+		return list;
+	}
+	
+	@Override
+	public List<BoardDTO> getBoardListByCateory(int category, int pageNo) throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		List<BoardDTO> list = new ArrayList<BoardDTO>();
+		
+		//String sql = proFile.getProperty("query.pagingSelect");
+		String sql = "select * from  (SELECT a.*, ROWNUM rnum FROM (SELECT * FROM board where is_seen!=0 and category=? ORDER BY reg_date desc) a) where  rnum>=? and rnum <=?";
+		try {
+			
+			
+			con = DbUtil.getConnection();
+			con.setAutoCommit(false);
+			
+			//전체레코드수를 구한다.
+			int totalCount = this.getTotalCount(con);
+			int totalPage = totalCount%PageCnt.pagesize==0 ? totalCount/PageCnt.pagesize : (totalCount/PageCnt.pagesize)+1;
+			
+			PageCnt pageCnt = new PageCnt();
+			pageCnt.setPageCnt(totalPage);
+			pageCnt.setPageNo(pageNo);
+			
+			ps = con.prepareStatement(sql);
+			// 2개에 set설정
+			ps.setInt(1, category);
+			ps.setInt(2, (pageNo-1) * pageCnt.pagesize +1); //시작
+			ps.setInt(3, pageNo * pageCnt.pagesize);//끝
+			
+			rs = ps.executeQuery();
 			while(rs.next()) {
 				BoardDTO board = 
 						new BoardDTO(rs.getInt("board_seq"), rs.getString("board_edit"), rs.getInt("board_count"),
@@ -196,7 +271,7 @@ private Properties proFile = new Properties();
 	}
     
 	@Override
-    public int insert(BoardEntity board) throws SQLException{
+    public int insert(BoardEntity board) throws SQLException{ // 인서트 성공하면 보드시퀀스 반환
 		Connection con=null;
 		PreparedStatement ps=null;
 		int result=0;
@@ -278,26 +353,49 @@ private Properties proFile = new Properties();
 		
     }
 
+	@Override
+	public long searchBoardSeq(long userSeq) throws SQLException { // 가장 최근 생성된 보드시퀀스 반환
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "SELECT board_seq FROM board WHERE user_seq = ? AND reg_date = (SELECT MAX(reg_date) FROM board)";
+		long boardSeq = 0;
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, (int) userSeq);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				boardSeq = rs.getLong(1);
+			}
+		} finally {
+			DbUtil.close(con, ps, rs);
+		}
+		return boardSeq;
+	}
+	
+//================댓글=======================================
+	
 	/**
 	 * 댓글정보 가져오기 
 	 * */
-	private List<CommentsDTO> getReply(Connection con , int boardSeq)throws SQLException{
+	private List<CommentsDTO> getComment(Connection con , int commentSeq)throws SQLException{
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		List<CommentsDTO> list = new ArrayList<CommentsDTO>();
 		//String sql=proFile.getProperty("query.replyByParentNum");
-		String sql = "select * from replies where board_seq=?";
+		String sql = "select * from comments where comment_seq=? and is_seen=1";
 		try {
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, boardSeq);
+			ps.setInt(1, commentSeq);
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				CommentsDTO reply = new CommentsDTO(rs.getInt("comment_seq"), rs.getInt("parent_comment"), 
-						rs.getInt("board_seq"), rs.getInt("user_seq"), rs.getString("reg_date"),  rs.getInt("is_seen"), 
+				CommentsDTO comment = new CommentsDTO(rs.getLong("comment_seq"), rs.getLong("parent_comment"), 
+						rs.getLong("board_seq"), rs.getLong("user_seq"), rs.getString("reg_date"),  rs.getInt("is_seen"), 
 						rs.getString("comment_content"), rs.getString("cor_date"));
 				
-				list.add(reply);
+				list.add(comment);
 			}
 			
 		}finally {
@@ -305,4 +403,54 @@ private Properties proFile = new Properties();
 		}
 		return list;
 	}
+	
+	/**
+	 * 댓글정보 입력
+	 * */
+	private int insertComment(Connection con , CommentEntity comment)throws SQLException{
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		int result = 0;
+		//String sql=proFile.getProperty("query.replyByParentNum");
+		String sql = "insert into comments values(comment_seq.nextval,?,?,?,sysdate,1,?,null)";
+		
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			
+			ps.setLong(1, comment.getParentCommentSeq());
+			ps.setLong(2, comment.getBoardSeq());
+			ps.setLong(3, comment.getUserSeq());
+			ps.setInt(4, comment.getIsSeen());
+			ps.setString(5, comment.getCommentContent());
+			ps.setString(6, comment.getCorDate());
+			
+			result = ps.executeUpdate();
+		}finally {
+			DbUtil.close(con, ps, null);;
+		}
+		return result;
+	}
+	
+	/**
+	 * 댓글 삭제 (is_seen 상태 변경)
+	 * */
+	private int deleteComment(Connection con , int commentSeq)throws SQLException{
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		int result = 0;
+		String sql = "update comments set is_seen=0 where comment_seq=?";
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, commentSeq);
+			
+			result = ps.executeUpdate();
+		}finally {
+			DbUtil.close(con, ps, null);
+		}
+		return result;
+	}
+	
 }
