@@ -70,9 +70,10 @@ public class BoardController implements Controller{
 				.productSeq(productSeq).build(); // 주소,내용,카테고리만 추가된 dto 생성하는데 카테고리 내용에 매칭되는 int 저장
 		
 		boardService.insert(board);
+		Long boardSeq = boardService.searchBoardSeq(userSeq);
 		
 		Collection<Part> fileParts = request.getParts(); // 여러 파일 가져오기
-        String uploadPath = "/save/" + request.getParameter("user_seq");
+        String uploadPath = "/save/" + boardSeq;
         
         File directory = new File(uploadPath);
 		
@@ -81,24 +82,30 @@ public class BoardController implements Controller{
 		}
 		
 		int saveNumber = 0;
-		Long boardSeq = boardService.searchBoardSeq(userSeq);
 		
+		
+		System.out.println("fileParts = .");
 		for (Part filePart : fileParts) {
-			String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
-			// 업로드된 파일 저장
-			//System.out.println("!!!!!!!=========!!!!!!"+fileName);
-			try (InputStream input = filePart.getInputStream()) {
-				Files.copy(input, new File(uploadPath + File.separator + fileName).toPath());
-			} catch (IOException e) { // 오류 처리
-				e.printStackTrace();
+			if(filePart.getName().equals("files")) {
+				String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
+				// 업로드된 파일 저장
+				//System.out.println("!!!!!!!=========!!!!!!"+fileName);
+				try (InputStream input = filePart.getInputStream()) {
+					Files.copy(input, new File(uploadPath + File.separator + fileName).toPath());
+				
+				} catch (IOException e) { // 오류 처리
+					e.printStackTrace();
+				}
+				
+				BoardFileDTO boardFileDTO = new BoardFileDTO(boardSeq , saveNumber, fileName);
+				
+				boardFileService.insert(boardFileDTO);
+				System.out.println("ok\n");
+				saveNumber++;
 			}
-			
-			BoardFileDTO boardFileDTO = new BoardFileDTO(boardSeq , saveNumber, fileName);
-			
-			boardFileService.insert(boardFileDTO);
-			
-			saveNumber++;
 		} // 업로드 완료 후 처리
+		
+		
 		
 		return new ModelAndView("front?key=board&methodName=selectAllFreeBoard", true);
 		//return new ModelAndView("front?key=board&methodName=selectByBoardSeq&boardSeq=", true); // 나중에
@@ -106,7 +113,11 @@ public class BoardController implements Controller{
 	}// Part 객체에서 파일 이름 가져오기
 
 	private String getFileName(final Part part) {
+		System.out.println("getFileName = " + part +" , getName = " + part.getName());
 	    final String partHeader = part.getHeader("content-disposition");
+	    System.out.println("partHeader = " + partHeader);
+	    
+	   
 	    for (String content : partHeader.split(";")) {
 	        if (content.trim().startsWith("filename")) {
 	        	System.out.println("하하하하하 실행됩니다.");
@@ -138,32 +149,39 @@ public class BoardController implements Controller{
 				.productSeq(productSeq).build(); // 주소,내용,카테고리만 추가된 dto 생성하는데 카테고리 내용에 매칭되는 int 저장
 		
 		boardService.insert(board);
+		Long boardSeq = boardService.searchBoardSeq(userSeq);
 		
 		Collection<Part> fileParts = request.getParts(); // 여러 파일 가져오기
-		String uploadPath = "/save/" + userSeq; // 업로드할 디렉토리 경로 설정
-		File directory = new File(uploadPath);
+        String uploadPath = "/save/" + boardSeq;
+        
+        File directory = new File(uploadPath);
 		
 		if (!directory.exists()) {
 			directory.mkdirs(); // 디렉토리 생성
 		}
 		
 		int saveNumber = 0;
-		long boardSeq = boardService.searchBoardSeq(userSeq);
 		
+		
+		System.out.println("fileParts = .");
 		for (Part filePart : fileParts) {
-			String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
-			// 업로드된 파일 저장
-			try (InputStream input = filePart.getInputStream()) {
-				Files.copy(input, new File(uploadPath + File.separator + fileName).toPath());
-			} catch (IOException e) { // 오류 처리
-				e.printStackTrace();
+			if(filePart.getName().equals("files")) {
+				String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
+				// 업로드된 파일 저장
+				//System.out.println("!!!!!!!=========!!!!!!"+fileName);
+				try (InputStream input = filePart.getInputStream()) {
+					Files.copy(input, new File(uploadPath + File.separator + fileName).toPath());
+				
+				} catch (IOException e) { // 오류 처리
+					e.printStackTrace();
+				}
+				
+				BoardFileDTO boardFileDTO = new BoardFileDTO(boardSeq , saveNumber, fileName);
+				
+				boardFileService.insert(boardFileDTO);
+				System.out.println("ok\n");
+				saveNumber++;
 			}
-			
-			BoardFileDTO boardFileDTO = new BoardFileDTO(boardSeq , saveNumber, fileName);
-			
-			boardFileService.insert(boardFileDTO);
-			
-			saveNumber++;
 		} // 업로드 완료 후 처리
 		
 		return new ModelAndView("front?key=board&methodName=selectAllTradeBoard", true);
@@ -241,39 +259,45 @@ public class BoardController implements Controller{
 		BoardDTO board = boardService.selectByBoardSeq(boardSeq, state);
 		request.setAttribute("board", board);
 		request.setAttribute("pageNo", pageNo);
-		//----다운로드------
 		
-		// 1. 넘어오는 파일의 이름을 배열로 받기
-		String[] fileNames = request.getParameterValues("fname");
-		// 2. 저장폴더의 실제 경로를 얻어오기
-		String saveDir = "/save/"+ board.getUserSeq();
 		
-		// 반복문을 통해 각 파일 다운로드
-		for (String fName : fileNames) {
-			File file = new File(saveDir, fName);
-			// 브라우져 별 파일이름에대한 한글인코딩설정
-			String encodedFileName;
-			if (request.getHeader("user-agent").indexOf("Trident") == -1) { // IE가 아닌경우
-				System.out.println(1);
-				encodedFileName = new String(file.getName().getBytes("UTF-8"), "8859_1");
-			} else {
-				System.out.println(2);
-				encodedFileName = new String(file.getName().getBytes("euc-kr"), "8859_1");
-			}
-			// 브라우져가 해석할수 있는 파일을 해석하지 않고 다운로드!!!
-			response.setHeader("Content-Disposition", "attachment;filename=\"" + encodedFileName + "\";");
-			// 폴더에서 파일이름에 해당하는 파일을 읽어서 클라이언트 브라우져에서 다운로드(출력=쓰기)
-			try (FileInputStream fi = new FileInputStream(file); ServletOutputStream so = response.getOutputStream()) {
-				byte[] buffer = new byte[1024];
-				int bytesRead;
-				while ((bytesRead = fi.read(buffer)) != -1) {
-					so.write(buffer, 0, bytesRead);
-				}
-			} catch (IOException e) {
-				// 파일 읽기 실패 처리
-				e.printStackTrace();
-			}
-		}
+//		//----다운로드------
+//		
+//		// 1. 넘어오는 파일의 이름을 배열로 받기
+//		System.out.println("fname == " + request.getParameterValues("fname"));
+//		String[] fileNames = request.getParameterValues("fname");
+//		
+//		//request.getPart
+//		// 2. 저장폴더의 실제 경로를 얻어오기
+//		String saveDir = "/save/"+ board.getUserSeq() + "/" + boardSeq;
+//		
+//		// 반복문을 통해 각 파일 다운로드
+//		for (String fName : fileNames) {
+//			
+//			File file = new File(saveDir, fName);
+//			// 브라우져 별 파일이름에대한 한글인코딩설정
+//			String encodedFileName;
+//			if (request.getHeader("user-agent").indexOf("Trident") == -1) { // IE가 아닌경우
+//				System.out.println(1);
+//				encodedFileName = new String(file.getName().getBytes("UTF-8"), "8859_1");
+//			} else {
+//				System.out.println(2);
+//				encodedFileName = new String(file.getName().getBytes("euc-kr"), "8859_1");
+//			}
+//			// 브라우져가 해석할수 있는 파일을 해석하지 않고 다운로드!!!
+//			response.setHeader("Content-Disposition", "attachment;filename=\"" + encodedFileName + "\";");
+//			// 폴더에서 파일이름에 해당하는 파일을 읽어서 클라이언트 브라우져에서 다운로드(출력=쓰기)
+//			try (FileInputStream fi = new FileInputStream(file); ServletOutputStream so = response.getOutputStream()) {
+//				byte[] buffer = new byte[1024];
+//				int bytesRead;
+//				while ((bytesRead = fi.read(buffer)) != -1) {
+//					so.write(buffer, 0, bytesRead);
+//				}
+//			} catch (IOException e) {
+//				// 파일 읽기 실패 처리
+//				e.printStackTrace();
+//			}
+//		}
 		
 		return new ModelAndView("board/freeBoard/freeBoard.jsp"); //forward방식 
 	}

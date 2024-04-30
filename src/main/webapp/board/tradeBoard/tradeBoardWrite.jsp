@@ -71,7 +71,7 @@ body {
 			
 			<p><b>거래게시판 >&nbsp;
 			<span style="font-size: 9pt;"> 
-						<select name="category">
+						<select name="category_detail">
 								<option value="1">자전거</option>
 								<option value="2">바퀴</option>
 								<option value="3">안장</option>
