@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+<head>
+    <title>채팅 프로젝트</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font: 13px Helvetica, Arial;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        form {
+            background: #000;
+            padding: 3px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            box-sizing: border-box;
+        }
+
+        form input {
+            border: 0;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            height: 20%;
+        }
+
+        form > div {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+
+        form button {
+            flex-grow: 1;
+            background: rgb(130, 224, 255);
+            border: none;
+            padding: 10px;
+            margin: 0 5px;
+        }
+
+        #chatLog {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto;
+            flex-grow: 1;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        #chatLog li {
+            padding: 5px 10px;
+        }
+
+        #chatLog li:nth-child(odd) {
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+<ul id="chatLog"></ul>
+
+<form action="" id="sendForm">
+    <div>
+        <button> 거래 수락하기</button>
+        <button> 상대의 수락을 기다리고 있습니다.</button>
+    </div>
+    <input name="message" autocomplete="off"/>
+    <div>
+        <button id="messageSubmit" name="messageSubmit">전송</button>
+        <button id="exit" name="exit">나가기</button>
+    </div>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    let result = null;
+
+    let time = new Date();
+
+    let month = time.getMonth();
+    let date = time.getDate();
+    let hours = time.getHours();
+    let minutes = time.getMinutes();
+    let now = month + "월" + date + "일" + hours + "시" + minutes + "분";
+    let currentMessages = null; // Declare currentMessages as a global variable
+    let newMessage = null;
+
+    // 소켓서버에 접속시킨다.
+    let urlParams = new URLSearchParams(window.location.search);
+    let sellerId = urlParams.get('sellerId');
+    let buyerId = urlParams.get('userId');
+
+
+    var socketTest = io.connect('http://localhost:3000/' + sellerId);
+
+    // 사용자 참가
+    socketTest.on('join', data => {
+        $('#chatLog').append('<li>' + data.username + '님이 입장하셨습니다.</li>');
+        updateScroll();  // 스크롤 업데이트 함수 호출
+    });
+
+    // 사용자 종료
+    socketTest.on('leave', data => {
+        $('#chatLog').append('<li>' + data.username + '님이 나가셨습니다.</li>');
+        console.log("나갔냐?")
+        updateScroll();  // 스크롤 업데이트 함수 호출
+    });
+
+    // server message 라는 이벤트명으로 대기
+    socketTest.on('server message', function (data) {
+        console.log(data);
+
+        newMessage = '<li>' + data.username + ':' + data.message + '</li>' + '<br>' + now;
+        currentMessages += newMessage; // Append newMessage to currentMessages
+        $('#chatLog').append(newMessage); // 새로운 메시지를 기존의 메시지에 추가
+        updateScroll();  // 스크롤 업데이트 함수 호출
+    });
+
+
+    // 스크롤을 최신 상태로 업데이트하는 함수
+    function updateScroll() {
+        $('#chatLog').scrollTop($('#chatLog')[0].scrollHeight);
+    }
+
+    $(document).ready(function () {
+        $('#sendForm').submit(function () {
+            console.log(currentMessages + "커렌트 메세지");
+            console.log(newMessage + "뉴 메세지");
+            // newMessage = '<li>' + data.username + ':' + data.message + '</li>' + '<br>' + now; // 이 부분 수정
+
+
+            var currentUrl = window.location.href; // 현재 페이지의 URL을 가져옵니다.
+            if (result == null) {
+
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:9000/rest?key=chatting&methodName=createChat',
+                    data: {
+                        url: currentUrl,// 현재 페이지의 URL
+                        sellerId: sellerId,
+                        buyerId: buyerId,
+                        content: newMessage
+                    },
+                })
+                    .then(response => {
+                        // 요청 성공 시 처리
+
+
+                        result = response;
+                        console.log(result + "result");
+                    })
+                    .catch(error => {
+                        // 요청 실패 시 처리
+                        console.error(error);
+                    });
+
+            }
+            var message = $('#sendForm input[name=message]');
+            // 소켓 서버의 'client message' 라는 이벤트명으로 메세지를 송신한다.
+            socketTest.emit('client message', {message: message.val()});
+            // input 박스 초기화
+            message.val('');
+
+
+            return false;
+
+
+        });
+
+        $('#exit').click(function () {
+            var currentUrl = window.location.href; // 현재 페이지의 URL을 가져옵니다.
+            // axios 요청
+            axios({
+                method: 'post',
+                url: 'http://localhost:9000/rest?key=chatting&methodName=updateContent',
+                data: {
+                    url: currentUrl,  // 현재 페이지의 URL
+                    sellerId: sellerId,
+                    buyerId: buyerId,
+                    content: currentMessages  // 보내질 메시지 내용
+                },
+            }).then(response => {
+                // 요청 성공 시 처리
+                console.log(response + "response");
+                // 출구 처리나 화면 전환 등의 추가적인 작업
+                window.close(); // 현재 창 닫기
+            })
+                .catch(error => {
+                    // 요청 실패 시 처리
+                    console.error(error);
+                });
+        });
+    });
+</script>
+</body>
+</html>

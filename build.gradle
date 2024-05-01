@@ -43,6 +43,8 @@ dependencies {
     implementation group: 'org.java-websocket', name: 'Java-WebSocket', version: '1.5.6'
 
 
+
+
     // https://mvnrepository.com/artifact/com.oracle.oci.sdk/oci-java-sdk-common
     implementation group: 'com.oracle.oci.sdk', name: 'oci-java-sdk-common', version: '3.39.2'
 // https://mvnrepository.com/artifact/com.oracle.database.jdbc/ucp
@@ -54,8 +56,17 @@ dependencies {
 // https://mvnrepository.com/artifact/com.oracle.database.security/osdt_core
     implementation group: 'com.oracle.database.security', name: 'osdt_core', version: '21.13.0.0'
 
+
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databindimplementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+
 }
 
 test {
     useJUnitPlatform()
+}
+
+war {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
