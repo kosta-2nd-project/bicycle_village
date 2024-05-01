@@ -225,7 +225,6 @@ public class AlarmDAOImpl implements AlarmDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        System.out.println("AlarmDAO id: "+ id);
         String sql = "SELECT is_seen FROM alarm " +
                 "WHERE user_seq = (SELECT user_seq FROM member WHERE user_id = ?)";
         List<Integer> list = new ArrayList<Integer>();

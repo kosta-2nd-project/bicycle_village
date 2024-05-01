@@ -13,6 +13,7 @@ public interface AlarmService {
 
 //    int insertDips(AlarmDTO alarm) throws SQLException;
 
+    int insertAlarm(long userSeq) throws SQLException;
     List<AlarmDTO> selectAllAlarm(String id) throws SQLException;
 
     int updateAlarm(String id, long alarmSeq) throws SQLException;
@@ -25,7 +26,7 @@ public interface AlarmService {
      * @return
      * @throws SQLException
      */
-    String linkURL(long boardSeq) throws SQLException;
+    String linkURL(long boardSeq, String methodName) throws SQLException;
 
     long searchBoardSeq(long userSeq) throws SQLException;
 

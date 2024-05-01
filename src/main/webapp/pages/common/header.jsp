@@ -80,7 +80,7 @@
 	     				<li><a>${loginName}님 로그인 중</a>
 	      				<li><a href="${pageContext.request.contextPath}/front?key=user&methodName=logout" class="btn">Logout</a></li>
 	     				<li><a href="${path}/pages/user/myPage.jsp"><span class="icon icon-person"></span></a></li>
-                  		<li><a href="${path}/alarmTest.jsp"><span class="icon icon-heart-o"></span><span class="count"></span></a></li>
+                  		<li><a href="${path}/alarm.jsp"><span class="icon icon-heart-o"></span><span class="count"></span></a></li>
                  
     			 </c:when>
     			 

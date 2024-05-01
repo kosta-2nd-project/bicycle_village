@@ -16,10 +16,7 @@ import group2.bicycle_village.common.dto.BoardEntity;
 import group2.bicycle_village.common.dto.BoardFileDTO;
 import group2.bicycle_village.common.dto.CommentEntity;
 import group2.bicycle_village.common.dto.CommentsDTO;
-import group2.bicycle_village.service.BoardFileService;
-import group2.bicycle_village.service.BoardFileServiceImpl;
-import group2.bicycle_village.service.BoardService;
-import group2.bicycle_village.service.BoardServiceImpl;
+import group2.bicycle_village.service.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,6 +28,7 @@ import jakarta.servlet.http.Part;
 public class BoardController implements Controller{
 	BoardService boardService = new BoardServiceImpl();
 	BoardFileService boardFileService = new BoardFileServiceImpl();
+	AlarmService alarmService = new AlarmServiceImpl();
 	
 	public BoardController(){
 		System.out.println("BoardController 생성자 호출...");
@@ -186,7 +184,12 @@ public class BoardController implements Controller{
 				}
 			} // 업로드 완료 후 처리
 		}
-		
+
+		alarmService.insertAlarm(userSeq);
+		long lastBoardSeq = alarmService.searchBoardSeq(userSeq);
+		String url = alarmService.linkURL(lastBoardSeq, "selectByTradeBoardSeq");
+		alarmService.setLinkURL(url);
+
 		return new ModelAndView("front?key=board&methodName=selectAllTradeBoard", true);
 
 		//return new ModelAndView("front?key=board&methodName=selectByBoardSeq&boardSeq=", true); // 나중에
@@ -250,6 +253,11 @@ public class BoardController implements Controller{
 				}
 			} // 업로드 완료 후 처리
 		}
+
+		alarmService.insertAlarm(userSeq);
+		long lastBoardSeq = alarmService.searchBoardSeq(userSeq);
+		String url = alarmService.linkURL(lastBoardSeq,"selectByInfoBoardSeq");
+		alarmService.setLinkURL(url);
 		
 		return new ModelAndView("front?key=board&methodName=selectAllInfoBoard", true);
 		//return new ModelAndView("front?key=board&methodName=selectByBoardSeq&boardSeq=", true); // 나중에
@@ -469,7 +477,7 @@ public class BoardController implements Controller{
 	/**
 	 *  정보게시판 수정폼
 	 * */
-	public ModelAndView tradeboardInfoForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView infoboardUpdateForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 		BoardDTO board = boardService.selectByBoardSeq(boardSeq, false);
 		
@@ -533,8 +541,9 @@ public class BoardController implements Controller{
 		
 		BoardEntity board = new BoardEntity.Builder().boardSeq(boardSeq).boardName(boardName).content(boardContent)
 				.price(goodsPrice).build(); // 주소,내용,카테고리만 추가된 dto 생성하는데 카테고리 내용에 매칭되는 int 저장
-		
-		boardService.update(board);
+
+		String url = alarmService.linkURL(boardSeq, "selectByInfoBoardSeq");
+		boardService.update(board, url);
 		
 		//수정이 완료가 된후....
 		ModelAndView mv = new ModelAndView();
@@ -557,7 +566,7 @@ public class BoardController implements Controller{
 		
 		BoardEntity board = new BoardEntity.Builder().boardSeq(boardSeq).boardName(boardName).content(boardContent)
 				.price(goodsPrice).build(); // 주소,내용,카테고리만 추가된 dto 생성하는데 카테고리 내용에 매칭되는 int 저장
-		
+
 		boardService.update(board);
 		
 		//수정이 완료가 된후....

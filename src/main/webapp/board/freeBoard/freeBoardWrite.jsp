@@ -46,7 +46,7 @@
 <body>
 
 	<form name="writeForm" method="post"
-		action="${path}/front?key=board&methodName=insert"
+		action="${path}/front?key=board&methodName=insertFreeBoard"
 		onSubmit='return checkValid()' enctype="multipart/form-data">
 
 		<table align="center" cellpadding="5" cellspacing="2" width="600" border="1">

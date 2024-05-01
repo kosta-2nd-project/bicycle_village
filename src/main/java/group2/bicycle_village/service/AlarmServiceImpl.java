@@ -41,6 +41,17 @@ public class AlarmServiceImpl implements AlarmService {
 //    }
 
     @Override
+    public int insertAlarm(long userSeq) throws SQLException {
+        UserDTO userDTO = alarmDAO.userIdAndNickname(userSeq);
+        List<UserDTO> follower = alarmDAO.searchFollower(userSeq);
+        int re = 0;
+        for (UserDTO user : follower) {
+            re += alarmDAO.insertAlarm(new AlarmDTO(user.getUser_seq(), userDTO.getNickName()+"("+userDTO.getUserId()+")님이 게시물을 작성했습니다.",0, null));
+        }
+        return re;
+    }
+
+    @Override
     public List<AlarmDTO> selectAllAlarm(String id) throws SQLException {
         return alarmDAO.selectAllAlarm(id);
     }
@@ -56,8 +67,8 @@ public class AlarmServiceImpl implements AlarmService {
     }
 
     @Override
-    public String linkURL(long boardSeq) throws SQLException {
-        String url = "front?key=board&methodName=selectByBoardSeq&boardSeq=" + boardSeq;
+    public String linkURL(long boardSeq, String methodName) throws SQLException {
+        String url = "front?key=board&methodName="+methodName+"&boardSeq="+boardSeq;
         return url;
     }
 
@@ -73,10 +84,8 @@ public class AlarmServiceImpl implements AlarmService {
 
     @Override
     public int alarmCheck(String id) throws SQLException, AuthenticationException {
-        System.out.println("AlarmService id: "+id);
         List<Integer> list = alarmDAO.alarmCheck(id);
         List<Integer> nlist = new ArrayList<>();
-        System.out.println("AlarmServiceImpl list: "+list);
         int num = 0;
         if(list == null) {
             throw new AuthenticationException("알림 갯수 조회 실패");
@@ -88,7 +97,6 @@ public class AlarmServiceImpl implements AlarmService {
             }
         }
         int result = nlist.size();
-        System.out.println("AlarmService list length: "+result);
         return result;
     }
 }
