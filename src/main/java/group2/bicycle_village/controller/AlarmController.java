@@ -92,7 +92,9 @@ public class AlarmController implements RestController {
     public void countAlarm(HttpServletRequest request, HttpServletResponse response) throws Exception {
         session = request.getSession();
         id = (String)session.getAttribute("loginId");
+        System.out.println("AlarmController id: "+id);
         int result = alarmService.alarmCheck(id);
+        System.out.println("AlarmController result: "+result);
 
         PrintWriter out = response.getWriter();
         out.print(result);

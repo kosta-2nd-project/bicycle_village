@@ -10,6 +10,7 @@ import group2.bicycle_village.dao.BoardDao;
 import group2.bicycle_village.exception.AuthenticationException;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlarmServiceImpl implements AlarmService {
@@ -72,7 +73,10 @@ public class AlarmServiceImpl implements AlarmService {
 
     @Override
     public int alarmCheck(String id) throws SQLException, AuthenticationException {
+        System.out.println("AlarmService id: "+id);
         List<Integer> list = alarmDAO.alarmCheck(id);
+        List<Integer> nlist = new ArrayList<>();
+        System.out.println("AlarmServiceImpl list: "+list);
         int num = 0;
         if(list == null) {
             throw new AuthenticationException("알림 갯수 조회 실패");
@@ -80,8 +84,11 @@ public class AlarmServiceImpl implements AlarmService {
         for (int i : list) {
             if(i == 0) {
                 num += i;
+                nlist.add(num);
             }
         }
-        return num;
+        int result = nlist.size();
+        System.out.println("AlarmService list length: "+result);
+        return result;
     }
 }

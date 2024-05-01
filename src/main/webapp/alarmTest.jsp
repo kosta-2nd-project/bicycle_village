@@ -98,13 +98,13 @@
                     dataType: "json",
                     data: {key: "alarm", methodName: "updateAlarm", alarmSeq: this.getAttribute("data-alarm-seq")},
                     success: function (map) {
-                        console.log("result success!")
+                        // console.log("result success!")
                         if(map.result === 0) {
                             alert("update fail");
                         } else {
-                            alert("update success");
+                            // alert("update success");
                             let url = map.url;
-                            console.log(url);
+                            // console.log(url);
                             location.href = "/" + url;
                         }
                     },
@@ -158,7 +158,7 @@
 
             //팔로우 클릭 할 때
             $(document).on("click", ".follow", function () {
-                let text =`<span><input type="button" class="btn btn-primary" value="취소"><input type="button" class="btn btn-primary" value="팔로우 취소"></span>`
+                let text =`<span><input type="button" class="btn btn-primary" value="팔로우취소"><input type="button" class="btn btn-primary" value="취소"></span>`
                 let followClick = $(this).closest(".fol > p").append(text);
                 console.log("followClick = "+followClick);
                 // #tabs-2 > p > p > span
