@@ -19,6 +19,8 @@ public interface BoardService {
 
 	void update(BoardEntity board) throws SQLException;
 
+	void update(BoardEntity board, String url) throws SQLException;
+
 
 	List<BoardDTO> selectAll() throws SQLException;
 	

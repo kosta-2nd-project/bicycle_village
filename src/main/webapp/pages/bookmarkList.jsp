@@ -50,11 +50,12 @@ $(function(){
 			dataType:"text",
 			data:{key:"bookmark",methodName:"delBookmark",seq:$(this).attr("name")},
 			success:function(result){
-				if(result==0){
+				/* if(result==0){
 					alert("삭제되지 않았습니다.");
 				}else{
 					selectAll();
-				}
+				} */
+				selectAll();
 			},
 			error: function(err){
 				alert(err+"에러 발생");

@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import group2.bicycle_village.common.dto.BoardDTO;
+import group2.bicycle_village.common.dto.PostDTO;
 import group2.bicycle_village.common.util.DbUtil;
 
 public class IndexPostDAOImpl implements IndexPostDAO {
 
 	@Override
-	public List<BoardDTO> selectBest() throws SQLException {
+	public List<PostDTO> selectBest() throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -25,16 +26,14 @@ public class IndexPostDAOImpl implements IndexPostDAO {
 				+ "WHERE category = 3 and (save_number is null or save_number = 0)\r\n"
 				+ "ORDER BY reg_date DESC )\r\n"
 				+ "WHERE rownum <= 5";
-		List<BoardDTO> list = new ArrayList<BoardDTO>();
+		List<PostDTO> list = new ArrayList<PostDTO>();
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				BoardDTO board = new BoardDTO(rs.getInt(1), null, 0, rs.getInt("goods_price"),
-						0, 0, rs.getString("board_name"), rs.getString("reg_date"),
-						null, 0, null, null);
-				list.add(board);
+				PostDTO post = new PostDTO(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4));
+				list.add(post);
 			}
 		}finally {
 			DbUtil.close(con, ps, rs);

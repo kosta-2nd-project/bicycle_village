@@ -23,14 +23,6 @@ public class BoardServiceImpl implements BoardService {
 
 		int result = boardDAO.insert(board);
 		if(result==0) throw new SQLException("등록되지 않았습니다");
-		/*else {
-			UserDTO userDTO = alarmDAO.userIdAndNickname(board.getUserSeq());
-			List<UserDTO> follower = alarmDAO.searchFollower(board.getUserSeq());
-			int re = 0;
-			for (UserDTO user : follower) {
-				re += alarmDAO.insertAlarm(new AlarmDTO(user.getUser_seq(), userDTO.getNickName()+"("+userDTO.getUserId()+")님이 게시물을 작성했습니다.",0, url));
-			}
-		}*/
 		
 		return result;
 	}
@@ -55,12 +47,19 @@ public class BoardServiceImpl implements BoardService {
 
 		int result = boardDAO.update(board);
 		if(result==0) throw new SQLException("수정되지 않았습니다");
+	}
+
+	@Override
+	public void update(BoardEntity board, String url) throws SQLException {
+
+		int result = boardDAO.update(board);
+		if(result==0) throw new SQLException("수정되지 않았습니다");
 		else {
 			List<UserDTO> dips = alarmDAO.searchDips(board.getBoardSeq());
 			int re = 0;
 			for (UserDTO user : dips) {
 
-				re += alarmDAO.insertAlarm(new AlarmDTO(user.getUser_seq(), "게시물이 수정되었습니다.",0, null));
+				re += alarmDAO.insertAlarm(new AlarmDTO(user.getUser_seq(), "찜한 게시물이 수정되었습니다.",0, url));
 
 			}
 		}
