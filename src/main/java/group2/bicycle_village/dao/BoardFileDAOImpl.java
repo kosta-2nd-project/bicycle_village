@@ -72,10 +72,6 @@ public class BoardFileDAOImpl implements BoardFileDAO {
 		PreparedStatement ps=null;
 		int result=0;
 		
-		System.out.println("#######"+boardFile.getBoardSeq());
-		System.out.println("!!!!!!!!!!1"+boardFile.getImageName());
-		System.out.println("&&&&&&&&&&&&"+boardFile.getSaveNumber());
-		
 		//String sql= proFile.getProperty("query.insert");
 		String sql= "insert into boardfile values(bfile_seq.nextval,?,?,?)";
 		

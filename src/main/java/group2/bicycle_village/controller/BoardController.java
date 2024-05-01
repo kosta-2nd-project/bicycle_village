@@ -86,28 +86,29 @@ public class BoardController implements Controller{
 		
 		int saveNumber = 0;
 		
-		if (!directory.exists()) {
-			System.out.println("fileParts = .");
-			for (Part filePart : fileParts) {
-				if(filePart.getName().equals("files")) {
-					String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
-					// 업로드된 파일 저장
-					//System.out.println("!!!!!!!=========!!!!!!"+fileName);
-					try (InputStream input = filePart.getInputStream()) {
-						Files.copy(input, new File(uploadPath + File.separator + fileName).toPath());
-					
-					} catch (IOException e) { // 오류 처리
-						e.printStackTrace();
-					}
-					
-					BoardFileDTO boardFileDTO = new BoardFileDTO(boardSeq , saveNumber, fileName);
-					
-					boardFileService.insert(boardFileDTO);
-					System.out.println("ok\n");
-					saveNumber++;
+
+		for (Part filePart : fileParts) {
+
+			if (filePart.getName().equals("files")) {
+				String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
+				// 업로드된 파일 저장
+
+				try (InputStream input = filePart.getInputStream()) {
+					Files.copy(input, new File(uploadPath + File.separator + fileName).toPath());
+
+				} catch (IOException e) { // 오류 처리
+					return new ModelAndView("front?key=board&methodName=selectAllFreeBoard", true);
 				}
-			} // 업로드 완료 후 처리
-		}
+
+				BoardFileDTO boardFileDTO = new BoardFileDTO(boardSeq, saveNumber, fileName);
+
+				boardFileService.insert(boardFileDTO);
+				System.out.println("ok\n");
+				saveNumber++;
+			}
+
+		} // 업로드 완료 후 처리
+		
 		
 		return new ModelAndView("front?key=board&methodName=selectAllFreeBoard", true);
 		//return new ModelAndView("front?key=board&methodName=selectByBoardSeq&boardSeq=", true); // 나중에
@@ -115,14 +116,13 @@ public class BoardController implements Controller{
 	}// Part 객체에서 파일 이름 가져오기
 
 	private String getFileName(final Part part) {
-		System.out.println("getFileName = " + part +" , getName = " + part.getName());
+		//System.out.println("getFileName = " + part +" , getName = " + part.getName());
 	    final String partHeader = part.getHeader("content-disposition");
-	    System.out.println("partHeader = " + partHeader);
+	    //System.out.println("partHeader = " + partHeader);
 	    
 	   
 	    for (String content : partHeader.split(";")) {
 	        if (content.trim().startsWith("filename")) {
-	        	System.out.println("하하하하하 실행됩니다.");
 	            return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
 	        }
 	    }
@@ -165,26 +165,28 @@ public class BoardController implements Controller{
 		
 		int saveNumber = 0;
 		
-			System.out.println("fileParts = .");
-			for (Part filePart : fileParts) {
-				if(filePart.getName().equals("files")) {
-					String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
-					// 업로드된 파일 저장
-					try (InputStream input = filePart.getInputStream()) {
-						Files.copy(input, new File(uploadPath + File.separator + fileName).toPath());
-					
-					} catch (IOException e) { // 오류 처리
-						e.printStackTrace();
-					}
-					
-					BoardFileDTO boardFileDTO = new BoardFileDTO(boardSeq , saveNumber, fileName);
-					
-					boardFileService.insert(boardFileDTO);
-					System.out.println("ok\n");
-					saveNumber++;
+
+		for (Part filePart : fileParts) {
+			if (filePart.getName().equals("files")) {
+				String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
+				// 업로드된 파일 저장
+				try (InputStream input = filePart.getInputStream()) {
+					Files.copy(input, new File(uploadPath + File.separator + fileName).toPath());
+
+				} catch (IOException e) { // 오류 처리
+					e.printStackTrace();
+					return new ModelAndView("front?key=board&methodName=selectAllTradeBoard", true);
 				}
-			} // 업로드 완료 후 처리
+
+				BoardFileDTO boardFileDTO = new BoardFileDTO(boardSeq, saveNumber, fileName);
+
+				boardFileService.insert(boardFileDTO);
+				System.out.println("ok\n");
+				saveNumber++;
+			}
+		} // 업로드 완료 후 처리
 		
+
 		return new ModelAndView("front?key=board&methodName=selectAllTradeBoard", true);
 
 		//return new ModelAndView("front?key=board&methodName=selectByBoardSeq&boardSeq=", true); // 나중에
@@ -226,28 +228,26 @@ public class BoardController implements Controller{
 		
 		int saveNumber = 0;
 		
-		if (!directory.exists()) {
-			System.out.println("fileParts = .");
-			for (Part filePart : fileParts) {
-				if(filePart.getName().equals("files")) {
-					String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
-					// 업로드된 파일 저장
-					//System.out.println("!!!!!!!=========!!!!!!"+fileName);
-					try (InputStream input = filePart.getInputStream()) {
-						Files.copy(input, new File(uploadPath + File.separator + fileName).toPath());
-					
-					} catch (IOException e) { // 오류 처리
-						e.printStackTrace();
-					}
-					
-					BoardFileDTO boardFileDTO = new BoardFileDTO(boardSeq , saveNumber, fileName);
-					
-					boardFileService.insert(boardFileDTO);
-					System.out.println("ok\n");
-					saveNumber++;
+		for (Part filePart : fileParts) {
+			if (filePart.getName().equals("files")) {
+				String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
+				// 업로드된 파일 저장
+				
+				try (InputStream input = filePart.getInputStream()) {
+					Files.copy(input, new File(uploadPath + File.separator + fileName).toPath());
+
+				} catch (IOException e) { // 오류 처리
+					return new ModelAndView("front?key=board&methodName=selectAllInfoBoard", true);
 				}
-			} // 업로드 완료 후 처리
-		}
+
+				BoardFileDTO boardFileDTO = new BoardFileDTO(boardSeq, saveNumber, fileName);
+
+				boardFileService.insert(boardFileDTO);
+				System.out.println("ok\n");
+				saveNumber++;
+			}
+		} // 업로드 완료 후 처리
+		
 		
 		return new ModelAndView("front?key=board&methodName=selectAllInfoBoard", true);
 		//return new ModelAndView("front?key=board&methodName=selectByBoardSeq&boardSeq=", true); // 나중에
@@ -470,7 +470,7 @@ public class BoardController implements Controller{
 	/**
 	 *  정보게시판 수정폼
 	 * */
-	public ModelAndView tradeboardInfoForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView infoboardUpdateForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 		BoardDTO board = boardService.selectByBoardSeq(boardSeq, false);
 		
