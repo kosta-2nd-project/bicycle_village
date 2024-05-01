@@ -131,8 +131,9 @@
             })//click end
 
             //팔로우 취소 버튼 클릭할 때
-            $(document).on("click","[value='팔로우 취소']", function () {
+            $(document).on("click","[value='팔로우취소']", function () {
                 let followId = $(this).closest("span").siblings("a").attr("data-follow");
+                console.log(followId)
                 $.ajax({
                     url: "rest",
                     type: "post",
