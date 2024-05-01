@@ -21,10 +21,10 @@ public class FollowController implements RestController {
 	public void addFollow(HttpServletRequest req, HttpServletResponse res) throws Exception{
 		HttpSession session = req.getSession();
 		int follower = (int) session.getAttribute("user_seq");
-		String nickname = req.getParameter("nickname");
+		String userId = req.getParameter("userId");
 		int check = 0;
 		
-		int userSeq = followService.checkUser(nickname);
+		int userSeq = followService.checkUser(userId);
 		
 		FollowEntity followEntity = new FollowEntity.Builder().follow(userSeq).follower(follower).build();
 		int result = followService.FollowCheck(followEntity);
