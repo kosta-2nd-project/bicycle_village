@@ -244,7 +244,7 @@
 		</h3>
 
 		<div class="nick_name" style="padding-bottom: 30px; font-size: 20px;">
-			${board.userSeq} &nbsp;&nbsp;
+			${board.userDTO.userId} &nbsp;&nbsp;
 			<input type="button" id="follow" class="follow" value="팔로우">
 		</div>
 

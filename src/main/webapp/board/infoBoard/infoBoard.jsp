@@ -103,6 +103,26 @@ body {
 
 </style>
 <script type="text/javascript">
+
+	$(document).on("click","#follow",function(){
+		$.ajax({
+			url:"${path}/rest",
+			type:"post",
+			dataType:"json",
+			data:{key:"follow",methodName:"addFollow",userId:"${board.userDTO.userId}"},
+			success:function(result){
+				console.log("result:"+result);
+				if(result===1){
+					alert("이미 팔로우 중입니다.");
+				}else{
+					alert("팔로우 목록에 추가됨")
+				}
+			},
+			error:function(err){
+				alert(err+"에러 발생");
+			}
+		})
+	});
     
     function checkValid(){
         var f = window.document.commentForm;
