@@ -12,6 +12,7 @@ public class PostDTO {
 	private int userSeq;
 	private String imageName; //이미지 파일 이름
 	private int saveNumber;
+	private int goodsPrice;
 	
 	public PostDTO(int boardSeq, String boardName, String category, Date regDate, int boardCount, int commentCount
 			,String imageName, int saveNumber) {
@@ -24,6 +25,13 @@ public class PostDTO {
 		this.commentCount = commentCount;
 		this.imageName = imageName;
 		this.saveNumber = saveNumber;
+	}
+	
+	public PostDTO(int boardSeq, String boardName, int goodsPrice, String imageName) {
+		this.boardSeq = boardSeq;
+		this.boardName = boardName;
+		this.goodsPrice = goodsPrice;
+		this.imageName = imageName;
 	}
 	
 	public PostDTO(int boardSeq, int userSeq) {

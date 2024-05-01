@@ -4,11 +4,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 import group2.bicycle_village.common.dto.BoardDTO;
+import group2.bicycle_village.common.dto.PostDTO;
 
 public interface IndexPostDAO {
 
 	/**
 	 * 상위 조회수 게시글 조회
 	 */
-	List<BoardDTO> selectBest() throws SQLException;
+	List<PostDTO> selectBest() throws SQLException;
 }

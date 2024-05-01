@@ -21,7 +21,7 @@ $(function(){
 	                str+=`<div class="block-4 text-center">`;
 	                str+=`<figure class="block-4-image">`;
 	                if(`\${item.imageName}` !== 'undefined'){
-						str+=`<td><img alt="Image placeholder" class ="img-fluid" width="100%" height="100%"  src="<%= request.getContextPath() + "/file-servlet"+ "?fname=${item.boardSeq}/${item.imageName}" %>"></td>`;
+						str+=`<td><img class ="img-fluid" width="200px" height="200px"  src="<%= request.getContextPath() + "/file-servlet"+ "?fname=${item.boardSeq}/${item.imageName}" %>"></td>`;
 					}else{
 						str+=`<td>이미지 없음</td>`;
 					}
