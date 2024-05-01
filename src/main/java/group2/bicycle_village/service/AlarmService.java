@@ -3,6 +3,7 @@ package group2.bicycle_village.service;
 import group2.bicycle_village.common.dto.AlarmDTO;
 import group2.bicycle_village.common.dto.UserDTO;
 import group2.bicycle_village.dao.AlarmDAO;
+import group2.bicycle_village.exception.AuthenticationException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -29,4 +30,12 @@ public interface AlarmService {
     long searchBoardSeq(long userSeq) throws SQLException;
 
     int setLinkURL(String url) throws SQLException;
+
+    /**
+     * 확인하지 않은 알림의 갯수
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+    int alarmCheck(String id) throws SQLException, AuthenticationException;
 }

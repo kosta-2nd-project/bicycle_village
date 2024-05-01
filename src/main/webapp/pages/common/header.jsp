@@ -21,6 +21,31 @@
     <link rel="stylesheet" href="/css/aos.css">
 
     <link rel="stylesheet" href="/css/style.css">
+
+    <script src="${path}/js/jquery-3.3.1.min.js"></script>
+    <script>
+      $(function () {
+        alarmCnt();
+        function alarmCnt() {
+          $.ajax({
+            url: "rest",
+            type: "post",
+            dataType: "json",
+            data: {key: "alarm", methodName: "countAlarm"},
+            success: function (result) {
+              let cnt;
+              if(result !== 0) {
+                cnt = result;
+              }
+              $(".count").html(cnt);
+            },
+            error: function (err) {
+              console.log(err + " error");
+            }
+          })//ajax end
+        }//alarmCnt end
+      })//ready end
+    </script>
     
   </head>
   <body>

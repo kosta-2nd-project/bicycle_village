@@ -1,8 +1,10 @@
 package group2.bicycle_village.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import group2.bicycle_village.common.dto.FollowEntity;
+import group2.bicycle_village.common.dto.UserDTO;
 import group2.bicycle_village.dao.FollowDAO;
 import group2.bicycle_village.dao.FollowDAOImpl;
 import group2.bicycle_village.exception.AuthenticationException;
@@ -21,11 +23,12 @@ public class FollowServiceImpl implements FollowService {
 	}
 
 	@Override
-	public void delFollow(FollowEntity follow) throws SQLException, AuthenticationException {
-		int result = followDao.delFollow(follow);
+	public int delFollow(String followId) throws SQLException, AuthenticationException {
+		int result = followDao.delFollow(followId);
 		if(result==0) {
 			throw new AuthenticationException("팔로우 삭제 실패");
 		}
+		return result;
 	}
 
 	@Override
@@ -43,4 +46,11 @@ public class FollowServiceImpl implements FollowService {
 		}
 	}
 
+	@Override
+	public List<UserDTO> selectAll(String id) throws SQLException, AuthenticationException {
+		if(id.equals("")) {
+			throw new AuthenticationException("팔로우 목록 조회 실패");
+		}
+		return followDao.searchNicknameUserId(id);
+	}
 }

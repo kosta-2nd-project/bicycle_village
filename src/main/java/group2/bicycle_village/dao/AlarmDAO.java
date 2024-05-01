@@ -82,4 +82,13 @@ public interface AlarmDAO {
      * @throws SQLException
      */
     int setLinkURL(String url) throws SQLException;
+
+    /**
+     * 로그인한 유저가 알림을 확인했는지 체크 - 확인한 알림이 있으면 알림 개수 줄임
+     * 확인한 알림이 있으면 1, 없으면 0
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+    List<Integer> alarmCheck(String id) throws SQLException;
 }

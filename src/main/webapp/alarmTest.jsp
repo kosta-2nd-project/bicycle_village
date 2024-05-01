@@ -56,13 +56,15 @@
                     dataType: "json",
                     data: {key: "alarm", methodName: "selectAll"},
                     success: function (result) {
-                        if(result != null) {
-                            let str = "";
+                        let str = "";
+                        if(result.length === 0) {
+                            str += "알림이 없습니다."
+                        } else {
                             $.each(result, function (index, list) {
-                                str += `<p><a href="#" class = "alarm" data-alarm-seq="${'${list.alarmSeq}'}">${"${list.alarmContent}"}</a></p>`;
+                                str += `<p class="mb-0"><a href="#" class = "alarm" data-alarm-seq="${'${list.alarmSeq}'}">${"${list.alarmContent}"}</a></p>`;
                             });
-                            $("#tabs-1 > p").html(str);
                         }
+                        $("#tabs-1 > p").html(str);
                     },
                     error: function (err) {
                         console.log(err + " error");
@@ -120,13 +122,15 @@
                     dataType: "json",
                     data: {key: "follow", methodName: "selectAll"},
                     success: function (result) {
-                        if(result != null) {
-                            let str = "";
+                        let str = "";
+                        if(result.length === 0) {
+                            str += "팔로우한 유저가 없습니다."
+                        } else {
                             $.each(result, function (index, list) {
-                                str += `<p><a href="#" class="follow" data-follow="${'${list.userId}'}">${"${list.nickName}"}(${"${list.userId}"})님</a></p>`;
+                                str += `<p class="mb-0"><a href="#" class="follow" data-follow="${'${list.userId}'}">${"${list.nickName}"}(${"${list.userId}"})님</a></p>`;
                             });
-                            $("#tabs-2 > p").html(str);
                         }
+                        $("#tabs-2 > p").html(str);
                     },
                     error: function (err) {
                         console.log(err + " error");

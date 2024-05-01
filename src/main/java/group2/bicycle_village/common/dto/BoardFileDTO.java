@@ -1,11 +1,19 @@
 package group2.bicycle_village.common.dto;
 
 public class BoardFileDTO {
-	private int bFileSeq, boardSeq, saveNumber;
+	private long bFileSeq, boardSeq;
+	int saveNumber;
 	private String imageName;
 	
 	public BoardFileDTO() {}
-	
+
+	public BoardFileDTO(long boardSeq, int saveNumber, String imageName) {
+		super();
+		this.boardSeq = boardSeq;
+		this.saveNumber = saveNumber;
+		this.imageName = imageName;
+	}
+
 	public BoardFileDTO(int bFileSeq, int boardSeq, int saveNumber, String imageName) {
 		super();
 		this.bFileSeq = bFileSeq;
@@ -14,19 +22,19 @@ public class BoardFileDTO {
 		this.imageName = imageName;
 	}
 
-	public int getbFileSeq() {
+	public long getbFileSeq() {
 		return bFileSeq;
 	}
 
-	public void setbFileSeq(int bFileSeq) {
+	public void setbFileSeq(long bFileSeq) {
 		this.bFileSeq = bFileSeq;
 	}
 
-	public int getBoardSeq() {
+	public long getBoardSeq() {
 		return boardSeq;
 	}
 
-	public void setBoardSeq(int boardSeq) {
+	public void setBoardSeq(long boardSeq) {
 		this.boardSeq = boardSeq;
 	}
 

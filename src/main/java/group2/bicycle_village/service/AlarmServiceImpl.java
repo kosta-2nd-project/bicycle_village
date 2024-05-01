@@ -7,6 +7,7 @@ import group2.bicycle_village.dao.AlarmDAO;
 import group2.bicycle_village.dao.AlarmDAOImpl;
 import group2.bicycle_village.dao.BoardDAOImpl;
 import group2.bicycle_village.dao.BoardDao;
+import group2.bicycle_village.exception.AuthenticationException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -67,5 +68,20 @@ public class AlarmServiceImpl implements AlarmService {
     @Override
     public int setLinkURL(String url) throws SQLException {
         return alarmDAO.setLinkURL(url);
+    }
+
+    @Override
+    public int alarmCheck(String id) throws SQLException, AuthenticationException {
+        List<Integer> list = alarmDAO.alarmCheck(id);
+        int num = 0;
+        if(list == null) {
+            throw new AuthenticationException("알림 갯수 조회 실패");
+        }
+        for (int i : list) {
+            if(i == 0) {
+                num += i;
+            }
+        }
+        return num;
     }
 }
