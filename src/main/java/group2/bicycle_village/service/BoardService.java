@@ -5,6 +5,8 @@ import java.util.List;
 
 import group2.bicycle_village.common.dto.BoardDTO;
 import group2.bicycle_village.common.dto.BoardEntity;
+import group2.bicycle_village.common.dto.CommentEntity;
+import group2.bicycle_village.common.dto.CommentsDTO;
 
 public interface BoardService {
 	
@@ -12,7 +14,7 @@ public interface BoardService {
 	int insert(BoardEntity board) throws SQLException;
 
 
-	void delete(int boardSeq) throws SQLException;
+	void delete(long boardSeq) throws SQLException;
 
 
 	void update(BoardEntity board) throws SQLException;
@@ -22,11 +24,41 @@ public interface BoardService {
 	
 	List<BoardDTO> selectAll(int pageNo) throws SQLException;
 	
-	BoardDTO selectByBoardSeq(int boardSeq, boolean flag) throws SQLException;
+	BoardDTO selectByBoardSeq(long boardSeq, boolean flag) throws SQLException;
 
 	List<BoardDTO> selectByCateory(int category) throws SQLException;
 
 	List<BoardDTO> getBoardListByCateory(int category, int pageNo) throws SQLException;
 
 	long searchBoardSeq(long userSeq) throws SQLException;
+
+
+	/**
+	 *  댓글 조회
+	 * */
+	List<CommentsDTO> getComment(long boardSeq) throws SQLException;
+
+
+	/**
+	 *  댓글 작성
+	 * */
+	int insertComment(CommentEntity comment) throws SQLException;
+
+
+	/**
+	 *  댓글 삭제
+	 * */
+	int deleteComment(long boardSeq) throws SQLException;
+
+
+	/**
+	 *  댓글 수정
+	 * */
+	int updateComment(CommentEntity comment) throws SQLException;
+
+
+	/**
+	 *  댓글 게수 출력
+	 * */
+	int getCommentListSize(long boardSeq) throws SQLException;
 }

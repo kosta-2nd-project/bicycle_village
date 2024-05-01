@@ -37,6 +37,26 @@ body {
 }
 </style>
 
+<script type="text/javascript" >
+	function checkValid(){
+		var f = window.document.writeForm;
+		
+		if ( f.board_name.value == "" ) {
+			alert( "제목을 입력해 주세요." );
+			f.board_name.focus();
+			return false;
+		}
+	  
+		if ( f.board_content.value == "" ) {
+	        alert( "상품 설명을 입력해 주세요." );
+	        f.board_content.focus();
+	        return false;
+	    }
+		
+		return true;
+	}
+</script>
+
 </head>
 <body>
 

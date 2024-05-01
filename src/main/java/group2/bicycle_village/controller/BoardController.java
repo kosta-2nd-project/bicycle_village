@@ -10,9 +10,12 @@ import java.util.List;
 import java.util.Objects;
 
 import group2.bicycle_village.common.constant.CommonCode;
+import group2.bicycle_village.common.constant.CommonCode.BoardCategory;
 import group2.bicycle_village.common.dto.BoardDTO;
 import group2.bicycle_village.common.dto.BoardEntity;
 import group2.bicycle_village.common.dto.BoardFileDTO;
+import group2.bicycle_village.common.dto.CommentEntity;
+import group2.bicycle_village.common.dto.CommentsDTO;
 import group2.bicycle_village.service.BoardFileService;
 import group2.bicycle_village.service.BoardFileServiceImpl;
 import group2.bicycle_village.service.BoardService;
@@ -56,13 +59,13 @@ public class BoardController implements Controller{
 		int boardCount = Integer.parseInt(request.getParameter("board_count"));
 		int goodsPrice = Integer.parseInt(request.getParameter("goods_price"));
 		//HttpSession session = request.getSession(); //controller에서 현재 로그인한 세션값 얻어오기
-		long userSeq = Integer.parseInt(request.getParameter("user_seq"));
+		long userSeq = Long.parseLong(request.getParameter("user_seq"));
 		String boardName = request.getParameter("board_name");
 		String category = request.getParameter("category");
 		String isSeen = request.getParameter("is_seen");
 		String boardContent = request.getParameter("board_content");
 		String boardAddr = request.getParameter("board_addr");
-		long productSeq = Integer.parseInt(request.getParameter("product_seq"));
+		long productSeq = Long.parseLong(request.getParameter("product_seq"));
 		
 		BoardEntity board = new BoardEntity.Builder().price(goodsPrice).userSeq(userSeq).boardCount(boardCount)
 				.boardName(boardName).category(CommonCode.BoardCategory.valueOf(category))
@@ -83,29 +86,28 @@ public class BoardController implements Controller{
 		
 		int saveNumber = 0;
 		
-		
-		System.out.println("fileParts = .");
-		for (Part filePart : fileParts) {
-			if(filePart.getName().equals("files")) {
-				String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
-				// 업로드된 파일 저장
-				//System.out.println("!!!!!!!=========!!!!!!"+fileName);
-				try (InputStream input = filePart.getInputStream()) {
-					Files.copy(input, new File(uploadPath + File.separator + fileName).toPath());
-				
-				} catch (IOException e) { // 오류 처리
-					e.printStackTrace();
+		if (!directory.exists()) {
+			System.out.println("fileParts = .");
+			for (Part filePart : fileParts) {
+				if(filePart.getName().equals("files")) {
+					String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
+					// 업로드된 파일 저장
+					//System.out.println("!!!!!!!=========!!!!!!"+fileName);
+					try (InputStream input = filePart.getInputStream()) {
+						Files.copy(input, new File(uploadPath + File.separator + fileName).toPath());
+					
+					} catch (IOException e) { // 오류 처리
+						e.printStackTrace();
+					}
+					
+					BoardFileDTO boardFileDTO = new BoardFileDTO(boardSeq , saveNumber, fileName);
+					
+					boardFileService.insert(boardFileDTO);
+					System.out.println("ok\n");
+					saveNumber++;
 				}
-				
-				BoardFileDTO boardFileDTO = new BoardFileDTO(boardSeq , saveNumber, fileName);
-				
-				boardFileService.insert(boardFileDTO);
-				System.out.println("ok\n");
-				saveNumber++;
-			}
-		} // 업로드 완료 후 처리
-		
-		
+			} // 업로드 완료 후 처리
+		}
 		
 		return new ModelAndView("front?key=board&methodName=selectAllFreeBoard", true);
 		//return new ModelAndView("front?key=board&methodName=selectByBoardSeq&boardSeq=", true); // 나중에
@@ -135,13 +137,13 @@ public class BoardController implements Controller{
 		int boardCount = Integer.parseInt(request.getParameter("board_count"));
 		int goodsPrice = Integer.parseInt(request.getParameter("goods_price"));
 		//HttpSession session = request.getSession(); //controller에서 현재 로그인한 세션값 얻어오기
-		long userSeq = Integer.parseInt(request.getParameter("user_seq"));
+		long userSeq = Long.parseLong(request.getParameter("user_seq"));
 		String boardName = request.getParameter("board_name");
 		String category = request.getParameter("category");
 		String isSeen = request.getParameter("is_seen");
 		String boardContent = request.getParameter("board_content");
 		String boardAddr = request.getParameter("board_addr");
-		long productSeq = Integer.parseInt(request.getParameter("product_seq"));
+		long productSeq = Long.parseLong(request.getParameter("product_seq"));
 		
 		BoardEntity board = new BoardEntity.Builder().price(goodsPrice).userSeq(userSeq).boardCount(boardCount)
 				.boardName(boardName).category(CommonCode.BoardCategory.valueOf(category))
@@ -163,27 +165,27 @@ public class BoardController implements Controller{
 		
 		int saveNumber = 0;
 		
-		
-		System.out.println("fileParts = .");
-		for (Part filePart : fileParts) {
-			if(filePart.getName().equals("files")) {
-				String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
-				// 업로드된 파일 저장
-				//System.out.println("!!!!!!!=========!!!!!!"+fileName);
-				try (InputStream input = filePart.getInputStream()) {
-					Files.copy(input, new File(uploadPath + File.separator + fileName).toPath());
-				
-				} catch (IOException e) { // 오류 처리
-					e.printStackTrace();
+		if (!directory.exists()) {
+			System.out.println("fileParts = .");
+			for (Part filePart : fileParts) {
+				if(filePart.getName().equals("files")) {
+					String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
+					// 업로드된 파일 저장
+					try (InputStream input = filePart.getInputStream()) {
+						Files.copy(input, new File(uploadPath + File.separator + fileName).toPath());
+					
+					} catch (IOException e) { // 오류 처리
+						e.printStackTrace();
+					}
+					
+					BoardFileDTO boardFileDTO = new BoardFileDTO(boardSeq , saveNumber, fileName);
+					
+					boardFileService.insert(boardFileDTO);
+					System.out.println("ok\n");
+					saveNumber++;
 				}
-				
-				BoardFileDTO boardFileDTO = new BoardFileDTO(boardSeq , saveNumber, fileName);
-				
-				boardFileService.insert(boardFileDTO);
-				System.out.println("ok\n");
-				saveNumber++;
-			}
-		} // 업로드 완료 후 처리
+			} // 업로드 완료 후 처리
+		}
 		
 		return new ModelAndView("front?key=board&methodName=selectAllTradeBoard", true);
 
@@ -191,6 +193,70 @@ public class BoardController implements Controller{
 		
 	}
 
+	/**
+	 * 정보게시판 등록하기
+	 * */
+	public ModelAndView insertInfoBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//전송된 데이터 받기
+		int boardCount = Integer.parseInt(request.getParameter("board_count"));
+		int goodsPrice = Integer.parseInt(request.getParameter("goods_price"));
+		//HttpSession session = request.getSession(); //controller에서 현재 로그인한 세션값 얻어오기
+		long userSeq = Long.parseLong(request.getParameter("user_seq"));
+		String boardName = request.getParameter("board_name");
+		String category = request.getParameter("category");
+		String isSeen = request.getParameter("is_seen");
+		String boardContent = request.getParameter("board_content");
+		String boardAddr = request.getParameter("board_addr");
+		long productSeq = Long.parseLong(request.getParameter("product_seq"));
+		
+		BoardEntity board = new BoardEntity.Builder().price(goodsPrice).userSeq(userSeq).boardCount(boardCount)
+				.boardName(boardName).category(CommonCode.BoardCategory.valueOf(category))
+				.isSeen(CommonCode.BoardStatus.valueOf(isSeen)).addr(boardAddr).content(boardContent)
+				.productSeq(productSeq).build(); // 주소,내용,카테고리만 추가된 dto 생성하는데 카테고리 내용에 매칭되는 int 저장
+		
+		boardService.insert(board);
+		Long boardSeq = boardService.searchBoardSeq(userSeq);
+		
+		Collection<Part> fileParts = request.getParts(); // 여러 파일 가져오기
+        String uploadPath = "/save/" + boardSeq;
+        
+        File directory = new File(uploadPath);
+		
+		if (!directory.exists()) {
+			directory.mkdirs(); // 디렉토리 생성
+		}
+		
+		int saveNumber = 0;
+		
+		if (!directory.exists()) {
+			System.out.println("fileParts = .");
+			for (Part filePart : fileParts) {
+				if(filePart.getName().equals("files")) {
+					String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
+					// 업로드된 파일 저장
+					//System.out.println("!!!!!!!=========!!!!!!"+fileName);
+					try (InputStream input = filePart.getInputStream()) {
+						Files.copy(input, new File(uploadPath + File.separator + fileName).toPath());
+					
+					} catch (IOException e) { // 오류 처리
+						e.printStackTrace();
+					}
+					
+					BoardFileDTO boardFileDTO = new BoardFileDTO(boardSeq , saveNumber, fileName);
+					
+					boardFileService.insert(boardFileDTO);
+					System.out.println("ok\n");
+					saveNumber++;
+				}
+			} // 업로드 완료 후 처리
+		}
+		
+		return new ModelAndView("front?key=board&methodName=selectAllInfoBoard", true);
+		//return new ModelAndView("front?key=board&methodName=selectByBoardSeq&boardSeq=", true); // 나중에
+		
+	}// Part 객체에서 파일 이름 가져오기
+	
+	
 	//==============================파일 등록/삭제===============================================
 	
 	/**
@@ -219,6 +285,11 @@ public class BoardController implements Controller{
 		//List<BoardDTO> list = boardService.selectByCateory(1, Integer.parseInt(pageNo));
 		List<BoardDTO> list = boardService.selectByCateory(1);
 		
+//		for(BoardDTO board : list) { // 게시글별 댓글 수
+//			System.out.println("CommentListSize========"+boardService.getCommentListSize(board.getBoardSeq()));
+//			//board.setCommentListSize(boardService.getCommentListSize(board.getBoardSeq()));
+//		}
+		
 		request.setAttribute("list", list);// 뷰에서 ${list}
 		//request.setAttribute("pageNo", pageNo); // 뷰에서 ${pageNo}
 
@@ -244,6 +315,26 @@ public class BoardController implements Controller{
 		return new ModelAndView("board/tradeBoard/tradeBoardList.jsp"); // forward방식으로 이동
 	}
 	
+	
+	/**
+	 *  정보게시판 전체검색
+	 * */
+	public ModelAndView selectAllInfoBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+//		String pageNo = request.getParameter("pageNo");
+//		if (pageNo == null || pageNo.equals("")) {
+//			pageNo = "1";
+//		}
+
+		//List<BoardDTO> list = boardService.selectByCateory(2, Integer.parseInt(pageNo));
+		List<BoardDTO> list = boardService.selectByCateory(2);
+		
+		request.setAttribute("list", list);// 뷰에서 ${list}
+		//request.setAttribute("pageNo", pageNo); // 뷰에서 ${pageNo}
+
+		return new ModelAndView("board/infoBoard/infoBoardList.jsp"); // forward방식으로 이동
+	}
+	
 	//==============================게시글 검색===============================================
 
 	/**
@@ -251,10 +342,10 @@ public class BoardController implements Controller{
 	 * */
 
 	public ModelAndView selectByFreeBoardSeq(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+		boolean state = request.getParameter("flag")==null ? true : false;
 		
-		 int boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
-		 boolean state = request.getParameter("flag")==null ? true : false;
-		 
 		String pageNo =  request.getParameter("pageNo");
 		 
 		 //두번째 인수 boolean 조회수 증가여부를판단할 인수(true이면, false이면 증가안함)
@@ -301,6 +392,8 @@ public class BoardController implements Controller{
 //			}
 //		}
 		
+		selectAllComments(request,response);
+		
 		return new ModelAndView("board/freeBoard/freeBoard.jsp"); //forward방식 
 	}
 	
@@ -310,8 +403,8 @@ public class BoardController implements Controller{
 
 	public ModelAndView selectByTradeBoardSeq(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		 int boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
-		 boolean state = request.getParameter("flag")==null ? true : false;
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+		boolean state = request.getParameter("flag")==null ? true : false;
 		 
 		String pageNo =  request.getParameter("pageNo");
 		 
@@ -320,7 +413,30 @@ public class BoardController implements Controller{
 		request.setAttribute("board", board);
 		request.setAttribute("pageNo", pageNo);
 		
+		selectAllComments(request,response);
+		
 		return new ModelAndView("board/tradeBoard/tradeBoard.jsp"); //forward방식 
+	}
+	
+	/**
+	 * 정보게시판 상세보기 
+	 * */
+
+	public ModelAndView selectByInfoBoardSeq(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+		boolean state = request.getParameter("flag")==null ? true : false;
+		 
+		String pageNo =  request.getParameter("pageNo");
+		 
+		 //두번째 인수 boolean 조회수 증가여부를판단할 인수(true이면, false이면 증가안함)
+		BoardDTO board = boardService.selectByBoardSeq(boardSeq, state);
+		request.setAttribute("board", board);
+		request.setAttribute("pageNo", pageNo);
+		
+		selectAllComments(request,response);
+		
+		return new ModelAndView("board/infoBoard/infoBoard.jsp"); //forward방식 
 	}
 	
 	//==============================게시판 수정===============================================
@@ -330,7 +446,7 @@ public class BoardController implements Controller{
 	 *  자유게시판 수정폼
 	 * */
 	public ModelAndView freeboardUpdateForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		int boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 		BoardDTO board = boardService.selectByBoardSeq(boardSeq, false);
 		
 		request.setAttribute("board", board);
@@ -342,7 +458,7 @@ public class BoardController implements Controller{
 	 *  거래게시판 수정폼
 	 * */
 	public ModelAndView tradeboardUpdateForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		int boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 		BoardDTO board = boardService.selectByBoardSeq(boardSeq, false);
 		
 		request.setAttribute("board", board);
@@ -351,15 +467,27 @@ public class BoardController implements Controller{
 	}
 	
 	/**
+	 *  정보게시판 수정폼
+	 * */
+	public ModelAndView tradeboardInfoForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+		BoardDTO board = boardService.selectByBoardSeq(boardSeq, false);
+		
+		request.setAttribute("board", board);
+		
+		return new ModelAndView("board/infoBoard/infoBoardUpdate.jsp");//forward방식
+	}
+	
+	/**
 	 * 자유게시판 수정완료
 	 * */
 	public ModelAndView updateFreeBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// 전송된 데이터 받기
-		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 		String boardName = request.getParameter("board_name");
 		String boardContent = request.getParameter("board_content");
 		int goodsPrice = Integer.parseInt(request.getParameter("goods_price"));
-		long userSeq = Integer.parseInt(request.getParameter("user_seq"));
+		long userSeq = Long.parseLong(request.getParameter("user_seq"));
 		
 
 		BoardEntity board = new BoardEntity.Builder().boardSeq(boardSeq).boardName(boardName).content(boardContent)
@@ -368,7 +496,7 @@ public class BoardController implements Controller{
 		boardService.update(board);
 		
 		Collection<Part> fileParts = request.getParts(); // 여러 파일 가져오기
-		String uploadPath = "/save/" + userSeq; // 업로드할 디렉토리 경로 설정
+		String uploadPath = "/save/" + boardSeq; // 업로드할 디렉토리 경로 설정
 		File directory = new File(uploadPath);
 		if (!directory.exists()) {
 			directory.mkdirs(); // 디렉토리 생성
@@ -398,7 +526,7 @@ public class BoardController implements Controller{
 	 * */
 	public ModelAndView updateTradeBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// 전송된 데이터 받기
-		long boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 		String boardName = request.getParameter("board_name");
 		String boardContent = request.getParameter("board_content");
 		int goodsPrice = Integer.parseInt(request.getParameter("goods_price"));
@@ -417,6 +545,30 @@ public class BoardController implements Controller{
 		return mv;
 	}
 	
+	/**
+	 * 정보게시판 수정완료
+	 * */
+	public ModelAndView updateInfoBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// 전송된 데이터 받기
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+		String boardName = request.getParameter("board_name");
+		String boardContent = request.getParameter("board_content");
+		int goodsPrice = Integer.parseInt(request.getParameter("goods_price"));
+		
+		BoardEntity board = new BoardEntity.Builder().boardSeq(boardSeq).boardName(boardName).content(boardContent)
+				.price(goodsPrice).build(); // 주소,내용,카테고리만 추가된 dto 생성하는데 카테고리 내용에 매칭되는 int 저장
+		
+		boardService.update(board);
+		
+		//수정이 완료가 된후....
+		ModelAndView mv = new ModelAndView();
+		
+		//mv.setViewName("front?key=board&methodName=selectByBoardSeq&boardSeq="+boardSeq);
+		mv.setViewName("front?key=board&methodName=selectAllInfoBoard");
+	    mv.setRedirect(true);
+		return mv;
+	}
+	
 	//==============================게시판 삭제===============================================
 
 	
@@ -425,7 +577,8 @@ public class BoardController implements Controller{
 	 * 
 	 * */
 	public ModelAndView deleteFreeBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		int boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+
 		boardService.delete(boardSeq);
 		
 		return new ModelAndView("front?key=board&methodName=selectAllFreeBoard", true);
@@ -436,11 +589,102 @@ public class BoardController implements Controller{
 	 * 
 	 * */
 	public ModelAndView deleteTradeBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		int boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
 		boardService.delete(boardSeq);
 		
 		return new ModelAndView("front?key=board&methodName=selectAllTradeBoard", true);
 	}
 	
+	/**
+	 * 정보 게시판 삭제
+	 * 
+	 * */
+	public ModelAndView deleteInfoBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+		boardService.delete(boardSeq);
+		
+		return new ModelAndView("front?key=board&methodName=selectAllInfoBoard", true);
+	}
 	
+
+	//==============================댓글=====================================================
+	
+	/**
+	 * 댓글 전체검색
+	 * */
+	public void selectAllComments(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+		
+		List<CommentsDTO> commentList = boardService.getComment(boardSeq);
+		
+		request.setAttribute("commentList", commentList);// 뷰에서 ${list}
+	}
+	
+	/**
+	 * 댓글 입력
+	 * */
+	public ModelAndView insertComment(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		Long parentSeq = Long.parseLong(request.getParameter("parent_comment"));//0
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+		long userSeq = Long.parseLong(request.getParameter("userSeq"));
+		String commentContent = request.getParameter("commentContent");
+		
+		String category = request.getParameter("category");
+		
+		CommentEntity comment =
+				new CommentEntity.Builder().parentCommentSeq(parentSeq).boardSeq(boardSeq).userSeq(userSeq).commentContent(commentContent).build();
+		
+		boardService.insertComment(comment);
+		
+		if(category.equals("FREE"))
+			return new ModelAndView("front?key=board&methodName=selectByFreeBoardSeq&boardSeq="+boardSeq); // 자유게시판으로 이동
+		else if(category.equals("TRADE"))
+			return new ModelAndView("front?key=board&methodName=selectByTradeBoardSeq&boardSeq="+boardSeq); // 거래게시판으로 이동
+		else if(category.equals("INFORMATION"))
+			return new ModelAndView("front?key=board&methodName=selectByInfoBoardSeq&boardSeq="+boardSeq); // 정보게시판으로 이동
+		else 
+			return null;
+	}
+	
+	public ModelAndView deleteComment(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		long commentSeq = Long.parseLong(request.getParameter("commentSeq"));
+		
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+		String category = request.getParameter("category");
+		
+		boardService.deleteComment(commentSeq);
+		
+		if(category.equals("FREE"))
+			return new ModelAndView("front?key=board&methodName=selectByFreeBoardSeq&boardSeq="+boardSeq); // 자유게시판으로 이동
+		else if(category.equals("TRADE"))
+			return new ModelAndView("front?key=board&methodName=selectByTradeBoardSeq&boardSeq="+boardSeq); // 거래게시판으로 이동
+		else if(category.equals("INFORMATION"))
+			return new ModelAndView("front?key=board&methodName=selectByInfoBoardSeq&boardSeq="+boardSeq); // 정보게시판으로 이동
+		else 
+			return null;
+	}
+	
+	public ModelAndView updateComment(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		long commentSeq = Long.parseLong(request.getParameter("commentSeq"));
+		String commentContent = request.getParameter("commentUpdatedContent");
+		
+		long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+		String category = request.getParameter("category");
+		
+		CommentEntity comment =
+				new CommentEntity.Builder().commentSeq(commentSeq).commentContent(commentContent).build();
+		
+		boardService.updateComment(comment);
+		
+		if(category.equals("FREE"))
+			return new ModelAndView("front?key=board&methodName=selectByFreeBoardSeq&boardSeq="+boardSeq); // 자유게시판으로 이동
+		else if(category.equals("TRADE"))
+			return new ModelAndView("front?key=board&methodName=selectByTradeBoardSeq&boardSeq="+boardSeq); // 거래게시판으로 이동
+		else if(category.equals("INFORMATION"))
+			return new ModelAndView("front?key=board&methodName=selectByInfoBoardSeq&boardSeq="+boardSeq); // 정보게시판으로 이동
+		else 
+			return null;
+	}
+
 }

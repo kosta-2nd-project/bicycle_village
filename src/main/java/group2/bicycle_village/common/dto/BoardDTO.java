@@ -3,6 +3,10 @@ package group2.bicycle_village.common.dto;
 public class BoardDTO {
     private int boardSeq, isSeen, boardCount, goodsPrice, productSeq, userSeq;
     private String boardName, regDate, category, boardContent, boardAddr, boardEdit;
+    
+    private int commentListSize;
+    
+    private UserDTO userDTO;
 
     public BoardDTO(){
 
@@ -24,8 +28,8 @@ public class BoardDTO {
         this.boardContent = boardContent;
         this.boardAddr = boardAddr;
     }
-
-    public int getBoardSeq() {
+    
+	public int getBoardSeq() {
         return boardSeq;
     }
 
@@ -121,5 +125,22 @@ public class BoardDTO {
         this.boardAddr = boardAddr;
     }
 
+	public UserDTO getUserDTO() {
+		return userDTO;
+	}
+
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
+
+	public int getCommentListSize() {
+		return commentListSize;
+	}
+
+	public void setCommentListSize(int getCommentListSize) {
+		this.commentListSize = commentListSize;
+	}
+    
+    
 
 }

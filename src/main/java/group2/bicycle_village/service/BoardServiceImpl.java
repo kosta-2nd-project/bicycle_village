@@ -6,6 +6,8 @@ import java.util.List;
 import group2.bicycle_village.common.dto.AlarmDTO;
 import group2.bicycle_village.common.dto.BoardDTO;
 import group2.bicycle_village.common.dto.BoardEntity;
+import group2.bicycle_village.common.dto.CommentEntity;
+import group2.bicycle_village.common.dto.CommentsDTO;
 import group2.bicycle_village.common.dto.UserDTO;
 import group2.bicycle_village.dao.AlarmDAO;
 import group2.bicycle_village.dao.AlarmDAOImpl;
@@ -42,7 +44,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void delete(int boardSeq) throws SQLException {
+	public void delete(long boardSeq) throws SQLException {
 		int result = boardDAO.delete(boardSeq);
 		if(result==0) throw new SQLException("삭제되지 않았습니다");
 	}
@@ -57,7 +59,9 @@ public class BoardServiceImpl implements BoardService {
 			List<UserDTO> dips = alarmDAO.searchDips(board.getBoardSeq());
 			int re = 0;
 			for (UserDTO user : dips) {
-//				re += alarmDAO.insertAlarm(new AlarmDTO(user.getUser_seq(), "게시물이 수정되었습니다.",0, url));
+
+				re += alarmDAO.insertAlarm(new AlarmDTO(user.getUser_seq(), "게시물이 수정되었습니다.",0, null));
+
 			}
 		}
 	}
@@ -90,7 +94,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardDTO selectByBoardSeq(int boardSeq, boolean flag) throws SQLException {
+	public BoardDTO selectByBoardSeq(long boardSeq, boolean flag) throws SQLException {
 		if(flag) {
 			if(boardDAO.increamentByReadnum(boardSeq) == 0) throw new SQLException("조회수 증가 오류로 조회 할 수 없습니다.");
 		} // 조회수 증가
@@ -99,5 +103,57 @@ public class BoardServiceImpl implements BoardService {
 		if(board==null) throw new SQLException("게시글을 조회할수 없습니다");
 		return board;
 	}
+	
+    
+    /**
+     *  댓글 조회
+     * */
+    @Override
+    public List<CommentsDTO> getComment(long boardSeq) throws SQLException {
+        List<CommentsDTO> list = boardDAO.getComment(boardSeq);
+        return list;
+    }
+    
+    /**
+     *  해당 boardDTO의 댓글 게수 출력
+     * */
+    @Override
+    public int getCommentListSize(long boardSeq) throws SQLException {
+    	int result = getComment(boardSeq).size();
+        return result;
+    }
+    
+    /**
+     *  댓글 작성
+     * */
+    @Override
+    public int insertComment(CommentEntity comment) throws SQLException {
+        int result = boardDAO.insertComment(comment);
+        if(result==0) throw new SQLException("등록되지 않았습니다");
+        return result;
+    }
+    
+    /**
+     *  댓글 삭제
+     * */
+    @Override
+    public int deleteComment(long commentSeq) throws SQLException {
+		
+
+        int result = boardDAO.deleteComment(commentSeq);
+        if(result==0) throw new SQLException("등록되지 않았습니다");
+        return result;
+    }
+    
+    /**
+     *  댓글 수정
+     * */
+    @Override
+    public int updateComment(CommentEntity comment) throws SQLException {
+        int result = boardDAO.updateComment(comment);
+        if(result==0) throw new SQLException("등록되지 않았습니다");
+        return result;
+    }
+    
 	
 }

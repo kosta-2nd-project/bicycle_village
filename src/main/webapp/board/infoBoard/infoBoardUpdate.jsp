@@ -7,93 +7,86 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>자유게시판</title>
+<title>정보게시판</title>
+
+<style type="text/css">
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+.board {
+	width: 50%; /* You can adjust the width as needed */
+	margin: 50px auto; /* Center horizontally */
+	padding: 20px;
+	border: 1px solid #ccc; /* Add border */
+	border-radius: 10px; /* Add border radius */
+	color: black; /* Set text color to black */
+}
+
+#imageContainer {
+	margin-bottom: 20px;
+	border: none;
+}
+
+#imageContainer div {
+	border: 1px solid #ccc; /* Add border */
+	padding: 10px;
+	margin-bottom: 10px;
+}
+</style>
+
+<script type="text/javascript" >
+	function checkValid(){
+		var f = window.document.writeForm;
+		
+		if ( f.board_name.value == "" ) {
+			alert( "제목을 입력해 주세요." );
+			f.board_name.focus();
+			return false;
+		}
+	  
+		if ( f.board_content.value == "" ) {
+	        alert( "상품 설명을 입력해 주세요." );
+	        f.board_content.focus();
+	        return false;
+	    }
+		
+		return true;
+	}
+</script>
 
 </head>
 <body>
 
-	<form name="writeForm" method="post"
-		action="${path}/front?key=board&methodName=updateFreeBoard&boardSeq=${board.boardSeq}"
-		onSubmit='return checkValid()' enctype="multipart/form-data">
+<div class="board">
+    <form name="writeForm" method="post" action="${path}/front?key=board&methodName=updateInfoBoard&boardSeq=${board.boardSeq}" onSubmit='return checkValid()' enctype="multipart/form-data">
+        <p><b>거래게시판 > 정보게시판</b></p>
 
-		<table align="center" cellpadding="5" cellspacing="2" width="600" border="1">
-		
-			<tr>
-				<td width="1220" height="20" colspan="2" bgcolor="#00cc00">
-					<p align="center">
-						<font color="white" size="3"><b> 게시글 수정 </b></font>
-					</p>
-				</td>
-			</tr>
+        <p>제목 &nbsp; &nbsp; &nbsp;
+        <input type="text" size="60" name="board_name" id="board_name" value="${board.boardName}"></p>
+        
+        <p><input type="file" name="files" multiple></p>
 
-			<tr>
-				<td width="150" height="20">
-					<p align="right">
-						<b><span style="font-size: 9pt;">카테고리</span></b>
-					</p>
-				</td>
-				<td width="450" height="20"><b><span
-						style="font-size: 9pt;"> <!-- <select name="category">
-								<option value="">카테고리</option>
-								<option value="free">자유게시판</option>
-								<option value="trade">중고거래게시판</option>
-						</select> -->
-						<b><span style="font-size: 9pt;">자유게시판</span></b>
-					</span></b></td>
-			</tr>
+        <hr>
+        <p><b>상품 설명</b></p>
+        <p><textarea name="board_content" cols="95%" rows="10">${board.boardContent}</textarea></p>
 
-			<tr>
-				<td width="150" height="20">
-					<p align="right">
-						<b><span style="font-size: 9pt;">제목</span></b>
-					</p>
-				</td>
-				<td width="450" height="20"><b><span
-						style="font-size: 9pt;"> <input type="text" size="30"
-							name="board_name" id="board_name" value="${board.boardName}"></span></b></td>
-			</tr>
-			
-			<tr>
-				<td width="150" height="20">
-					<p align="right">
-						<b><span style="font-size: 9pt;">이미지 첨부</span></b>
-					</p>
-				</td>
-				<td width="450" height="20"><b><span
-						style="font-size: 9pt;"> <input type="text" size="30"
-							name="img" id="img"> <input type="file" name="file"
-							maxlength="60" size="40">
-					</span></b></td>
-			</tr>
+        <p align="center">
+            <input type="submit" value="게시글 수정" id="submit">
+        </p>
+        
+        <input type="hidden" name="category" value="INFO">
+        <input type="hidden" name="board_count" value="0">
+        <input type="hidden" name="goods_price" value="0">
+        <input type="hidden" name="product_seq" value="0">
+        <input type="hidden" name="is_seen" value="AVAILABLE">
+        <input type="hidden" name="board_addr" value="">
+        <input type="hidden" name="user_seq" value="${user_seq}">
+    </form>
+</div>
 
-			<tr>
-				<td width="150" height="20">
-					<p align="right">
-						<b><span style="font-size: 9pt;">설명</span></b>
-					</p>
-				</td>
-				<td width="450" height="20"><b><span
-						style="font-size: 9pt;"> <textarea name="board_content"
-								cols="50" rows="10">${board.boardContent}</textarea></span></b></td>
-			</tr>
-
-		</table>
-	<div align=center><span style="font-size:9pt;"><input type=submit value="게시글 등록"
-							id="submit"></div>
-							
-	<input type="hidden" name="category" value="FREE">
-	<input type="hidden" name="board_count" value="0">
-	<input type="hidden" name="goods_price" value="0">
-	<input type="hidden" name="product_seq" value="0">
-	<input type="hidden" name="is_seen" value="AVAILABLE">
-	<input type="hidden" name="board_addr" value="">
-	<input type="hidden" name="user_seq" value="${user_seq}">
-	</form><br>
-	
-	
-	
-	<br>
-	
-	<jsp:include page="../../pages/common/footer.jsp"/>
+<jsp:include page="../../pages/common/footer.jsp"/>
 </body>
 </html>
