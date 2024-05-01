@@ -146,6 +146,8 @@ body {
 	background-color: red;
 	float: left;
 	margin-right: 70px;
+	background-image: url("${path}/file-servlet?fname=${board.boardSeq}/${imageName}");
+	background-size: cover
 }
 
 .comment-update-form {
@@ -187,7 +189,7 @@ body {
 				url:"${path}/rest",
 				type:"post",
 				dataType:"json",
-				data:{key:"follow",methodName:"addFollow",nickname:"${nickname}"},
+				data:{key:"follow",methodName:"addFollow",userId:"${board.userDTO.userId}"},
 				success:function(result){
 					console.log("result:"+result);
 					if(result===1){
@@ -228,8 +230,8 @@ body {
 	
 	<div class="container">
 		<div class="content">
-		<div class="main_left_img">
-			이미지
+		<div class="main_left_img"> 
+			<%-- <img height="100%" width="100%" src="${path}/file-servlet?fname=${board.boardSeq}/${imageName}"> --%>
 		</div>
 		<div class="main">
 			<p class="category">거래 게시판 > </p>
