@@ -57,5 +57,10 @@ public interface BoardDao {
 	 * 댓글 수정
 	 * */
 	int updateComment(CommentEntity comment) throws SQLException;
+
+	/**
+	 * 게시글당 댓글 개수 가져오기
+	 * */
+	int countComment(Connection con , long boardSeq) throws SQLException;
 	
 }
