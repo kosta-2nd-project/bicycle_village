@@ -127,7 +127,7 @@ body {
 <body>
 	<div class="container">
 		<div class="content">
-			<p class="category">커뮤니티 게시판 > 자유게시판</p>
+			<p class="category">커뮤니티 게시판 > 정보게시판</p>
 			<h1 class="title">${board.boardName}</h1>
 
 			
@@ -154,12 +154,12 @@ body {
 				<c:choose>
 					<c:when
 						test="${user_seq == board.userSeq && not empty loginUser && UserStatus == 0}">
-						<a href="${path}/front?key=board&methodName=selectByFreeBoardSeq&boardSeq=${board.boardSeq}" class="btn">목록</a>
-						<a href="${path}/front?key=board&methodName=freeboardUpdateForm&boardSeq=${board.boardSeq}" class="btn">수정</a>
-						<a href="${path}/front?key=board&methodName=deleteFreeBoard&boardSeq=${board.boardSeq}" class="btn">삭제</a>
+						<a href="${path}/front?key=board&methodName=selectByInfoBoardSeq&boardSeq=${board.boardSeq}" class="btn">목록</a>
+						<a href="${path}/front?key=board&methodName=infoboardUpdateForm&boardSeq=${board.boardSeq}" class="btn">수정</a>
+						<a href="${path}/front?key=board&methodName=deleteInfoBoard&boardSeq=${board.boardSeq}" class="btn">삭제</a>
 					</c:when>
 					<c:otherwise>
-						<a href="${path}/front?key=board&methodName=selectByFreeBoardSeq&boardSeq=${board.boardSeq}" class="btn">목록</a>
+						<a href="${path}/front?key=board&methodName=selectByInfoBoardSeq&boardSeq=${board.boardSeq}" class="btn">목록</a>
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -199,7 +199,7 @@ body {
 			            </c:choose>
 			            
 			            <c:if test="${comment.isSeen==1 && user_seq == comment.userSeq && not empty loginUser && UserStatus == 0}">
-			                <a href="${path}/front?key=board&methodName=deleteComment&commentSeq=${comment.commentSeq}&category=FREE&boardSeq=${board.boardSeq}"
+			                <a href="${path}/front?key=board&methodName=deleteComment&commentSeq=${comment.commentSeq}&category=INFORMATION&boardSeq=${board.boardSeq}"
 			                   style="color: grey; font-size: 12px;">삭제</a> &nbsp;&nbsp;&nbsp; 
 			                <label for="edit_${comment.commentSeq}" style="color: grey; font-size: 12px; cursor: pointer;" onclick="toggleEdit(${comment.commentSeq})">수정</label>
 				        </c:if>
@@ -208,7 +208,7 @@ body {
 				   	
 				   	<!-- 수정 폼 -->
                     <form id="editForm_${comment.commentSeq}" class="comment-update-form" name="commentUpdateForm" method="post"
-                        action="${path}/front?key=board&methodName=updateComment&commentSeq=${comment.commentSeq}&category=FREE&boardSeq=${board.boardSeq}">
+                        action="${path}/front?key=board&methodName=updateComment&commentSeq=${comment.commentSeq}&category=INFO&boardSeq=${board.boardSeq}">
                         <textarea name="commentUpdatedContent" cols="145" rows="3" style="color: grey">${comment.commentContent}</textarea>
                         <input type="submit" value="댓글 수정" id="commentUpdateSubmit" class="btn" style="float: right;"> <br><br>
                         <hr>
@@ -223,7 +223,7 @@ body {
 				<form name="commentForm" method="post"
 					action="${path}/front?key=board&methodName=insertComment&boardSeq=${board.boardSeq}"
 					onSubmit='return checkValid()' >
-						<input type="hidden" name="category" value="FREE">
+						<input type="hidden" name="category" value="INFORMATION">
                       	<input type="hidden" name="parent_comment" value="0">
                       	<input type="hidden" name="userSeq" value="${user_seq}">
                       	<input type="hidden" name="commentSeq" value="${comment.commentSeq}">

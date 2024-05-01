@@ -32,8 +32,8 @@ public class FollowServiceImpl implements FollowService {
 	}
 
 	@Override
-	public int checkUser(String nickname) throws SQLException, AuthenticationException {
-		return followDao.checkUser(nickname);
+	public int checkUser(String userId) throws SQLException, AuthenticationException {
+		return followDao.checkUser(userId);
 	}
 
 	@Override

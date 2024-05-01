@@ -20,7 +20,7 @@ public interface FollowDAO {
 	/**
 	 * user_seq 확인
 	 */
-	int checkUser(String nickname) throws SQLException;
+	int checkUser(String userId) throws SQLException;
 	
 	/**
 	 * 팔로우 여부 확인

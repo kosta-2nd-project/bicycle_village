@@ -29,7 +29,7 @@
 <div class="bg-light py-3" style="color: black;">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 mb-0" style="font-size: 15px; font-weight: bold;">커뮤니티 게시판 > 자유게시판</div>
+            <div class="col-md-12 mb-0" style="font-size: 15px; font-weight: bold;">자유게시판</div>
         </div>
     </div>
 </div>
@@ -105,7 +105,7 @@
 	            <div style="display: table; height: 100%; width: 100%;">
 	                <div style="display: table-cell; vertical-align: middle;">
 	                    <p style="color: black; margin: 0; padding: 5px;">
-	                    <a href="${path}/front?key=board&methodName=selectByFreeBoardSeq&boardSeq=${boardDTO.boardSeq}" style="color: black;">
+	                    <a href="${path}/front?key=board&methodName=selectByTradeBoardSeq&boardSeq=${boardDTO.boardSeq}" style="color: black;">
 	                    ${boardDTO.boardName}</a></p>
 	                </div>
 	            </div>
@@ -127,29 +127,21 @@
 	        <td style="text-align: center; width: 10%;">
 	            <div style="display: table; height: 100%; width: 100%;">
 	                <div style="display: table-cell; vertical-align: middle;">
-	                    <p style="color: black; margin: 0; padding: 5px;">${boardDTO.boardCount}
+	                    <p style="color: black; margin: 0; padding: 5px;">${boardDTO.boardCount}</p>
 	                </div>
 	            </div>
 	        </td>
-	        
-<%-- 	        <td style="text-align: center; width: 10%;">
-	            <div style="display: table; height: 100%; width: 100%;">
-	                <div style="display: table-cell; vertical-align: middle;">
-	                    <p style="color: black; margin: 0; padding: 5px;">${boardDTO.commentListSize}
-	                </div>
-	            </div>
-	        </td> --%>
-	        
 	    </tr>
 	</c:forEach>
 </table>
+	
 </div>
 
 <c:if test="${not empty loginUser}">
 		<hr>
 		<div align=right>
 			<span style="font-size: 9pt;">
-			<a href="${path}/board/freeBoard/freeBoardWrite.jsp" class="btn">글쓰기</a>
+			<a href="${path}/board/tradeBoard/tradeBoardWrite.jsp" class="btn">글쓰기</a>
 			</span>
 		</div>
 		<hr>
@@ -163,6 +155,7 @@
 
  
  
+ <!--  블럭당  -->
 <nav class="pagination-container">
 		<div class="pagination">
 		<c:set var="doneLoop" value="false"/>
@@ -172,7 +165,7 @@
 	\${pageNo} = ${pageNo} , 	\${temp}=${temp}  ,   \${startPage}=${startPage}  , <br>
 		 
 		  <c:if test="${(startPage-p.blockcount) > 0}"> <!-- (-2) > 0  -->
-		      <a class="pagination-newer" href="${path}/front?key=board&methodName=selectAllFreeBoard&pageNo=${startPage-1}">◀</a>
+		      <a class="pagination-newer" href="${path}/front?key=board&methodName=selectAll&pageNo=${startPage-1}">◀</a>
 		  </c:if>
 		
 				<span class="pagination-inner"> 
@@ -181,13 +174,13 @@
 					       <c:set var="doneLoop" value="true"/>
 					    </c:if> 
 					  <c:if test="${not doneLoop}" >
-					         <a class="${i==pageNo?'pagination-active':page}" href="${path}/front?key=board&methodName=selectAllFreeBoard&pageNo=${i}">${i}</a> 
+					         <a class="${i==pageNo?'pagination-active':page}" href="${path}/front?key=board&methodName=selectAll&pageNo=${i}">${i}</a> 
 					  </c:if>
 				</c:forEach>
 				</span> 
 				
 				 <c:if test="${(startPage+p.blockcount)<=p.pageCnt}">
-				     <a class="pagination-older" href="${path}/front?key=board&methodName=selectAllFreeBoard&pageNo=${startPage+p.blockcount}">NEXT</a>
+				     <a class="pagination-older" href="${path}/front?key=board&methodName=selectAll&pageNo=${startPage+p.blockcount}">NEXT</a>
 				 </c:if>
 		
 		</div>

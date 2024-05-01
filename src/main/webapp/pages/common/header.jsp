@@ -9,43 +9,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
-    <link rel="stylesheet" href="/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="${path}/fonts/icomoon/style.css">
 
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/magnific-popup.css">
-    <link rel="stylesheet" href="/css/jquery-ui.css">
-    <link rel="stylesheet" href="/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="${path}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${path}/css/magnific-popup.css">
+    <link rel="stylesheet" href="${path}/css/jquery-ui.css">
+    <link rel="stylesheet" href="${path}/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="${path}/css/owl.theme.default.min.css">
 
 
-    <link rel="stylesheet" href="/css/aos.css">
+    <link rel="stylesheet" href="${path}/css/aos.css">
 
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="${path}/js/jquery-3.3.1.min.js"></script>
-    <script>
-      $(function () {
-        alarmCnt();
-        function alarmCnt() {
-          $.ajax({
-            url: "rest",
-            type: "post",
-            dataType: "json",
-            data: {key: "alarm", methodName: "countAlarm"},
-            success: function (result) {
-              let cnt;
-              if(result !== 0) {
-                cnt = result;
-              }
-              $(".count").html(cnt);
-            },
-            error: function (err) {
-              console.log(err + " error");
-            }
-          })//ajax end
-        }//alarmCnt end
-      })//ready end
-    </script>
+    <link rel="stylesheet" href="${path}/css/style.css">
     
   </head>
   <body>
@@ -65,7 +40,7 @@
 
             <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
               <div class="site-logo">
-                <a href="/index.jsp" class="js-logo-clone">자전거 마을</a>
+                <a href="${path}/index.jsp" class="js-logo-clone">자전거 마을</a>
               </div>
             </div>
 
@@ -80,13 +55,12 @@
 	     				<li><a>${loginName}님 로그인 중</a>
 	      				<li><a href="${pageContext.request.contextPath}/front?key=user&methodName=logout" class="btn">Logout</a></li>
 	     				<li><a href="${path}/pages/user/myPage.jsp"><span class="icon icon-person"></span></a></li>
-                  		<li><a href="${path}/alarmTest.jsp"><span class="icon icon-heart-o"></span><span class="count"></span></a></li>
-                 
+                  		<li><a href="${path}/alarm.html"><span class="icon icon-heart-o"></span><span class="count">2</span></a></li>
     			 </c:when>
     			 
     			 <c:otherwise>
                   <li><a href="${path}/pages/user/login.jsp"><span class="icon icon-person"></span></a></li>
-                  <li><a href="${path}/pages/user/login.jsp"><span class="icon icon-heart-o"></span></a></li>
+                  <li><a href="#"><span class="icon icon-heart-o"></span></a></li>
                   </c:otherwise>
                   
                   </c:choose>  
@@ -102,10 +76,10 @@
       <nav class="site-navigation text-right text-md-center" role="navigation">
         <div class="container">
           <ul class="site-menu js-clone-nav d-none d-md-block">
-            <li><a href="/index.jsp">홈</a></li>
-            <li><a href="${path}/front?key=board&methodName=selectAll">자유 게시판</a></li>
-            <li><a href="#">정보 게시판</a></li>
-            <li><a href="#">거래 게시판</a></li>
+            <li><a href="${path}/index.jsp">홈</a></li>
+            <li><a href="${path}/front?key=board&methodName=selectAllFreeBoard">자유 게시판</a></li>
+            <li><a href="${path}/front?key=board&methodName=selectAllInfoBoard">정보 게시판</a></li>
+            <li><a href="${path}/front?key=board&methodName=selectAllTradeBoard">거래 게시판</a></li>
             <li><a href="#">신고 게시판</a></li>
             <li><a href="#">공지사항</a></li>
           </ul>

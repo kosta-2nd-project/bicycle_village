@@ -51,16 +51,16 @@ public class FollowDAOImpl implements FollowDAO {
 	}
 
 	@Override
-	public int checkUser(String nickname) throws SQLException {
+	public int checkUser(String userId) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		int result = 0;
-		String sql = "select user_seq from member where nickname=?";
+		String sql = "select user_seq from member where user_id=?";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setString(1, nickname);
+			ps.setString(1, userId);
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				result = rs.getInt(1);

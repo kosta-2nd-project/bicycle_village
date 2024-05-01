@@ -22,7 +22,7 @@ public interface FollowService {
 	/**
 	 * user_seq확인
 	 */
-	int checkUser(String nickname) throws SQLException, AuthenticationException;
+	int checkUser(String userId) throws SQLException, AuthenticationException;
 	
 	/**
 	 * 팔로우 여부 조회
