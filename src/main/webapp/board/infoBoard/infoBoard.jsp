@@ -208,7 +208,7 @@ body {
 				   	
 				   	<!-- 수정 폼 -->
                     <form id="editForm_${comment.commentSeq}" class="comment-update-form" name="commentUpdateForm" method="post"
-                        action="${path}/front?key=board&methodName=updateComment&commentSeq=${comment.commentSeq}&category=INFO&boardSeq=${board.boardSeq}">
+                        action="${path}/front?key=board&methodName=updateComment&commentSeq=${comment.commentSeq}&category=INFORMATION&boardSeq=${board.boardSeq}">
                         <textarea name="commentUpdatedContent" cols="145" rows="3" style="color: grey">${comment.commentContent}</textarea>
                         <input type="submit" value="댓글 수정" id="commentUpdateSubmit" class="btn" style="float: right;"> <br><br>
                         <hr>
