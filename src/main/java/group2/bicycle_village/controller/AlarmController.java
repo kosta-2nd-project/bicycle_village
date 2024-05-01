@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 public class AlarmController implements RestController {
+    HttpSession session;
+    String id;
     private AlarmService alarmService = new AlarmServiceImpl();
 
     /**
@@ -49,8 +51,8 @@ public class AlarmController implements RestController {
      * @throws Exception
      */
     public void selectAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        HttpSession session = request.getSession();
-        String id = (String)session.getAttribute("loginId");
+        session = request.getSession();
+        id = (String)session.getAttribute("loginId");
         List<AlarmDTO> alarmList = alarmService.selectAllAlarm(id);
 
         Gson gson = new Gson();
@@ -67,8 +69,8 @@ public class AlarmController implements RestController {
      * @throws Exception
      */
     public void updateAlarm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        HttpSession session = request.getSession();
-        String id = (String) session.getAttribute("loginId");
+        session = request.getSession();
+        id = (String) session.getAttribute("loginId");
         long alarmSeq = Long.parseLong(request.getParameter("alarmSeq"));
         int result = alarmService.updateAlarm(id, alarmSeq);
         String url = null;
@@ -85,5 +87,14 @@ public class AlarmController implements RestController {
 
         PrintWriter out = response.getWriter();
         out.print(resultMap);
+    }
+
+    public void countAlarm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        session = request.getSession();
+        id = (String)session.getAttribute("loginId");
+        int result = alarmService.alarmCheck(id);
+
+        PrintWriter out = response.getWriter();
+        out.print(result);
     }
 }

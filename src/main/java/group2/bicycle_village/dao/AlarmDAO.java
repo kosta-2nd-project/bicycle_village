@@ -66,4 +66,29 @@ public interface AlarmDAO {
      * @throws SQLException
      */
     List<UserDTO> searchDips(long userSeq) throws SQLException;
+
+    /**
+     * 로그인한 유저의 가장 최근 게시물 찾기(url을 찾을 board_seq)
+     * @param userSeq
+     * @return
+     * @throws SQLException
+     */
+    long searchBoardSeq(long userSeq) throws SQLException;
+
+    /**
+     * 게시글이 등록된 alarm의 url 주소 바꿔주기
+     * @param url
+     * @return
+     * @throws SQLException
+     */
+    int setLinkURL(String url) throws SQLException;
+
+    /**
+     * 로그인한 유저가 알림을 확인했는지 체크 - 확인한 알림이 있으면 알림 개수 줄임
+     * 확인한 알림이 있으면 1, 없으면 0
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+    List<Integer> alarmCheck(String id) throws SQLException;
 }
