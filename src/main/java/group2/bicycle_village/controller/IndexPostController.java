@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gson.Gson;
 
 import group2.bicycle_village.common.dto.BoardDTO;
+import group2.bicycle_village.common.dto.PostDTO;
 import group2.bicycle_village.service.IndexPostService;
 import group2.bicycle_village.service.IndexPostServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +21,7 @@ public class IndexPostController implements RestController{
 	 */
 	public void selectBest(HttpServletRequest req, HttpServletResponse res) throws Exception{
 		System.out.println("IndexPostController selectBest call...");
-		List<BoardDTO> list = indexService.selectBest();
+		List<PostDTO> list = indexService.selectBest();
 		
 		System.out.println(list);
 		
