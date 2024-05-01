@@ -27,7 +27,15 @@ $(function(){
 				}else{
 					str+=`<td>이미지 없음</td>`;
 				}
-				str+=`<td><a href='/front?key=board&methodName=selectByBoardSeq&boardSeq=\${item.boardSeq}'>\${item.boardName}</a></td>`;
+				if(`\${item.category}`=="1"){
+					str+=`<td><a href='/front?key=board&methodName=selectByFreeBoardSeq&boardSeq=\${item.boardSeq}'>\${item.boardName}</a></td>`;
+				}else if(`\${item.category}`=="2"){
+					str+=`<td>정보게시판</td>`;
+				}else if(`\${item.category}`=="3"){
+					str+=`<td><a href='/front?key=board&methodName=selectByTradeBoardSeq&boardSeq=\${item.boardSeq}'>\${item.boardName}</a></td>`;
+				}else{
+					str+=`<td>신고게시판</td>`;
+				}
 				if(`\${item.category}`=="1"){
 					str+=`<td>자유게시판</td>`;
 				}else if(`\${item.category}`=="2"){

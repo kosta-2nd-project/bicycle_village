@@ -25,11 +25,27 @@ public class BookmarkController implements RestController {
 	 */
 	public void addBookmark(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
-		int userSeq = Integer.parseInt(request.getParameter("userSeq"));
+		HttpSession session = request.getSession();
+		
+		int userSeq = (int) session.getAttribute("user_seq");
 		int boardSeq = Integer.parseInt(request.getParameter("boardSeq"));
 		
-		bookmarkService.AddBookmark(new BookmarkEntity.Builder().bookmarkSeq(0).userSeq(userSeq).boardSeq(boardSeq).build());
-
+		BookmarkEntity bookmarkEntity = new BookmarkEntity.Builder().bookmarkSeq(0).userSeq(userSeq).boardSeq(boardSeq).build();
+		
+		int check = 0;
+		
+		int result = bookmarkService.BookmarkCheck(bookmarkEntity);
+		if(result==1) {//이미 찜이 되어있음
+			check = 1;
+		}else {//추가
+			bookmarkService.AddBookmark(bookmarkEntity);
+		}
+		
+		Gson gson = new Gson();
+		String json = gson.toJson(check);
+		
+		PrintWriter out = response.getWriter();
+		out.print(json);
 	}
 	
 	/**

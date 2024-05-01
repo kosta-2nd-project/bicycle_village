@@ -23,4 +23,9 @@ public interface BookmarkService {
 	 * 전체 조회
 	 */
 	public List<BookmarkListDTO> selectAll(int userSeq) throws SQLException, AuthenticationException;
+	
+	/**
+	 * 찜 여부 조회
+	 */
+	public int BookmarkCheck(BookmarkEntity bookmark) throws SQLException, AuthenticationException;
 }

@@ -116,7 +116,7 @@ body {
         return true;
     }
 
-    // 수정 폼 토글 함수
+    // 댓글 수정폼 생성 함수
     function toggleEdit(commentSeq) {
         var editForm = document.getElementById("editForm_" + commentSeq);
         editForm.style.display = (editForm.style.display === "none") ? "block" : "none";
