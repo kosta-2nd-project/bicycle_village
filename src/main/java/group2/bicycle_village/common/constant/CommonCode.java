@@ -77,4 +77,32 @@ public class CommonCode {
     		throw new IllegalArgumentException("No matching UserStatus for value : "+value);
     	}
     }
+
+    public enum reviewScore{
+        TERRIBLE(0),
+        POOR(1),
+        FAIR(2),
+        AVERAGE(3),
+        GOOD(4),
+        EXCELLENT(5);
+
+        private final int value;
+
+        reviewScore(int value){
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public static reviewScore getScore(int value) {
+            for(reviewScore reviewScore : reviewScore.values()) {
+                if(reviewScore.value == value) {
+                    return reviewScore;
+                }
+            }
+            throw new IllegalArgumentException("No matching reviewScore for value : " + value);
+        }
+    }
 }
