@@ -494,10 +494,12 @@ private Properties proFile = new Properties();
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			
+
 			//ps.setLong(1, comment.getParentCommentSeq());
 			ps.setLong(1, comment.getBoardSeq());
 			ps.setLong(2, comment.getUserSeq());
 			ps.setString(3, comment.getCommentContent());
+
 			
 			result = ps.executeUpdate();
 		}finally {
