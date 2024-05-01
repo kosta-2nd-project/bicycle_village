@@ -9,4 +9,6 @@ public interface BoardFileService {
 	List<Integer> selectBFileSeqsByBoardSeq(int boardSeq) throws SQLException;
 	
 	void insert(BoardFileDTO boardFile) throws SQLException;
+
+	String selectImageNamesByBoardSeq(long boardSeq) throws SQLException;
 }

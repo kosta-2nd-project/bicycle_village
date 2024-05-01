@@ -78,7 +78,7 @@
           <ul class="site-menu js-clone-nav d-none d-md-block">
             <li><a href="${path}/index.jsp">홈</a></li>
             <li><a href="${path}/front?key=board&methodName=selectAllFreeBoard">자유 게시판</a></li>
-            <li><a href="#">정보 게시판</a></li>
+            <li><a href="${path}/front?key=board&methodName=selectAllInfoBoard">정보 게시판</a></li>
             <li><a href="${path}/front?key=board&methodName=selectAllTradeBoard">거래 게시판</a></li>
             <li><a href="#">신고 게시판</a></li>
             <li><a href="#">공지사항</a></li>

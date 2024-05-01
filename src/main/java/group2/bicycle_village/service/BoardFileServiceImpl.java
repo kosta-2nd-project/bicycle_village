@@ -25,4 +25,10 @@ public class BoardFileServiceImpl implements BoardFileService {
 		if(result==0) throw new SQLException("등록되지 않았습니다");
 	}
 
+	@Override
+	public String selectImageNamesByBoardSeq(long boardSeq) throws SQLException {
+		String result = boardFileDAO.selectImageNamesByBoardSeq(boardSeq);
+		return result;
+	}
+	
 }

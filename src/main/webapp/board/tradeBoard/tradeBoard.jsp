@@ -147,6 +147,10 @@ body {
 	float: left;
 	margin-right: 70px;
 }
+
+.comment-update-form {
+  display: none; /* 수정 폼은 초기에 숨김 */
+}
 </style>
 
 <script src="${path}/js/jquery-3.3.1.min.js"></script>
@@ -199,6 +203,24 @@ body {
 		});
 	});//function End
 
+	// 댓글 수정폼 생성 함수
+    function toggleEdit(commentSeq) {
+        let editForm = document.getElementById("editForm_" + commentSeq);
+        editForm.style.display = (editForm.style.display === "none") ? "block" : "none";
+    }
+	
+	function checkValid(){
+		var f = window.document.commentForm;
+		
+		if ( f.commentContent.value == "" ) {
+	        alert( "댓글을 입력해 주세요." );
+	        f.commentContent.focus();
+	        return false;
+	    }
+		
+		return true;
+	}
+
 </script>
 </head>
 
@@ -215,7 +237,7 @@ body {
 
 			
 			<h3 class="info" style="font-size: 20px">
-				${board.regDate}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;댓글
+				${board.regDate}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;댓글 <c:out value="${commentList.size()}" /> 개
 			</h3>
 			
 			<h3 class="address" style="font-size: 17px">
@@ -223,7 +245,7 @@ body {
 			</h3>
 
 			<div class="nick_name" style="padding-bottom: 30px; font-size: 20px;">
-				${board.userSeq} &nbsp;&nbsp;
+				${board.userDTO.userId} &nbsp;&nbsp;
 				<input type="button" id="follow" class="follow" value="팔로우">
 			</div>
 
@@ -240,8 +262,8 @@ body {
 
 	<div class="container">
 	
-	<div class="content"
-				style="height: auto; min-height: 100px; overflow: auto;">
+	<div class="content" align="center"
+				style="height: auto; min-height: 100px; overflow: auto; font-size: 20px; color: black;">
 				${board.boardContent}</div>
 
 			<div class="buttons">
@@ -260,16 +282,57 @@ body {
 					</c:otherwise>
 				</c:choose>
 			</div>
-			
 			<hr>
+			
+			<!-- 댓글 창 -->
+			
 			<h4 style="color: black; font-weight: bold;">댓글</h4>
 			<c:forEach items="${commentList}" var="comment">
-				<div><b style="color: black; font-weight: bold; font-size: 17px">
-					${comment.userDTO.userId}&nbsp;&nbsp;&nbsp;</b>
-					<b style="color: black; font-size: 17px">
-					${comment.commentContent}</b></div>
-
-
+			    <div style="margin-bottom: 10px;">
+			        <p style="margin: 0;">
+			            <div style="display: flex; align-items: center;">
+			                <b style="color: black; font-weight: bold; font-size: 18px; min-width: 130px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+			                    ${comment.userDTO.userId} </b>
+			                <div id="comment_${comment.commentSeq}" style="color: black; font-size: 18px; min-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-right: 10px;"
+			                     onclick="makeEditable(this, '${comment.commentContent}')">
+			                    <c:choose>
+			                        <c:when test="${comment.isSeen==1}">
+			                            ${comment.commentContent}
+			                        </c:when>
+			                        <c:otherwise>
+			                            <b style="color: gray; font-size: 16px; font-weight: lighter;">삭제된 댓글입니다.</b>
+			                        </c:otherwise>
+			                    </c:choose>
+			                </div>
+			            </div>
+			        <span style="color: #909090; font-size: 15px;"> 
+			            
+			            <c:choose>
+			            	<c:when test="${comment.corDate!=null}">
+			            		${comment.corDate}&nbsp;<b style="font-size: 12px;">(수정됨)&nbsp;&nbsp;&nbsp;</b>
+			            	</c:when>
+			            	<c:otherwise>
+			            		${comment.regDate}&nbsp;&nbsp;&nbsp;
+			            	</c:otherwise>
+			            </c:choose>
+			            
+			            <c:if test="${comment.isSeen==1 && user_seq == comment.userSeq && not empty loginUser && UserStatus == 0}">
+			                <a href="${path}/front?key=board&methodName=deleteComment&commentSeq=${comment.commentSeq}&category=TRADE&boardSeq=${board.boardSeq}"
+			                   style="color: grey; font-size: 12px;">삭제</a> &nbsp;&nbsp;&nbsp; 
+			                <label for="edit_${comment.commentSeq}" style="color: grey; font-size: 12px; cursor: pointer;" onclick="toggleEdit(${comment.commentSeq})">수정</label>
+				        </c:if>
+				    </span>
+				   	<hr>
+				   	
+				   	<!-- 수정 폼 -->
+                    <form id="editForm_${comment.commentSeq}" class="comment-update-form" name="commentUpdateForm" method="post"
+                        action="${path}/front?key=board&methodName=updateComment&commentSeq=${comment.commentSeq}&category=TRADE&boardSeq=${board.boardSeq}">
+                        <textarea name="commentUpdatedContent" cols="145" rows="3" style="color: grey">${comment.commentContent}</textarea>
+                        <input type="submit" value="댓글 수정" id="commentUpdateSubmit" class="btn" style="float: right;"> <br><br>
+                        <hr>
+                    </form>
+				   	
+			    </div>
 			</c:forEach>
 
 			<hr>
@@ -278,20 +341,19 @@ body {
 				<form name="commentForm" method="post"
 					action="${path}/front?key=board&methodName=insertComment&boardSeq=${board.boardSeq}"
 					onSubmit='return checkValid()' >
-					<input type="hidden" name="category" value="TRADE">
-                      <input type="hidden" name="parent_comment" value="0">
-                      <input type="hidden" name="userSeq" value="${user_seq}">
-					<textarea name="commentContent" cols="145" rows="3"></textarea>
-					<input type="submit" value="댓글 입력" id="commentSubmit" class="btn"
-						style="float: right;"> <br>
+						<input type="hidden" name="category" value="TRADE">
+                      	<input type="hidden" name="parent_comment" value="0">
+                      	<input type="hidden" name="userSeq" value="${user_seq}">
+                      	<input type="hidden" name="commentSeq" value="${comment.commentSeq}">
+						<textarea name="commentContent" cols="145" rows="3"></textarea>
+						<input type="submit" value="댓글 입력" id="commentSubmit" class="btn" style="float: right;"> <br>
 					<br>
 				</form>
 			</c:if>
 			
 		</div>
 	</div>
-	
-	</div>
+</div>
 
 <jsp:include page="../../pages/common/footer.jsp"/>
 
