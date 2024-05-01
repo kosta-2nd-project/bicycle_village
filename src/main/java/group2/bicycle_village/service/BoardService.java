@@ -55,4 +55,10 @@ public interface BoardService {
 	 *  댓글 수정
 	 * */
 	int updateComment(CommentEntity comment) throws SQLException;
+
+
+	/**
+	 *  댓글 게수 출력
+	 * */
+	int getCommentListSize(long boardSeq) throws SQLException;
 }

@@ -59,7 +59,9 @@ public class BoardServiceImpl implements BoardService {
 			List<UserDTO> dips = alarmDAO.searchDips(board.getBoardSeq());
 			int re = 0;
 			for (UserDTO user : dips) {
+
 				re += alarmDAO.insertAlarm(new AlarmDTO(user.getUser_seq(), "게시물이 수정되었습니다.",0, null));
+
 			}
 		}
 	}
@@ -113,6 +115,15 @@ public class BoardServiceImpl implements BoardService {
     }
     
     /**
+     *  해당 boardDTO의 댓글 게수 출력
+     * */
+    @Override
+    public int getCommentListSize(long boardSeq) throws SQLException {
+    	int result = getComment(boardSeq).size();
+        return result;
+    }
+    
+    /**
      *  댓글 작성
      * */
     @Override
@@ -126,8 +137,10 @@ public class BoardServiceImpl implements BoardService {
      *  댓글 삭제
      * */
     @Override
-    public int deleteComment(long boardSeq) throws SQLException {
-        int result = boardDAO.deleteComment(boardSeq);
+    public int deleteComment(long commentSeq) throws SQLException {
+		
+
+        int result = boardDAO.deleteComment(commentSeq);
         if(result==0) throw new SQLException("등록되지 않았습니다");
         return result;
     }

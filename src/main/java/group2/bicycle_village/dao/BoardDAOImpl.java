@@ -427,7 +427,7 @@ private Properties proFile = new Properties();
         PreparedStatement ps=null;
         ResultSet rs=null;
         List<CommentsDTO> list = new ArrayList<CommentsDTO>();
-        String sql = "select * from comments where board_seq=? and is_seen=1 and parent_comment is null order by reg_date";
+        String sql = "select * from comments where board_seq=? order by reg_date";
         try {
             con = DbUtil.getConnection();
             ps = con.prepareStatement(sql);
@@ -460,7 +460,7 @@ private Properties proFile = new Properties();
         PreparedStatement ps=null;
         ResultSet rs=null;
         List<CommentsDTO> list = new ArrayList<CommentsDTO>();
-        String sql = "select * from comments where board_seq=? and is_seen=1 and parent_comment=?";
+        String sql = "select * from comments where board_seq=? and parent_comment=?";
         try {
             con = DbUtil.getConnection();
             ps = con.prepareStatement(sql);
@@ -484,36 +484,22 @@ private Properties proFile = new Properties();
     @Override
     public int insertComment(CommentEntity comment)throws SQLException{
         Connection con = null;
-
         PreparedStatement ps=null;
         ResultSet rs=null;
         int result = 0;
-        
-        /**
-         * COMMENT_SEQ
-			PARENT_COMMENT
-			BOARD_SEQ
-			USER_SEQ
-			REG_DATE
-			IS_SEEN
-			COMMENT_CONTENT
-			COR_DATE
-         * */
-		//String sql=proFile.getProperty("query.replyByParentNum");
+       
 		String sql = "insert into comments values(comment_seq.nextval,null,?,?,sysdate,1,?,null)";//
 		
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			
+
 			//ps.setLong(1, comment.getParentCommentSeq());
 			ps.setLong(1, comment.getBoardSeq());
 			ps.setLong(2, comment.getUserSeq());
-			
-			
-			
 			ps.setString(3, comment.getCommentContent());
-	
+
 			
 			result = ps.executeUpdate();
 		}finally {
@@ -525,20 +511,18 @@ private Properties proFile = new Properties();
 	/**
 	 * 댓글 삭제 (is_seen 상태 변경)
 	 * */
-
     @Override
     public int deleteComment(long commentSeq) throws SQLException{
         Connection con = null;
-
 		PreparedStatement ps=null;
-		ResultSet rs=null;
 		int result = 0;
 		String sql = "update comments set is_seen=0 where comment_seq=?";
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			
-            
+			ps.setLong(1, commentSeq);
+			
             result = ps.executeUpdate();
         }finally {
             DbUtil.close(con, ps, null);
@@ -554,14 +538,20 @@ private Properties proFile = new Properties();
         Connection con = null;
         PreparedStatement ps=null;
         int result = 0;
-        String sql = "update comments comment_content=? where comment_seq=?";
+        String sql = "update comments set comment_content=?, cor_date=sysdate where comment_seq=?";
         try {
             con = DbUtil.getConnection();
             ps = con.prepareStatement(sql);
             
-            ps.setLong(1, comment.getCommentSeq());
-            ps.setString(1, comment.getCommentContent());
             
+            System.out.println("commentContent ==== "+ comment.getCommentContent());
+            System.out.println("commentSeq ==== "+ comment.getCommentSeq());
+            
+            
+            
+            ps.setString(1, comment.getCommentContent());
+            ps.setLong(2, comment.getCommentSeq());
+
             result = ps.executeUpdate();
         }finally {
 			DbUtil.close(con, ps, null);

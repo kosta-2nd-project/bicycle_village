@@ -58,6 +58,12 @@ body {
 			f.goods_price.focus();
 			return false;
 		}
+ 		
+ 		if (f.files.value == "") {
+			alert("한개 이상의 이미지를 등록해 주세요.");
+			f.files.focus();
+			return false;
+		}
 
 		return true;
 	}
@@ -85,7 +91,7 @@ body {
 			<input type="text" size="60" name="goods_price" id="goods_price"></p>
 
 			<%--게시글 작성--%>   
-			<input type="file" name="files" multiple>
+			<input type="file" name="files" id="files" multiple>
 			
 			<hr>
 			<p><b>상품 설명</b></p>

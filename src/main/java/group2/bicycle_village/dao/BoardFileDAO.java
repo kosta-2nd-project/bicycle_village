@@ -13,4 +13,6 @@ public interface BoardFileDAO {
 
 	int delete(long bfile_seq) throws SQLException;
 
+	String selectImageNamesByBoardSeq(long boardSeq) throws SQLException;
+
 }

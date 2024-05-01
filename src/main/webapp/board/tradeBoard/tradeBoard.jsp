@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>게시판</title>
@@ -157,6 +158,7 @@
 		console.log("${board.userDTO}");
 		console.log("${board.userDTO.userId}"+"작성자")
 	</script>
+
 </head>
 <body>
 <div class="container">
@@ -180,6 +182,7 @@
 			${board.userSeq} &nbsp;&nbsp;
 			<input type="button" id="follow" class="follow" value="팔로우">
 		</div>
+
 
 		<div class="chattingAndDip"
 			 style="padding-bottom: 30px; font-size: 20px;">
@@ -242,6 +245,7 @@
 
 	<div class="container">
 
+
 		<div class="content"
 			 style="height: auto; min-height: 100px; overflow: auto;">
 			${board.boardContent}</div>
@@ -261,8 +265,6 @@
 					<a href="${path}/front?key=board&methodName=selectAllTradeBoard" class="btn">목록</a>
 				</c:otherwise>
 			</c:choose>
-
-
 		</div>
 	</div>
 </div>
