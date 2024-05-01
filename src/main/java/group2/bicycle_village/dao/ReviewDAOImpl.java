@@ -85,7 +85,7 @@ public class ReviewDAOImpl implements ReviewDAO{
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = "SELECT * FROM review WHERE reviewing = ?";
+        String sql = "SELECT * FROM review WHERE reviewing = ? ORDER BY COALESCE(modification_date, review_date) DESC";
 
         try {
             connection = DbUtil.getConnection();
@@ -120,7 +120,7 @@ public class ReviewDAOImpl implements ReviewDAO{
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = "SELECT * FROM review WHERE reviewer = ?";
+        String sql = "SELECT * FROM review WHERE reviewer = ? ORDER BY COALESCE(modification_date, review_date) DESC";
 
         try {
             connection = DbUtil.getConnection();

@@ -43,6 +43,12 @@ public class ReviewController implements RestController, Controller {
      * @description: 리뷰를 작성하는 페이지를 반환하는 메서드이다.
      * */
     public ModelAndView postDetailPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request.setAttribute("reviewSeq", request.getParameter("reviewSeq"));
+        request.setAttribute("reviewing", request.getParameter("reviewing"));
+        request.setAttribute("reviewer", request.getParameter("reviewer"));
+        request.setAttribute("board", request.getParameter("board"));
+        request.setAttribute("content", request.getParameter("content"));
+        request.setAttribute("rate", request.getParameter("rate"));
         return new ModelAndView("pages/review/post-detail.jsp");
     }
 

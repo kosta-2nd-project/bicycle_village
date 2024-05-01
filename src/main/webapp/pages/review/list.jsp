@@ -5,8 +5,8 @@
 <html>
 <head>
     <title>자전거 마을</title>
-    <script src="../../js/jquery-3.3.1.min.js"></script>>
-    <script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script defer>
         $(document).ready(function() {
             <c:choose>
             <c:when test="${reviewing == null}">
@@ -25,12 +25,13 @@
                         for (var i = 0; i < data.length; i++) {
                             var review = data[i];
                             var reviewDiv = $("<div class='review'>");
-                            reviewDiv.append("<div class='reviewing' style='display: inline-block;'><p>reviewing Seq: " + review.reviewing.userSeq + "</p></div>");
-                            reviewDiv.append("<div class='reviewer' style='display: inline-block;'><p>reviewer Seq: " + review.reviewer.userSeq + "</p></div>");
-                            reviewDiv.append("<div class='board' style='display: inline-block;'><p>Board Seq: " + review.board.boardSeq + "</p></div>");
-                            reviewDiv.append("<div class='content' style='display: inline-block;'><p>Content: " + review.reviewContent + "</p></div>");
-                            reviewDiv.append("<div class='rate' style='display: inline-block;'><p>Rate: " + review.reviewScore + "</p></div>");
-                            reviewDiv.append("<div class='date' style='display: inline-block;'><p>Date: " + review.reviewDate + "</p></div>");
+                            // reviewDiv.append("<div class='reviewing' style='display: inline-block;'><p>reviewing Seq: " + review.reviewing.userSeq + "</p></div>");
+                            // reviewDiv.append("<div class='reviewer' style='display: inline-block;'><p>reviewer Seq: " + review.reviewer.userSeq + "</p></div>");
+                            reviewDiv.append("<div class='board' style='display: inline-block;'>"+"<a href='${pageContext.request.contextPath}/front?key=board&methodName=selectByTradeBoardSeq&boardSeq=" + review.board.boardSeq + "'>" + "해당 게시글로 이동하기" + "</a>" +"</div>&nbsp&nbsp&nbsp");
+                            reviewDiv.append("<div class='review' style='display: inline-block;'>"+"<a href='${pageContext.request.contextPath}/front?key=review&methodName=detailPage&reviewSeq=" + review.reviewSeq + "'>" + "해당 리뷰로 이동하기" + "</a>" +"</div></br>");
+                            reviewDiv.append("<div class='content' style='display: inline-block; margin: 0;'><p style='margin: 0;'>후기: " + review.reviewContent + "</p></div>");
+                            reviewDiv.append("<div class='rate' style='display: inline-block; margin: 0;'><p style='margin: 0;'>평점: " + review.reviewScore + "</p></div>");
+                            reviewDiv.append("<div class='date' style='display: inline-block; margin: 0;'><p style='margin: 0;'>작성일: " + review.reviewDate + "</p></div>");
                             $("#output").append(reviewDiv);
                         }
 
@@ -57,12 +58,13 @@
                     success: function (data) {
                         var review = data[i];
                         var reviewDiv = $("<div class='review'>");
-                        reviewDiv.append("<div class='reviewing' style='display: inline-block;'><p>reviewing Seq: " + review.reviewing.userSeq + "</p></div>");
-                        reviewDiv.append("<div class='reviewer' style='display: inline-block;'><p>reviewer Seq: " + review.reviewer.userSeq + "</p></div>");
-                        reviewDiv.append("<div class='board' style='display: inline-block;'><p>Board Seq: " + review.board.boardSeq + "</p></div>");
-                        reviewDiv.append("<div class='content' style='display: inline-block;'><p>Content: " + review.reviewContent + "</p></div>");
-                        reviewDiv.append("<div class='rate' style='display: inline-block;'><p>Rate: " + review.reviewScore + "</p></div>");
-                        reviewDiv.append("<div class='date' style='display: inline-block;'><p>Date: " + review.reviewDate + "</p></div>");
+                        // reviewDiv.append("<div class='reviewing' style='display: inline-block;'><p>reviewing Seq: " + review.reviewing.userSeq + "</p></div>");
+                        // reviewDiv.append("<div class='reviewer' style='display: inline-block;'><p>reviewer Seq: " + review.reviewer.userSeq + "</p></div>");
+                        reviewDiv.append("<div class='board' style='display: inline-block;'>"+"<a href='${pageContext.request.contextPath}/front?key=board&methodName=selectByTradeBoardSeq&boardSeq=" + review.board.boardSeq + "'>" + "해당 게시글로 이동하기" + "</a>" +"</div>&nbsp&nbsp&nbsp");
+                        reviewDiv.append("<div class='review' style='display: inline-block;'>"+"<a href='${pageContext.request.contextPath}/front?key=review&methodName=detailPage&reviewSeq=" + review.reviewSeq + "'>" + "해당 리뷰로 이동하기" + "</a>" +"</div></br>");
+                        reviewDiv.append("<div class='content' style='display: inline-block; margin: 0;'><p style='margin: 0;'>후기: " + review.reviewContent + "</p></div>");
+                        reviewDiv.append("<div class='rate' style='display: inline-block; margin: 0;'><p style='margin: 0;'>평점: " + review.reviewScore + "</p></div>");
+                        reviewDiv.append("<div class='date' style='display: inline-block; margin: 0;'><p style='margin: 0;'>작성일: " + review.reviewDate + "</p></div>");
                         $("#output").append(reviewDiv);
                     },
                     error: function (xhr, status, error) {
@@ -77,8 +79,7 @@
     </script>
 </head>
 <body>
-리뷰 리스트로 보기 페이지
-<div id="output">
+<div id="output" style="width: 400px; margin: 0 auto;">
 </div>
 </body>
 </html>
