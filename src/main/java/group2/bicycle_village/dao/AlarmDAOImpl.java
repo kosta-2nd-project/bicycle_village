@@ -187,8 +187,7 @@ public class AlarmDAOImpl implements AlarmDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "SELECT board_seq FROM board " +
-                "WHERE reg_date = (SELECT MAX(reg_date) FROM board " +
-                "WHERE user_seq = ?)";
+                "WHERE reg_date = (SELECT MAX(reg_date) FROM board WHERE user_seq = ?)";
         long boardSeq = 0;
         try {
             con = DbUtil.getConnection();
