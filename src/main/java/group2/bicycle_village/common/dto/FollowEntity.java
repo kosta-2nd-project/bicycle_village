@@ -2,10 +2,9 @@ package group2.bicycle_village.common.dto;
 
 public class FollowEntity {
 
-	private Long followSeq;
-//  long Long / iny Integer /
-	private Long follow;
-	private Long follower;
+	private long followSeq;
+	private long follow;
+	private long follower;
 	
 	private FollowEntity(Builder builder) {
 		this.followSeq = builder.followSeq;
@@ -14,9 +13,9 @@ public class FollowEntity {
 	}
 	
 	public static class Builder{
-		public Long followSeq;
-		public Long follow;
-		public Long follower;
+		private long followSeq;
+		private long follow;
+		private long follower;
 		
 		public Builder followSeq(long followSeq) {
 			this.followSeq = followSeq;
