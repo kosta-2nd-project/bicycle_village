@@ -188,7 +188,7 @@ body {
 
 			
 			<h3 class="info" style="font-size: 20px">
-				${board.regDate}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;댓글
+				${board.regDate}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;댓글 <c:out value="${commentList.size()}" /> 개
 			</h3>
 			
 			<h3 class="address" style="font-size: 17px">

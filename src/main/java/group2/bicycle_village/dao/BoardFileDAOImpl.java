@@ -43,6 +43,30 @@ public class BoardFileDAOImpl implements BoardFileDAO {
 	}
 	
 	@Override
+	public String selectImageNamesByBoardSeq(long boardSeq) throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		String result = "";
+		
+		String sql = "select image_name from boardfile where board_seq=? and save_number=0";
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setLong(1, boardSeq);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getString("image_name");
+			}
+		}finally {
+			DbUtil.close(con, ps, rs);
+		}
+		return result;
+	}
+	
+	@Override
     public int insert(BoardFileDTO boardFile) throws SQLException{
 		Connection con=null;
 		PreparedStatement ps=null;

@@ -132,7 +132,7 @@ body {
 
 			
 			<h3 class="info" style="font-size: 20px">
-				${board.regDate}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;댓글
+				${board.regDate}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;댓글 <c:out value="${commentList.size()}" /> 개
 			</h3>
 
 			<div class="nick_name" style="padding-bottom: 30px; font-size: 20px;">

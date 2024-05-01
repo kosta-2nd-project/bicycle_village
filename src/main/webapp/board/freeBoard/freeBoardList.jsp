@@ -113,7 +113,7 @@
 	        <td style="text-align: center; width: 10%;">
 	            <div style="display: table; height: 100%; width: 100%;">
 	                <div style="display: table-cell; vertical-align: middle;">
-	                    <p style="color: black; margin: 0; padding: 5px;">${boardDTO.userSeq}</p>
+	                    <p style="color: black; margin: 0; padding: 5px;">${boardDTO.userDTO.userId}</p>
 	                </div>
 	            </div>
 	        </td>
@@ -127,14 +127,22 @@
 	        <td style="text-align: center; width: 10%;">
 	            <div style="display: table; height: 100%; width: 100%;">
 	                <div style="display: table-cell; vertical-align: middle;">
-	                    <p style="color: black; margin: 0; padding: 5px;">${boardDTO.boardCount}</p>
+	                    <p style="color: black; margin: 0; padding: 5px;">${boardDTO.boardCount}
 	                </div>
 	            </div>
 	        </td>
+	        
+<%-- 	        <td style="text-align: center; width: 10%;">
+	            <div style="display: table; height: 100%; width: 100%;">
+	                <div style="display: table-cell; vertical-align: middle;">
+	                    <p style="color: black; margin: 0; padding: 5px;">${boardDTO.commentListSize}
+	                </div>
+	            </div>
+	        </td> --%>
+	        
 	    </tr>
 	</c:forEach>
 </table>
-	
 </div>
 
 <c:if test="${not empty loginUser}">

@@ -113,6 +113,15 @@ public class BoardServiceImpl implements BoardService {
     }
     
     /**
+     *  해당 boardDTO의 댓글 게수 출력
+     * */
+    @Override
+    public int getCommentListSize(long boardSeq) throws SQLException {
+    	int result = getComment(boardSeq).size();
+        return result;
+    }
+    
+    /**
      *  댓글 작성
      * */
     @Override
