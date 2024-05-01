@@ -5,7 +5,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>게시판</title>
@@ -147,18 +146,84 @@
 			background-color: red;
 			float: left;
 			margin-right: 70px;
+			background-image: url("${path}/file-servlet?fname=${board.boardSeq}/${imageName}");
+			background-size: cover
+		}
+
+		.comment-update-form {
+			display: none; /* 수정 폼은 초기에 숨김 */
 		}
 	</style>
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script type="text/javascript">
-		console.log("${user_seq}"+"유저시퀀스");
-		console.log("${loginId}" + "로그인 아이디")
-		console.log("${board.boardSeq}" +"보드시퀀스")
-		console.log("${board.boardName}"+ "게시글제목 ")
-		console.log("${board.userDTO}");
-		console.log("${board.userDTO.userId}"+"작성자")
-	</script>
 
+	<script src="${path}/js/jquery-3.3.1.min.js"></script>
+	<script>
+		console.log("${user_seq}");
+		console.log("${userId}");
+		console.log("${nickname}");
+
+		$(function(){
+			//버튼 누르면 찜 추가
+			$(document).on("click","#dip",function(){
+				$.ajax({
+					url:"${path}/rest",
+					type:"post",
+					dataType:"json",
+					data:{key:"bookmark",methodName:"addBookmark",boardSeq:"${board.boardSeq}"},
+					success:function(result){
+						console.log("result:"+result);
+						if(result===1){
+							alert("이미 찜하기한 게시글입니다.");
+						}else{
+							alert("찜 목록에 추가됨");
+						}
+					},
+					error:function(err){
+						alert(err+"에러 발생");
+					}
+				});
+			});//찜 추가 End
+
+			//팔로우 추가
+			$(document).on("click","#follow",function(){
+				$.ajax({
+					url:"${path}/rest",
+					type:"post",
+					dataType:"json",
+					data:{key:"follow",methodName:"addFollow",userId:"${board.userDTO.userId}"},
+					success:function(result){
+						console.log("result:"+result);
+						if(result===1){
+							alert("이미 팔로우 중입니다.");
+						}else{
+							alert("팔로우 목록에 추가됨")
+						}
+					},
+					error:function(err){
+						alert(err+"에러 발생");
+					}
+				})
+			});
+		});//function End
+
+		// 댓글 수정폼 생성 함수
+		function toggleEdit(commentSeq) {
+			let editForm = document.getElementById("editForm_" + commentSeq);
+			editForm.style.display = (editForm.style.display === "none") ? "block" : "none";
+		}
+
+		function checkValid(){
+			var f = window.document.commentForm;
+
+			if ( f.commentContent.value == "" ) {
+				alert( "댓글을 입력해 주세요." );
+				f.commentContent.focus();
+				return false;
+			}
+
+			return true;
+		}
+
+	</script>
 </head>
 <body>
 <div class="container">
