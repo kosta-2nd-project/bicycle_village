@@ -29,7 +29,7 @@
 <div class="bg-light py-3" style="color: black;">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 mb-0" style="font-size: 15px; font-weight: bold;">자유게시판</div>
+            <div class="col-md-12 mb-0" style="font-size: 15px; font-weight: bold;">거래게시판</div>
         </div>
     </div>
 </div>

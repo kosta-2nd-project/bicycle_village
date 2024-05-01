@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="ko">
   <head>
-    <title>Shoppers &mdash; Colorlib e-Commerce Template</title>
+    <title>자전거 마을</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
