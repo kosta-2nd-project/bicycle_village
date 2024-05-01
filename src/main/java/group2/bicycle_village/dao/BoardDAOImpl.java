@@ -422,8 +422,8 @@ private Properties proFile = new Properties();
 			ps.setLong(2, comment.getBoardSeq());
 			ps.setLong(3, comment.getUserSeq());
 			ps.setInt(4, comment.getIsSeen());
-			ps.setString(5, comment.getCommentContent());
-			ps.setString(6, comment.getCorDate());
+//			ps.setString(5, comment.getCommentContent());
+//			ps.setString(6, comment.getCorDate());
 			
 			result = ps.executeUpdate();
 		}finally {
