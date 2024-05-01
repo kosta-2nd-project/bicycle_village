@@ -80,6 +80,7 @@ public class FollowDAOImpl implements FollowDAO {
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, (int)follow.getFollow());
 			ps.setInt(2, (int)follow.getFollower());
+			rs = ps.executeQuery();
 			if(rs.next()) {
 				entity = new FollowEntity.Builder().follow(rs.getInt(2)).follower(rs.getInt(3)).build();
 			}
