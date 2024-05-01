@@ -165,6 +165,7 @@ public class BoardController implements Controller{
 		
 		int saveNumber = 0;
 		
+
 		for (Part filePart : fileParts) {
 			if (filePart.getName().equals("files")) {
 				String fileName = getFileName(filePart); // 업로드된 파일 이름 가져오기
@@ -185,7 +186,7 @@ public class BoardController implements Controller{
 			}
 		} // 업로드 완료 후 처리
 		
-		
+
 		return new ModelAndView("front?key=board&methodName=selectAllTradeBoard", true);
 
 		//return new ModelAndView("front?key=board&methodName=selectByBoardSeq&boardSeq=", true); // 나중에
@@ -411,6 +412,9 @@ public class BoardController implements Controller{
 		request.setAttribute("pageNo", pageNo);
 		
 		selectAllComments(request,response);
+		
+		String imageName = boardFileService.selectImageNamesByBoardSeq(boardSeq);
+		request.setAttribute("imageName", imageName);
 		
 		return new ModelAndView("board/tradeBoard/tradeBoard.jsp"); //forward방식 
 	}

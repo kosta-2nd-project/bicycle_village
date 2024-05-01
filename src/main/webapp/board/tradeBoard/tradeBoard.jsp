@@ -5,6 +5,226 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>게시판</title>
+
+<style type="text/css">
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	width: 1200px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.content {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	margin-bottom: 20px;
+}
+
+.title {
+	font-size: 36px;
+	font-weight: bold;
+	color: #000;
+	margin-bottom: 10px;
+}
+
+.category {
+	font-size: 18px;
+	color: #909090;
+	margin-bottom: 20px;
+}
+
+.nick_name {
+	font-size: 18px;
+	color: #909090;
+}
+
+.info {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+.address {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+.date {
+	font-size: 18px;
+	color: #909090;
+}
+
+.comment {
+	font-size: 18px;
+	color: #909090;
+}
+
+.content-text {
+	font-size: 16px;
+	color: #000;
+	margin-bottom: 20px;
+}
+
+.buttons {
+	text-align: right;
+}
+
+.btn {
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 5px;
+	margin-left: 10px;
+}
+
+.follow {
+	border-radius: 1em;
+	font-size: 14px;
+	color: white;
+	background-color: #717171;
+	border: none;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 4px;
+}
+
+.chatting {
+	border-radius: 0.5em;
+	font-size: 16px;
+	color: white;
+	background-color: #7971EA;
+	border: none;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 4px;
+}
+
+#dip {
+    position: relative;
+    width: 30px;
+    height:  30px;
+    border: none; /* Remove the border */
+    background-color: transparent; /* Set background color to transparent */
+    margin-right: 20px;
+}
+
+#dip:before, #dip:after {
+    position: absolute;
+    content: "";
+    left: 15px;
+    top: 0;
+    width: 15px;
+    height: 25px;
+    background: red;
+    border-radius: 50px 50px 0 0;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+
+#dip:after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+}
+
+.main_left_img {
+	width: 300px;
+	height: 300px;
+	background-color: red;
+	float: left;
+	margin-right: 70px;
+	background-image: url("${path}/file-servlet?fname=${board.boardSeq}/${imageName}");
+	background-size: cover
+}
+
+.comment-update-form {
+  display: none; /* 수정 폼은 초기에 숨김 */
+}
+</style>
+
+<script src="${path}/js/jquery-3.3.1.min.js"></script>
+<script>
+	console.log("${user_seq}");
+	console.log("${userId}");
+	console.log("${nickname}");
+	
+	$(function(){
+		//버튼 누르면 찜 추가
+		$(document).on("click","#dip",function(){
+			$.ajax({
+				url:"${path}/rest",
+				type:"post",
+				dataType:"json",
+				data:{key:"bookmark",methodName:"addBookmark",boardSeq:"${board.boardSeq}"},
+				success:function(result){
+					console.log("result:"+result);
+					if(result===1){
+						alert("이미 찜하기한 게시글입니다.");
+					}else{
+						alert("찜 목록에 추가됨");
+					}
+				},
+				error:function(err){
+					alert(err+"에러 발생");
+				}
+			});
+		});//찜 추가 End
+		
+		//팔로우 추가
+		$(document).on("click","#follow",function(){
+			$.ajax({
+				url:"${path}/rest",
+				type:"post",
+				dataType:"json",
+				data:{key:"follow",methodName:"addFollow",userId:"${board.userDTO.userId}"},
+				success:function(result){
+					console.log("result:"+result);
+					if(result===1){
+						alert("이미 팔로우 중입니다.");
+					}else{
+						alert("팔로우 목록에 추가됨")
+					}
+				},
+				error:function(err){
+					alert(err+"에러 발생");
+				}
+			})
+		});
+	});//function End
+
+	// 댓글 수정폼 생성 함수
+    function toggleEdit(commentSeq) {
+        let editForm = document.getElementById("editForm_" + commentSeq);
+        editForm.style.display = (editForm.style.display === "none") ? "block" : "none";
+    }
+	
+	function checkValid(){
+		var f = window.document.commentForm;
+		
+		if ( f.commentContent.value == "" ) {
+	        alert( "댓글을 입력해 주세요." );
+	        f.commentContent.focus();
+	        return false;
+	    }
+		
+		return true;
+	}
+
+</script>
+</head>
 
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -160,27 +380,12 @@
 	</script>
 
 </head>
-<body>
-<div class="container">
-	<div class="main_left_img">
-		이미지
-	</div>
-	<div class="main">
-		<p class="category">거래 게시판 > </p>
-		<h1 class="title">${board.boardName}</h1>
+<body>	
+	<div class="container">
+		<div class="content">
+		<div class="main_left_img"> 
+			<%-- <img height="100%" width="100%" src="${path}/file-servlet?fname=${board.boardSeq}/${imageName}"> --%>
 
-
-		<h3 class="info" style="font-size: 20px">
-			${board.regDate}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;댓글
-		</h3>
-
-		<h3 class="address" style="font-size: 17px">
-			${board.boardAddr}
-		</h3>
-
-		<div class="nick_name" style="padding-bottom: 30px; font-size: 20px;">
-			${board.userSeq} &nbsp;&nbsp;
-			<input type="button" id="follow" class="follow" value="팔로우">
 		</div>
 
 
