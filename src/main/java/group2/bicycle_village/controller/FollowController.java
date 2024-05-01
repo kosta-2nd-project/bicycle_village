@@ -47,9 +47,7 @@ public class FollowController implements RestController {
 	 * 팔로우 삭제 기능
 	 */
 	public void delFollow(HttpServletRequest req, HttpServletResponse res) throws Exception{
-		int followSeq = Integer.parseInt(req.getParameter("followSeq"));
 		String followId = req.getParameter("followId");
-		System.out.println("Controller followId: " + followId);
 		int result = followService.delFollow(followId);
 
 		PrintWriter out = res.getWriter();
