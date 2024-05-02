@@ -100,7 +100,7 @@ public class FollowDAOImpl implements FollowDAO {
 		ResultSet rs = null;
 		String sql="select user_id, nickname from member where user_seq in " +
 				"(select follow from follow where follower = " +
-				"(select user_seq from member where user_id = ?))";
+				"(select user_seq from member where user_id = ?)) ORDER BY nickname DESC";
 		List<UserDTO> list = new ArrayList<>();
 		try {
 			con = DbUtil.getConnection();

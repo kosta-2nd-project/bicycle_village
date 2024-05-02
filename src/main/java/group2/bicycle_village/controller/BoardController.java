@@ -218,6 +218,11 @@ public class BoardController implements Controller{
 		
 		boardService.insert(board);
 		Long boardSeq = boardService.searchBoardSeq(userSeq);
+
+		alarmService.insertAlarm(userSeq);
+		long lastBoardSeq = alarmService.searchBoardSeq(userSeq);
+		String url = alarmService.linkURL(lastBoardSeq,"selectByInfoBoardSeq");
+		alarmService.setLinkURL(url);
 		
 		Collection<Part> fileParts = request.getParts(); // 여러 파일 가져오기
         String uploadPath = "/save/" + boardSeq;
@@ -250,10 +255,7 @@ public class BoardController implements Controller{
 			}
 		} // 업로드 완료 후 처리
 
-		alarmService.insertAlarm(userSeq);
-		long lastBoardSeq = alarmService.searchBoardSeq(userSeq);
-		String url = alarmService.linkURL(lastBoardSeq,"selectByInfoBoardSeq");
-		alarmService.setLinkURL(url);
+
 		
 		return new ModelAndView("front?key=board&methodName=selectAllInfoBoard", true);
 		//return new ModelAndView("front?key=board&methodName=selectByBoardSeq&boardSeq=", true); // 나중에
