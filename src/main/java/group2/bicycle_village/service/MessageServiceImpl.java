@@ -1,9 +1,11 @@
 package group2.bicycle_village.service;
 
+import group2.bicycle_village.common.dto.MessageDTO;
 import group2.bicycle_village.dao.MessageDao;
 import group2.bicycle_village.dao.MessageDaoImpl;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class MessageServiceImpl implements MessageService{
 
@@ -16,5 +18,11 @@ public class MessageServiceImpl implements MessageService{
 
         return result;
 
+    }
+
+    @Override
+    public List<MessageDTO> findListByRoomId(int roomId) throws SQLException {
+        List<MessageDTO> list = messageDao.findListByRoomId(roomId);
+        return list;
     }
 }

@@ -35,19 +35,23 @@ public class ChattDAOImpl implements ChattDAO {
     }
 
     @Override
-    public int findRoomIDByUrl(String roomUrl) throws SQLException {
+    public int findRoomIDByUrl(String roomUrl)throws  SQLException {
         Connection con =null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int result=0;
         String sql = "select ROOM_ID from CHATROOMS where ROOM_URL=?";
-        con = DbUtil.getConnection();
-        ps=con.prepareStatement(sql);
-        ps.setString(1,roomUrl);
-        rs= ps.executeQuery();
-        if(rs.next()){
-            result=rs.getInt(1);
+        try {
+            con = DbUtil.getConnection();
+            ps=con.prepareStatement(sql);
+            ps.setString(1,roomUrl);
+            rs= ps.executeQuery();
+            if(rs.next()){
+                result=rs.getInt(1);
+            }
+        } finally {DbUtil.close(con,ps,rs);
         }
+
 
 
         return result;
