@@ -131,6 +131,14 @@
 	                </div>
 	            </div>
 	        </td>
+	        
+	        <td style="text-align: center; width: 10%;">
+	            <div style="display: table; height: 100%; width: 100%;">
+	                <div style="display: table-cell; vertical-align: middle;">
+	                    <p style="color: black; margin: 0; padding: 5px;">${boardDTO.commentListSize}
+	                </div>
+	            </div>
+	        </td>
 	    </tr>
 	</c:forEach>
 </table>
