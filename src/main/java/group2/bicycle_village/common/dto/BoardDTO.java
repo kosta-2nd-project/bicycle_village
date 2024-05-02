@@ -137,10 +137,9 @@ public class BoardDTO {
 		return commentListSize;
 	}
 
-	public void setCommentListSize(int getCommentListSize) {
+	public void setCommentListSize(int commentListSize) {
 		this.commentListSize = commentListSize;
 	}
-    
-    
+
 
 }

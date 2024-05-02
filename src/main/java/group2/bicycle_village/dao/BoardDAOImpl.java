@@ -171,6 +171,8 @@ private Properties proFile = new Properties();
 
                 //user_seq에해당하는 user의정보 조회해서 저장
                 board.setUserDTO(getUserByUserSeq(con, rs.getLong("user_seq")));
+                
+                board.setCommentListSize(countComment(con, rs.getInt("board_seq")));//리스트 출력할때 boardDTO에 commentListSize (댓글 개수) 추가
 				
 			   list.add(board);
 			}
@@ -218,6 +220,8 @@ private Properties proFile = new Properties();
 
                 //user_seq에해당하는 user의정보 조회해서 저장
 				board.setUserDTO(getUserByUserSeq(con, rs.getLong("user_seq")));
+				
+				board.setCommentListSize(countComment(con, rs.getInt("board_seq")));//리스트 출력할때 boardDTO에 commentListSize (댓글 개수) 추가
                 
 			   list.add(board);
 			}
@@ -264,6 +268,8 @@ private Properties proFile = new Properties();
 
                 //user_seq에해당하는 user의정보 조회해서 저장
 				board.setUserDTO(getUserByUserSeq(con, rs.getLong("user_seq")));
+
+				board.setCommentListSize(countComment(con, rs.getInt("board_seq")));//리스트 출력할때 boardDTO에 commentListSize (댓글 개수) 추가
                 
 			   list.add(board);
 			}
@@ -558,5 +564,30 @@ private Properties proFile = new Properties();
 		}
 		return result;
 	}
+    
+    /**
+     * 게시글당 댓글 개수 가져오기
+     * */
+    @Override
+    public int countComment(Connection con , long boardSeq) throws SQLException{
+    	PreparedStatement ps=null;
+        ResultSet rs=null;
+        int result = 0;
+        String sql = "select count(*) from comments where board_seq=?";
+        try {
+            
+            ps = con.prepareStatement(sql);
+            ps.setLong(1, boardSeq);
+            rs = ps.executeQuery();
+            
+            if(rs.next()) {
+                result = rs.getInt(1);
+            }
+            
+        }finally {
+            DbUtil.close(null, ps, rs);
+        }
+        return result;
+    }
 	
 }
