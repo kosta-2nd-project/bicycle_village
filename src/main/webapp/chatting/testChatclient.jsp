@@ -71,6 +71,32 @@
         let currentPageUrl = window.location.href; // 현재 페이지 URL
         let message =null;
         window.onload = function () {
+
+            $.ajax({
+
+                url: "/rest?key=message&methodName=searchMessageList",
+                type: "post",
+                dataType: "json",
+                data: {
+                    roomUrl: currentPageUrl
+                },
+                success: function(result) {
+                    console.log("Message Data Successfully Fetched");
+                    // 필요한 경우 메시지 데이터를 처리
+                    console.log(result+"result12345")
+                        $.each(result, function (index, chat){
+                          let text=chat.userId+"님: "+chat.mesage+ '<br>'+chat.createAt;
+                                         $('#textmessage').append('<p>' + text + '</p>'); // textmessage 구역에 메시지 추가
+
+                        })
+                },
+                error: function(err) {
+                    console.log("Error Fetching Messages");
+                }
+            });
+
+
+
             // URL로부터 쿼리 파라미터 가져오기
             var queryParams = new URLSearchParams(window.location.search);
             let writeDate = queryParams.get('writeDate');

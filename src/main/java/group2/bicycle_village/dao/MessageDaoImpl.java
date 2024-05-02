@@ -5,8 +5,11 @@ import group2.bicycle_village.common.util.DbUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MessageDaoImpl implements MessageDao {
     @Override
@@ -31,5 +34,27 @@ public class MessageDaoImpl implements MessageDao {
         }
 
         return result;
+    }
+
+    @Override
+    public List<MessageDTO> findListByRoomId(int roomId) throws SQLException {
+        Connection con =null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<MessageDTO> list= new ArrayList<>();
+        String sql="select * from  MESSAGES where ROOM_ID=?";
+        try {
+            con = DbUtil.getConnection();
+            ps=con.prepareStatement(sql);
+            ps.setInt(1, roomId );
+            rs=ps.executeQuery();
+            while (rs.next()){
+                MessageDTO messageDTO =new MessageDTO(rs.getInt(1), rs.getInt(2), rs.getString(3),rs.getString(4), rs.getDate(5));
+                list.add(messageDTO);
+            }
+        } finally {DbUtil.close(con,ps,rs);
+        }
+
+       return list;
     }
 }
