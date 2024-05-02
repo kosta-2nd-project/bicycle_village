@@ -29,6 +29,7 @@ public class UserController implements Controller {
 		boolean isRedirect = false;
 		
 		String userId =request.getParameter("userId");
+		System.out.println(userId+"userId");
 		String pw =request.getParameter("pwd");
 		
 		int result = userService.IdCheck(userId);
@@ -40,6 +41,7 @@ public class UserController implements Controller {
 			errMsg="존재하지 않는 아이디입니다.";
 		}else if(result==2) {
 			//회원탈퇴 신청한지 90일 이내
+
 			UserDTO userDTO = userService.loginCheck(new UserDTO(userId,pw));
 			HttpSession session = request.getSession();
 			session.setAttribute("loginUser", userDTO);
@@ -120,7 +122,6 @@ public class UserController implements Controller {
 			String birth = req.getParameter("birth");
 			String email = req.getParameter("email");
 			String gender = req.getParameter("gender");
-			
 			int result = userService.IdCheck(userId);
 			
 			if(userId==null || userId.equals("") || pw==null || pw.equals("") ||

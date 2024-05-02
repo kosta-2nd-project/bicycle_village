@@ -260,7 +260,7 @@
 					axios.post('http://localhost:3000/?sellerId', {
 						userId: userId,
 						boardSeq : boardSeq,
-						sellerId : sellerId
+						sellerId : sellerIdq
 					})
 							.then(function (response) {
 								console.log(response);

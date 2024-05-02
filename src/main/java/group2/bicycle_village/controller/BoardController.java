@@ -423,9 +423,8 @@ public class BoardController implements Controller{
 		
 		String imageName = boardFileService.selectImageNamesByBoardSeq(boardSeq);
 		request.setAttribute("imageName", imageName);
-		
-		return new ModelAndView("board/tradeBoard/tradeBoard.jsp"); //forward방식 
-	}
+
+		return new ModelAndView("board/tradeBoard/tradeBoardNew.jsp"); 	}
 	
 	/**
 	 * 정보게시판 상세보기 

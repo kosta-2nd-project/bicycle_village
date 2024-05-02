@@ -5,7 +5,7 @@ const port = 3000;
 const cors = require('cors');
 let realId='';
 let sellerId='';
-
+let duplicater=null;
 const server = app.listen( port, () => {
     console.log('Express listening on port', port);
 });
@@ -18,14 +18,17 @@ const io = socketIo(server, { path: '/socket.io' });
 const namespaces = {};
 
 app.post('/', function(req,res){
+    const content = req.body.content;
     const userId = req.body.userId;
     const boardSeq = req.body.boardSeq;
     const SellerId = req.body.sellerId;
+    console.log("컨텐트 내용"+content)
     console.log("로그인네임" + userId);
     console.log("보드 시퀀스"+boardSeq);
     console.log("셀러 아이디"+SellerId);
     realId = userId;
     sellerId= SellerId;
+    duplicater= content;
 })
 
 
@@ -35,14 +38,25 @@ app.get('/', (req, res) => {
 
 
     if (!namespaces[sellerId]) {
-
+            console.log(sellerId+"셀러아이디get");
         const roomOwner= io.of('/'+sellerId);
         roomOwner.on('connection', function (socket){
+            duplicater=socket.content;
+            console.log(duplicater);
+
             socket.username = realId; // 사용자 이름 설정
             socket.sellerId=sellerId;
             console.log(socket.sellerId+"의 스페이스에 접속.");
 
             socket.broadcast.emit('join', {username: socket.username});
+
+            socket.on('duplicate Check', function (data){
+                roomOwner.emit('server message',{
+                    message : duplicater
+                })
+            })
+
+
 
             socket.on('client message', function (data){
                 roomOwner.emit('server message',{
