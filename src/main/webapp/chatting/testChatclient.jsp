@@ -153,12 +153,13 @@
     2명이 넘어가거나,
     중복된 입장시 채팅이 불가능합니다. 이점 유의해주세요.
 </div>
+
 <div id="textmessage" style="margin-top: 20px;"></div>
 <form onsubmit="sendMessage(event)">
     <input type="text" id="message" placeholder="메시지 입력"/>
     <button type="submit">전송</button>
     <button id="exitButton">나가기</button>
-    <button onclick="location.href='/review/post-detail.jsp'">리뷰하기</button>
+<%--    <button onclick="location.href=`/pages/review/post-detail.jsp?userId=${userId}+'&sellerId='${boardWriter}&boardSeq=${boardSeq}`">리뷰하기</button>--%>
 
 </form>
 </body>
