@@ -1,66 +1,35 @@
 package group2.bicycle_village.common.dto;
 
+
 import java.util.Date;
 
 public class ChattDTO {
-    private int chattSeq;
-    private String sellerId;
-    private String buyerId;
+    private int roomId;
     private String roomUrl;
+    private Date createAt;
+    private String sellerId;
 
-    private String content;
 
-    private Date roomCreateDate;
-
-    public ChattDTO(){};
-
-    public ChattDTO(int chattSeq, String sellerId, String buyerId, String roomUrl, String content) {
-        super();
-        this.chattSeq = chattSeq;
-        this.sellerId = sellerId;
-        this.buyerId = buyerId;
+    public ChattDTO(String roomUrl, String sellerId){
         this.roomUrl = roomUrl;
-        this.content = content;
-    }
-
-    public ChattDTO( String sellerId, String buyerId, String roomUrl, String content, Date roomCreateDate) {
-        super();
         this.sellerId = sellerId;
-        this.buyerId = buyerId;
+    };
+
+
+
+    public ChattDTO(int roomId, String roomUrl, Date date, String sellerId) {
+        this.roomId = roomId;
         this.roomUrl = roomUrl;
-        this.content = content;
-        this.roomCreateDate= roomCreateDate;
-    }
-    public ChattDTO( String sellerId, String buyerId, String roomUrl, String content ) {
-        super();
-        this.sellerId = sellerId;
-        this.buyerId = buyerId;
-        this.roomUrl = roomUrl;
-        this.content = content;
-    }
-
-    public int getChattSeq() {
-        return chattSeq;
-    }
-
-    public void setChattSeq(int chattSeq) {
-        this.chattSeq = chattSeq;
-    }
-
-    public String getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(String sellerId) {
+        this.createAt = createAt;
         this.sellerId = sellerId;
     }
 
-    public String getBuyerId() {
-        return buyerId;
+    public int getRoomId() {
+        return roomId;
     }
 
-    public void setBuyerId(String buyerId) {
-        this.buyerId = buyerId;
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
     }
 
     public String getRoomUrl() {
@@ -71,19 +40,29 @@ public class ChattDTO {
         this.roomUrl = roomUrl;
     }
 
-    public String getContent() {
-        return content;
+    public Date getCreateAt() {
+        return createAt;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
     }
 
-    public Date getRoomCreateDate() {
-        return roomCreateDate;
+    public String getSellerId() {
+        return sellerId;
     }
 
-    public void setRoomCreateDate(Date roomCreateDate) {
-        this.roomCreateDate = roomCreateDate;
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    @Override
+    public String toString() {
+        return "ChattDTO{" +
+                "roomId=" + roomId +
+                ", roomUrl='" + roomUrl + '\'' +
+                ", createAt=" + createAt +
+                ", sellerId='" + sellerId + '\'' +
+                '}';
     }
 }

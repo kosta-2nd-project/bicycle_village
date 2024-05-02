@@ -86,6 +86,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
+
     let result = null;
 
     let time = new Date();
@@ -100,11 +101,13 @@
 
     // 소켓서버에 접속시킨다.
     let urlParams = new URLSearchParams(window.location.search);
-    let sellerId = urlParams.get('sellerId');
-    let buyerId = urlParams.get('userId');
+    let sellerId = urlParams.get('sellerId'); //
+    let buyerId = urlParams.get('userId'); //구매자 즉, 본인
 
 
     var socketTest = io.connect('http://localhost:3000/' + sellerId);
+
+
 
     // 사용자 참가
     socketTest.on('join', data => {
@@ -136,8 +139,14 @@
     }
 
     $(document).ready(function () {
+
+
+        socketTest.emit('duplicate Check', {currentMessages: currentMessages})
+
+
         $('#sendForm').submit(function () {
-            console.log(currentMessages + "커렌트 메세지");
+
+                console.log(currentMessages + "커렌트 메세지");
             console.log(newMessage + "뉴 메세지");
             // newMessage = '<li>' + data.username + ':' + data.message + '</li>' + '<br>' + now; // 이 부분 수정
 

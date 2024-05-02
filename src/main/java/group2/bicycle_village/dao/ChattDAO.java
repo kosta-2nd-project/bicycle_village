@@ -9,11 +9,12 @@ import java.util.List;
 public interface ChattDAO {
 
 
-    int insert (ChattDTO chattDTO) throws SQLException;
+    int insert (String roomUrl, String sellerId) throws SQLException;
 
+    int findRoomIDByUrl (String roomUrl) throws  SQLException;
 
-    int updateChat(String content , String roomUrl) throws  SQLException ;
+    List<ChattDTO> findUrlByUserId (String userId) throws  SQLException;
 
+    List<ChattDTO> findUrlBySellerId(String sellerId) throws  SQLException;
 
-    List<ChattDTO> findChatList ( String userId) throws  SQLException;
 }

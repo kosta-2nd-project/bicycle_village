@@ -31,7 +31,7 @@
                 <button class="btn btn-primary btn-sm btn-block" onclick="location.href='${path}/pages/user/info.jsp'">회원정보 수정하기</button>
                 <button class="btn btn-outline-primary btn-sm btn-block" onclick="location.href='${path}/pages/bookmarkList.jsp'">찜 목록</button>
                 <button class="btn btn-outline-primary btn-sm btn-block" onclick="location.href='${path}/pages/WriteBoardList.jsp'">작성 게시글 목록</button>
-                <button class="btn btn-primary btn-sm btn-block">채팅 목록</button>
+                <button class="btn btn-primary btn-sm btn-block" onclick="window.open('/chatting/chattingList.jsp', '_blank', 'width=700, height=600, top=50, left=50, scrollbars=yes')">채팅 목록</button>
                 <button class="btn btn-primary btn-sm btn-block" onclick="location.href='${path}/front?key=review&methodName=listPage&reviewer=${user_seq}'">작성 리뷰 목록</button>
                 <button class="btn btn-outline-primary btn-sm btn-block" onclick="location.href='${path}/pages/user/unregist.jsp'">회원 탈퇴</button>
               </div>
